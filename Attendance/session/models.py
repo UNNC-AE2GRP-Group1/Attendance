@@ -1,7 +1,3 @@
-"""
-Definition of models.
-"""
-
 from django.db import models
 from django.utils import timezone
 from django.db.models.fields.related import ManyToManyField
