@@ -31,6 +31,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="absence_form\admin.py" />
+    <Compile Include="absence_form\apps.py" />
+    <Compile Include="absence_form\migrations\__init__.py" />
+    <Compile Include="absence_form\models.py" />
+    <Compile Include="absence_form\tests.py" />
+    <Compile Include="absence_form\views.py" />
+    <Compile Include="absence_form\__init__.py" />
     <Compile Include="app\forms.py" />
     <Compile Include="app\tests.py" />
     <Compile Include="app\views.py" />
@@ -50,6 +57,9 @@
     <Compile Include="session\__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="absence_form\" />
+    <Folder Include="absence_form\migrations\" />
+    <Folder Include="absence_form\templates\" />
     <Folder Include="app\" />
     <Folder Include="app\migrations\" />
     <Folder Include="app\static\" />
@@ -65,6 +75,7 @@
     <Folder Include="session\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="absence_form\templates\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\content\bootstrap.css" />
     <Content Include="app\static\app\content\bootstrap.min.css" />
