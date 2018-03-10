@@ -31,7 +31,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="absence_form\admin.py" />
+    <Compile Include="profile\admin.py" />
     <Compile Include="absence_form\apps.py" />
     <Compile Include="absence_form\migrations\__init__.py" />
     <Compile Include="absence_form\models.py" />
@@ -48,11 +48,27 @@
     <Compile Include="Attendance\settings.py" />
     <Compile Include="Attendance\urls.py" />
     <Compile Include="Attendance\wsgi.py" />
+    <Compile Include="profile\apps.py" />
+    <Compile Include="profile\migrations\__init__.py" />
+    <Compile Include="profile\models.py" />
+    <Compile Include="profile\tests.py" />
+    <Compile Include="profile\views.py" />
+    <Compile Include="profile\__init__.py" />
     <Compile Include="session\admin.py" />
     <Compile Include="session\apps.py" />
     <Compile Include="session\migrations\__init__.py" />
     <Compile Include="session\models.py" />
+    <Compile Include="session\permissions.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="profile\rules.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="session\rules.py" />
     <Compile Include="session\tests.py" />
+    <Compile Include="session\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="session\views.py" />
     <Compile Include="session\__init__.py" />
   </ItemGroup>
@@ -70,12 +86,16 @@
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
     <Folder Include="Attendance\" />
+    <Folder Include="profile\" />
+    <Folder Include="profile\migrations\" />
+    <Folder Include="profile\templates\" />
     <Folder Include="session\" />
     <Folder Include="session\migrations\" />
     <Folder Include="session\templates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="absence_form\templates\index.html" />
+    <Content Include="profile\templates\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\content\bootstrap.css" />
     <Content Include="app\static\app\content\bootstrap.min.css" />

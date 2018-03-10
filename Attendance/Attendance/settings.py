@@ -33,8 +33,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
+    'profile',
     'session',
-    # Add your apps here to enable them
+    'absence_form',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
