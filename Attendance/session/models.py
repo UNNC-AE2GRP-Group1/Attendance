@@ -2,6 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django.db.models.fields.related import ManyToManyField
 from django.contrib.auth.models import User
+from datetime import date
+
+from student.models import Student
 
 # Create your models here.
 
@@ -11,29 +14,17 @@ class Module(models.Model):
     academic_year = models.SmallIntegerField()
     convenors = models.ManyToManyField(User, related_name='convenors', blank=True)
     assistants = models.ManyToManyField(User, related_name='assistants', blank=True)
-
+    students = models.ManyToManyField(Student, through='Enrollment', blank=True)
     def __str__(self):
         return self.name + ' (' + str(self.academic_year) + ')'
 
 
-class Student(models.Model):
+# todo: 
+class Enrollment(models.Model):
     module = models.ForeignKey(Module, on_delete=models.PROTECT)
-    first_name = models.CharField(max_length=127)
-    last_name = models.CharField(max_length=127)
-    degree_name = models.CharField(max_length=255)
-    GENDERS = (
-        ('F', 'Female'),
-        ('M', 'Male'),
-    )
-    gender = models.CharField(max_length=2, choices=GENDERS)
-    email = models.EmailField()
-    enrolled = models.BooleanField()
-
-    def get_full_name(self):
-        return self.first_name + ' ' + self.last_name
-
-    def __str__(self):
-        return self.get_full_name()
+    student = models.ForeignKey(Student, on_delete=models.PROTECT)
+    date_enrolled = models.DateField(default=date.today)
+    date_unenrolled = models.DateField(default=date.today)
 
 
 class Session(models.Model):

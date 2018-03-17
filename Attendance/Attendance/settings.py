@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'app',
     'profile',
+    'student',
     'session',
     'absence_form',
     'django.contrib.admin',

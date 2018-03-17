@@ -71,6 +71,13 @@
     </Compile>
     <Compile Include="session\views.py" />
     <Compile Include="session\__init__.py" />
+    <Compile Include="student\admin.py" />
+    <Compile Include="student\apps.py" />
+    <Compile Include="student\migrations\__init__.py" />
+    <Compile Include="student\models.py" />
+    <Compile Include="student\tests.py" />
+    <Compile Include="student\views.py" />
+    <Compile Include="student\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="absence_form\" />
@@ -92,6 +99,10 @@
     <Folder Include="session\" />
     <Folder Include="session\migrations\" />
     <Folder Include="session\templates\" />
+    <Folder Include="session\templates\session\" />
+    <Folder Include="student\" />
+    <Folder Include="student\migrations\" />
+    <Folder Include="student\templates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="absence_form\templates\index.html" />
@@ -126,6 +137,9 @@
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
     <Content Include="session\templates\index.html" />
+    <Content Include="session\templates\session\module_index.html" />
+    <Content Include="session\templates\session\session_detail.html" />
+    <Content Include="student\templates\index.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">
