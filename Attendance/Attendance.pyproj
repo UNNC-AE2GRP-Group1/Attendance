@@ -136,7 +136,7 @@
     <Content Include="app\templates\app\layout.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
-    <Content Include="session\templates\index.html" />
+    <Content Include="session\templates\session\index.html" />
     <Content Include="session\templates\session\module_index.html" />
     <Content Include="session\templates\session\session_detail.html" />
     <Content Include="student\templates\index.html" />
