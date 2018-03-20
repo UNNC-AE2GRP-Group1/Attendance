@@ -75,7 +75,7 @@
     <Compile Include="student\apps.py" />
     <Compile Include="student\migrations\__init__.py" />
     <Compile Include="student\models.py" />
-    <Compile Include="student\tests.py" />
+    <Compile Include="student\test_models.py" />
     <Compile Include="student\views.py" />
     <Compile Include="student\__init__.py" />
   </ItemGroup>
