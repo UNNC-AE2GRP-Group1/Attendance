@@ -2,7 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.db.models.fields.related import ManyToManyField
 from django.contrib.auth.models import User
-from datetime import date
+from datetime import date, timedelta
+from django.db.models import Avg
 
 from student.models import Student
 
@@ -15,9 +16,18 @@ class Module(models.Model):
     convenors = models.ManyToManyField(User, related_name='convenors', blank=True)
     assistants = models.ManyToManyField(User, related_name='assistants', blank=True)
     students = models.ManyToManyField(Student, through='Enrollment', blank=True)
+    attendance_rate = models.FloatField(null=True)
+
     def __str__(self):
         return self.name + ' (' + str(self.academic_year) + ')'
 
+    def update_attendance_rate(self):
+        session_avg_rate = self.session_set\
+            .filter(attendance_rate__isnull=False)\
+            .aggregate(Avg('attendance_rate'))
+        self.attendance_rate = session_avg_rate['attendance_rate__avg']
+        self.save()
+        
 
 # todo: 
 class Enrollment(models.Model):
@@ -30,12 +40,30 @@ class Enrollment(models.Model):
 class Session(models.Model):
     module = models.ForeignKey(Module, on_delete=models.PROTECT)
     time = models.DateTimeField(default=timezone.now)
+    duration = models.DurationField(default=timedelta(hours=1))
     place = models.CharField(max_length=127)
+
+    LAB = 'A'
+    LECTURE = 'E'
     SESSION_TYPES = (
-        ('LAB', 'Lab'),
-        ('LEC', 'Lecture'),
+        (LAB, 'Lab'),
+        (LECTURE, 'Lecture'),
     )
-    type = models.CharField(max_length=3, choices=SESSION_TYPES)
+    type = models.CharField(max_length=1, choices=SESSION_TYPES)
+
+    SCHEDULED = 'S'
+    IN_PROGRESS = 'P'
+    FINISHED = 'F'
+    CANCELLED = 'C'
+    SESSION_STATUSES = (
+        (SCHEDULED, 'Scheduled'),
+        (IN_PROGRESS, 'In Progress'),
+        (FINISHED, 'Finished'),
+        (CANCELLED, 'Cancelled'),
+    )
+    status = models.CharField(max_length=1, choices=SESSION_STATUSES, default=SCHEDULED)
+    attendance_recorded = models.BooleanField(default=False)
+    attendance_rate = models.FloatField(null=True)
 
     def __str__(self):
         ret = ''
