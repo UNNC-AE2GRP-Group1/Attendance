@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db.models.fields.related import ManyToManyField
 from django.contrib.auth.models import User
 from datetime import date, timedelta
-from django.db.models import Avg
+from django.db.models import Avg, Count
 
 from student.models import Student
 
@@ -21,20 +21,37 @@ class Module(models.Model):
     def __str__(self):
         return self.name + ' (' + str(self.academic_year) + ')'
 
+    # todo: batch add student list
+    def enroll_student(self, student, date_enrolled=date.today()):
+        """Add the student to the student list.
+        """
+        enrollment = Enrollment(module=self, student=student, date_enrolled=date_enrolled)
+        enrollment.save()
+
     def update_attendance_rate(self):
+        """Calculate the average attendance rate from all sessions whose
+        attendance records are completed.
+
+        Call this after updating the attendance rate of a session.
+        It should be not be called from Session.update_attendance_rate()
+        because when several sessions from a module are updated together,
+        doing the calculation after each update will be inefficient.
+        """
         session_avg_rate = self.session_set\
             .filter(attendance_rate__isnull=False)\
             .aggregate(Avg('attendance_rate'))
         self.attendance_rate = session_avg_rate['attendance_rate__avg']
         self.save()
-        
 
-# todo: 
+
 class Enrollment(models.Model):
     module = models.ForeignKey(Module, on_delete=models.PROTECT)
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
     date_enrolled = models.DateField(default=date.today)
-    date_unenrolled = models.DateField(default=date.today)
+    date_unenrolled = models.DateField(null=True)
+
+    class Meta:
+        unique_together = ('module', 'student')
 
 
 class Session(models.Model):
@@ -52,11 +69,13 @@ class Session(models.Model):
     type = models.CharField(max_length=1, choices=SESSION_TYPES)
 
     SCHEDULED = 'S'
-    IN_PROGRESS = 'P'
+    PENDING = 'P'
+    IN_PROGRESS = 'I'
     FINISHED = 'F'
     CANCELLED = 'C'
     SESSION_STATUSES = (
         (SCHEDULED, 'Scheduled'),
+        (PENDING, 'Pending'),
         (IN_PROGRESS, 'In Progress'),
         (FINISHED, 'Finished'),
         (CANCELLED, 'Cancelled'),
@@ -66,19 +85,45 @@ class Session(models.Model):
     attendance_rate = models.FloatField(null=True)
 
     def __str__(self):
-        ret = ''
-        ret += '[' + str(self.time) + ']'   # time
-        ret += '[' + self.type + ']'        # type
-        ret += ' '
-        ret += str(self.module)             # module
-        return ret
+        return '[{}][{}] {}'.format(str(self.time), self.type, str(self.module))
+
+    def prepare(self):
+        """Initialize attendee list using the student list of the module of this session,
+        then change the status from scheduled to pending.
+        The attendee list can now be edited, and the signature sheet is available for
+        download.
+        """
+        assert(self.status == self.SCHEDULED)
+
+        student_list = self.module.students.all()
+        attendee_list = []
+        for s in student_list:
+            attendee_list.append(Attendee(session=self, student=s))
+        Attendee.objects.bulk_create(attendee_list)
+
+    # todo
+    def get_signature_sheet(self):
+        pass
+
+    def update_attendance_rate(self):
+        """Calculate and save the attendance rate from the attendance record.
+        Call this when the attendance record is saved for the first time or updated.
+        """
+        assert(attendance_recorded == True)
+
+        total_attendees = self.attendee_set.all().count()
+        attended = self.attendee_set\
+            .filter(presented=True)\
+            .count()
+        self.attendance_rate = attended / total_attendees
+        self.save()
 
 
 class Attendee(models.Model):
     session = models.ForeignKey(Session, on_delete=models.PROTECT)
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
-    presented = models.BooleanField()
-    comment = models.TextField()
+    presented = models.BooleanField(default=False)
+    comment = models.TextField(blank=True)
 
     # todo: potential performance issue when amount entries are large
     def __str__(self):
