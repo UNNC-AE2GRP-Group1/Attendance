@@ -4,6 +4,7 @@ from django.db.models.fields.related import ManyToManyField
 from django.contrib.auth.models import User
 from datetime import date, timedelta
 from django.db.models import Avg, Count
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from student.models import Student
 
@@ -12,14 +13,17 @@ from student.models import Student
 class Module(models.Model):
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=8)
-    academic_year = models.SmallIntegerField()
+    academic_year = models.SmallIntegerField(validators=[
+        MaxValueValidator(3881),
+        MinValueValidator(1881)
+    ], default=lambda: timezone.now().year)
     convenors = models.ManyToManyField(User, related_name='convenors', blank=True)
     assistants = models.ManyToManyField(User, related_name='assistants', blank=True)
     students = models.ManyToManyField(Student, through='Enrollment', blank=True)
-    attendance_rate = models.FloatField(null=True)
+    attendance_rate = models.FloatField(null=True, editable=False)
 
     def __str__(self):
-        return self.name + ' (' + str(self.academic_year) + ')'
+        return '{} ({})'.format(self.name, self.academic_year)
 
     # todo: batch add student list
     def enroll_student(self, student, date_enrolled=date.today()):
@@ -82,12 +86,12 @@ class Session(models.Model):
         (FINISHED, 'Finished'),
         (CANCELLED, 'Cancelled'),
     )
-    status = models.CharField(max_length=1, choices=SESSION_STATUSES, default=SCHEDULED)
-    attendance_recorded = models.BooleanField(default=False)
-    attendance_rate = models.FloatField(null=True)
+    status = models.CharField(max_length=1, choices=SESSION_STATUSES, default=SCHEDULED, editable=False)
+    attendance_recorded = models.BooleanField(default=False, editable=False)
+    attendance_rate = models.FloatField(null=True, editable=False)
 
     def __str__(self):
-        return '[{}][{}] {}'.format(str(self.time), self.type, str(self.module))
+        return '[{}][{}] {}'.format(self.time, self.get_type_display(), self.module)
 
     def prepare(self):
         """Initialize attendee list using the student list of the module of this session,
@@ -129,4 +133,4 @@ class Attendee(models.Model):
 
     # todo: potential performance issue when amount entries are large
     def __str__(self):
-        return self.student.get_full_name() + ' from ' + str(self.session.module)
+        return '{} from {}'.format(self.student.get_full_name(), self.session.module)
