@@ -28,9 +28,10 @@ class Module(models.Model):
         enrollment = Enrollment(module=self, student=student, date_enrolled=date_enrolled)
         enrollment.save()
 
-    def update_attendance_rate(self):
+    def calculate_attendance_rate(self):
         """Calculate the average attendance rate from all sessions whose
         attendance records are completed.
+        The instance must be saved from otherwhere afterwards.
 
         Call this after updating the attendance rate of a session.
         It should be not be called from Session.update_attendance_rate()
@@ -41,7 +42,7 @@ class Module(models.Model):
             .filter(attendance_rate__isnull=False)\
             .aggregate(Avg('attendance_rate'))
         self.attendance_rate = session_avg_rate['attendance_rate__avg']
-        self.save()
+        assert(self.attendance_rate != None)
 
 
 class Enrollment(models.Model):
@@ -68,6 +69,7 @@ class Session(models.Model):
     )
     type = models.CharField(max_length=1, choices=SESSION_TYPES)
 
+    # todo: when to switch to I and F status?
     SCHEDULED = 'S'
     PENDING = 'P'
     IN_PROGRESS = 'I'
@@ -105,18 +107,18 @@ class Session(models.Model):
     def get_signature_sheet(self):
         pass
 
-    def update_attendance_rate(self):
-        """Calculate and save the attendance rate from the attendance record.
+    def calculate_attendance_rate(self):
+        """Calculate the attendance rate from the attendance record.
+        The instance must be saved from otherwhere afterwards.
         Call this when the attendance record is saved for the first time or updated.
         """
-        assert(attendance_recorded == True)
+        assert(self.attendance_recorded == True)
 
         total_attendees = self.attendee_set.all().count()
         attended = self.attendee_set\
             .filter(presented=True)\
             .count()
         self.attendance_rate = attended / total_attendees
-        self.save()
 
 
 class Attendee(models.Model):

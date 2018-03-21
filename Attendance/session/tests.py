@@ -63,13 +63,49 @@ class ModuleWorkflowTest(TransactionTestCase):
         self.assertEqual(attendee_list[2].student.first_name, "Ivan")
         self.assertEqual(attendee_list[3].student.first_name, "Jane")
 
-    def test_module_only_sums_sessions_with_record(self):
+    def test_attendance_rates(self):
         """
         The attendance rate of a module is the average of those of finished
         sessions whose attendance rate are calculated.
         """
         pgp = Module.objects.get(code="AE1PGP")
         self.assertEqual(pgp.attendance_rate, None)
-        pgp.update_attendance_rate()
-        self.assertAlmostEqual(pgp.attendance_rate, 0.6)
 
+        # session 1
+        session = pgp.session_set.create()
+        session.prepare()
+        for index, attendee in enumerate(session.attendee_set.all()):
+            if index == 3:
+                break
+            attendee.presented = True
+            attendee.save()
+        session.attendance_recorded = True
+        session.calculate_attendance_rate()
+        session.save()
+        pgp.calculate_attendance_rate()
+        pgp.save()
+
+        self.assertAlmostEqual(session.attendance_rate, 0.75)
+        self.assertAlmostEqual(pgp.attendance_rate, 0.75)
+
+        # session 2
+        session = pgp.session_set.create()
+        session.prepare()
+        for index, attendee in enumerate(session.attendee_set.all()):
+            if index == 2:
+                break
+            attendee.presented = True
+            attendee.save()
+        session.attendance_recorded = True
+        session.calculate_attendance_rate()
+        session.save()
+        pgp.calculate_attendance_rate()
+        pgp.save()
+
+        self.assertAlmostEqual(session.attendance_rate, 0.5)
+        self.assertAlmostEqual(pgp.attendance_rate, 0.625)
+
+        # session 3
+        session = pgp.session_set.create()
+        self.assertAlmostEqual(session.attendance_rate, None)
+        self.assertAlmostEqual(pgp.attendance_rate, 0.625)
