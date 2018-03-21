@@ -75,9 +75,9 @@ class Session(models.Model):
 
     # todo: when to switch to I and F status?
     SCHEDULED = 'S'
-    PENDING = 'P'
-    IN_PROGRESS = 'I'
-    FINISHED = 'F'
+    PENDING = 'P'       # prepare: S -> P
+    IN_PROGRESS = 'I'   # implicit, when now() is between time and time + duration
+    FINISHED = 'F'      # implicit, when now() > time + duration
     CANCELLED = 'C'
     SESSION_STATUSES = (
         (SCHEDULED, 'Scheduled'),
@@ -86,12 +86,35 @@ class Session(models.Model):
         (FINISHED, 'Finished'),
         (CANCELLED, 'Cancelled'),
     )
+    # this field does not change automatically with time, thus it can only be
+    # S/P/C. use get_status() to get the logical status instead.
     status = models.CharField(max_length=1, choices=SESSION_STATUSES, default=SCHEDULED, editable=False)
     attendance_recorded = models.BooleanField(default=False, editable=False)
     attendance_rate = models.FloatField(null=True, editable=False)
 
     def __str__(self):
         return '[{}][{}] {}'.format(self.time, self.get_type_display(), self.module)
+
+    def cancel(self):
+        """Mark the session as cancelled and save the status.
+        """
+        status = self.get_status()
+        assert(status == self.SCHEDULED or status == self.PENDING)
+
+        self.status = CANCELLED
+        self.save()
+
+    def get_status(self):
+        """Get the logical status of the session including IN_PROGRESS and FINISHED,
+        the status will be updated according to current time without saving.
+        """
+        now = timezone.now()
+        if now >= self.time:
+            if now < self.time + self.duration:
+                self.status = self.IN_PROGRESS
+            else:
+                self.status = self.FINISHED
+        return self.status
 
     def prepare(self):
         """Initialize attendee list using the student list of the module of this session,
@@ -106,6 +129,8 @@ class Session(models.Model):
         for s in student_list:
             attendee_list.append(Attendee(session=self, student=s))
         Attendee.objects.bulk_create(attendee_list)
+
+        self.status = self.PENDING
 
     # todo
     def get_signature_sheet(self):

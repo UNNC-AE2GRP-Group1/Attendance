@@ -3,6 +3,8 @@ from django.test import TransactionTestCase
 from session.models import Module, Session
 from student.models import Student
 from django.db import IntegrityError
+from datetime import date, timedelta
+from django.utils import timezone
 
 # TODO: Configure your database in settings.py and sync before running tests.
 
@@ -109,3 +111,28 @@ class ModuleWorkflowTest(TransactionTestCase):
         session = pgp.session_set.create()
         self.assertAlmostEqual(session.attendance_rate, None)
         self.assertAlmostEqual(pgp.attendance_rate, 0.625)
+
+    def test_session_status(self):
+        pgp = Module.objects.get(code="AE1PGP")
+
+        # set time on 1 hour in the future so it won't start immediately
+        session = pgp.session_set.create(
+            time=timezone.now() + timedelta(hours=1),
+            duration=timedelta(hours=2)
+        )
+        self.assertEqual(session.get_status(), Session.SCHEDULED)
+
+        session.prepare()
+        self.assertEqual(session.get_status(), Session.PENDING)
+
+        session.time = timezone.now() - timedelta(hours=1) 
+        self.assertEqual(session.get_status(), Session.IN_PROGRESS)
+
+        with self.assertRaises(AssertionError):
+            session.cancel()
+
+        session.time = timezone.now() - timedelta(hours=3) 
+        self.assertEqual(session.get_status(), Session.FINISHED)
+
+        with self.assertRaises(AssertionError):
+            session.cancel()
