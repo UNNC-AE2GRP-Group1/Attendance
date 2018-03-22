@@ -65,10 +65,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="session\rules.py" />
-    <Compile Include="session\tests.py" />
     <Compile Include="session\urls.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="session\tests.py" />
     <Compile Include="session\views.py" />
     <Compile Include="session\__init__.py" />
     <Compile Include="student\admin.py" />
@@ -99,6 +99,7 @@
     <Folder Include="session\" />
     <Folder Include="session\migrations\" />
     <Folder Include="session\templates\" />
+    <Folder Include="session\templates\module\" />
     <Folder Include="session\templates\session\" />
     <Folder Include="student\" />
     <Folder Include="student\migrations\" />
@@ -106,6 +107,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="absence_form\templates\index.html" />
+    <Content Include="app\static\app\content\EC.png" />
+    <Content Include="app\static\app\content\table.css" />
     <Content Include="profile\templates\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\content\bootstrap.css" />
@@ -136,9 +139,17 @@
     <Content Include="app\templates\app\layout.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
-    <Content Include="session\templates\index.html" />
-    <Content Include="session\templates\session\module_index.html" />
-    <Content Include="session\templates\session\session_detail.html" />
+    <Content Include="session\templates\module\absent.jpg" />
+    <Content Include="session\templates\module\attendance.jpg" />
+    <Content Include="session\templates\module\comment.jpg" />
+    <Content Include="session\templates\module\ec.jpg" />
+    <Content Include="session\templates\module\module.html" />
+    <Content Include="session\templates\module\session.html" />
+    <Content Include="session\templates\module\EC.html" />
+    <Content Include="session\templates\session\index.html" />
+    <Content Include="session\templates\module\index.html" />
+    <Content Include="session\templates\module\attendance_history.html" />
+    <Content Include="session\templates\module\layout.html" />
     <Content Include="student\templates\index.html" />
   </ItemGroup>
   <ItemGroup>
