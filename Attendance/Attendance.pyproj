@@ -71,6 +71,14 @@
     </Compile>
     <Compile Include="session\views.py" />
     <Compile Include="session\__init__.py" />
+    <Compile Include="statistics\admin.py" />
+    <Compile Include="statistics\apps.py" />
+    <Compile Include="statistics\migrations\__init__.py" />
+    <Compile Include="statistics\models.py" />
+    <Compile Include="statistics\tests.py" />
+    <Compile Include="statistics\urls.py" />
+    <Compile Include="statistics\views.py" />
+    <Compile Include="statistics\__init__.py" />
     <Compile Include="student\admin.py" />
     <Compile Include="student\apps.py" />
     <Compile Include="student\migrations\__init__.py" />
@@ -100,6 +108,13 @@
     <Folder Include="session\migrations\" />
     <Folder Include="session\templates\" />
     <Folder Include="session\templates\session\" />
+    <Folder Include="statistics\" />
+    <Folder Include="statistics\migrations\" />
+    <Folder Include="statistics\static\" />
+    <Folder Include="statistics\static\statistics\" />
+    <Folder Include="statistics\static\statistics\scripts\" />
+    <Folder Include="statistics\templates\" />
+    <Folder Include="statistics\templates\statistics\" />
     <Folder Include="student\" />
     <Folder Include="student\migrations\" />
     <Folder Include="student\templates\" />
@@ -139,6 +154,9 @@
     <Content Include="session\templates\session\index.html" />
     <Content Include="session\templates\session\module_index.html" />
     <Content Include="session\templates\session\session_detail.html" />
+    <Content Include="statistics\static\statistics\scripts\echarts.js" />
+    <Content Include="statistics\templates\statistics\module.html" />
+    <Content Include="statistics\templates\statistics\student.html" />
     <Content Include="student\templates\index.html" />
   </ItemGroup>
   <ItemGroup>

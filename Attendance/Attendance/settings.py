@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'student',
     'session',
     'absence_form',
+    'statistics',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -47,4 +47,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^', include('session.urls')),
+    url(r'^', include('statistics.urls')),
 ]
