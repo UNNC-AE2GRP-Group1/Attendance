@@ -48,4 +48,5 @@ urlpatterns = [
 
     url(r'^', include('session.urls')),
     url(r'^', include('statistics.urls')),
+    url(r'^', include('absence_form.urls')),
 ]
