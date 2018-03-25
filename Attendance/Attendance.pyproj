@@ -31,6 +31,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="absence_form\urls.py" />
     <Compile Include="profile\admin.py" />
     <Compile Include="absence_form\apps.py" />
     <Compile Include="absence_form\migrations\__init__.py" />
@@ -91,6 +92,9 @@
     <Folder Include="absence_form\" />
     <Folder Include="absence_form\migrations\" />
     <Folder Include="absence_form\templates\" />
+    <Folder Include="absence_form\templates\AbsenceForm\" />
+    <Folder Include="absence_form\templates\EC\" />
+    <Folder Include="absence_form\templates\EC\" />
     <Folder Include="app\" />
     <Folder Include="app\migrations\" />
     <Folder Include="app\static\" />
@@ -120,6 +124,10 @@
     <Folder Include="student\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="absence_form\templates\AbsenceForm\index.html" />
+    <Content Include="absence_form\templates\AbsenceForm\index.html" />
+    <Content Include="absence_form\templates\EC\index.html" />
+    <Content Include="absence_form\templates\EC\index.html" />
     <Content Include="absence_form\templates\index.html" />
     <Content Include="profile\templates\index.html" />
     <Content Include="requirements.txt" />
