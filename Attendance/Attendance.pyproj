@@ -110,7 +110,10 @@
     <Folder Include="profile\templates\" />
     <Folder Include="session\" />
     <Folder Include="session\migrations\" />
+    <Folder Include="session\static\" />
+    <Folder Include="session\static\module\" />
     <Folder Include="session\templates\" />
+    <Folder Include="session\templates\module\" />
     <Folder Include="session\templates\session\" />
     <Folder Include="statistics\" />
     <Folder Include="statistics\migrations\" />
@@ -129,6 +132,7 @@
     <Content Include="absence_form\templates\EC\index.html" />
     <Content Include="absence_form\templates\EC\index.html" />
     <Content Include="absence_form\templates\index.html" />
+    <Content Include="app\templates\app\layout.html" />
     <Content Include="profile\templates\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\content\bootstrap.css" />
@@ -156,12 +160,13 @@
     <Content Include="app\templates\app\about.html" />
     <Content Include="app\templates\app\contact.html" />
     <Content Include="app\templates\app\index.html" />
-    <Content Include="app\templates\app\layout.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="session\static\module\attendance_history.css" />
+    <Content Include="session\templates\module\EC.html" />
+    <Content Include="session\templates\module\attendance_history.html" />
+    <Content Include="session\templates\module\index.html" />
     <Content Include="session\templates\session\index.html" />
-    <Content Include="session\templates\session\module_index.html" />
-    <Content Include="session\templates\session\session_detail.html" />
     <Content Include="statistics\static\statistics\scripts\echarts.js" />
     <Content Include="statistics\templates\statistics\module.html" />
     <Content Include="statistics\templates\statistics\student.html" />

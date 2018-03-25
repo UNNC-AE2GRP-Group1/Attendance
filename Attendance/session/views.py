@@ -5,15 +5,19 @@ from .models import *
 
 # Create your views here.
 
-def session_index(request):
-    return render(request, 'session/index.html')
-
 def module_index(request):
     #all_modules = Module.objects.all()
     #visible_modules = perms['module.view'].filter(request.user, all_modules);
 
-    return render(request, 'session/module_index.html')
+    return render(request, 'module/index.html')
+
+def module_attendance_history(request, module_pk):
+    return render(request, 'module/attendance_history.html')
+
+
+def session_index(request):
+    return render(request, 'session/index.html')
 
 # show attendees, 
 def session_detail(request, session_id):
-    return render(request, 'session/session_detail.html')
+    return render(request, 'session/detail.html')
