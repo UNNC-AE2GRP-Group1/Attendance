@@ -1,0 +1,180 @@
+{% extends "app/layout.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div id="attendance-linechart-module" style="width: 800px;height:800px;"></div>
+{% endblock %}
+
+{# todo: render data provided by view #}
+{# todo: translate comments in Chinese #}
+{# todo: tidy code #}
+{# todo: create reusable js if possible #}
+{% block scripts %}
+<script src="{% static 'statistics/scripts/echarts.js' %}"></script>
+<script type="text/javascript">
+
+    // Chart Object
+    var myChart = echarts.init(document.getElementById('attendance-linechart-module'));
+
+    // Table details
+    //print week time 
+    var xAxisData = ['2018/week 1st', '2018/week 2nd', '2018/week 3rd', '2018/week 4th', '2018/week 5th', '2018/week 6th', '2018/week 7th', '2018/week 8th', '2018/week 9th', '2018/week 10th', '2018/week 11th', '2018/week 12th'];
+    var legendData = ['LAC', 'IIP', 'CPP'];
+    var title = "Modules Statistics";
+    var serieData = [];
+ //   var categoryData = [];
+  //  var values = [];
+    //  var row = [];
+  //  var metaData = splitData([
+    var metaData = ([
+        [12, 14, 90, 100, 20, 30, 39, 70, 70, 40, 80, 90, 100],
+        [68, 72, 85, 60, 70, 80, 60, 80, 70, 90, 90, 20, 80],
+        [39, 85, 70, 65, 70, 80, 90, 45, 60, 80, 70, 90, 85]
+    ]);
+
+//   split date and data
+
+//   function splitData(rawData) {
+//   for (var i = 0; i < rawData.length; i++) {
+//   get date from each row
+//    k = 0;
+//    for (var j = 0; j < rawData[i].length; j++) {
+//    categoryData.push(rawData[i].splice(k, 1));
+//    row.push(rawData[i][j])
+//   k=k+1
+//   }
+//   values.push(rawData[i])
+//   values.push(row)
+//   }
+//    return {
+//        categoryData: categoryData,//date
+//        values: values            //data
+//    };
+//    }
+
+    //set data to each line  according to legendNum
+    //2D for points
+    for (var v = 0; v < legendData.length; v++) {
+        var serie = {
+          
+            name: legendData[v],
+            type: 'line',
+            symbol: "circle",
+            symbolSize: 20,
+            data: metaData[v]//set data
+        };
+        serieData.push(serie)
+    }
+
+    var colors = ["#036BC8", "#4A95FF", "#5EBEFC", "#2EF7F3", "#FFFFFF"];
+            var option = {
+                backgroundColor: '#0f375f',
+                title: {
+                    text: title,
+                    textAlign: 'left',
+                    textStyle: {
+                        color: "#fff",
+                        fontSize: "25",
+                        fontWeight: "normal"
+                    }
+                },
+                legend: {
+                    show: true,
+                    left: "center",
+                    data: legendData,
+                    y: "5%",
+                    itemWidth: 20,
+                    itemHeight: 12,
+                    textStyle: {
+                        color: "#fff",
+                        fontSize: 20
+                    },
+                },
+                color: colors,
+                grid: {
+                    left: '2%',
+                    top: "12%",
+                    bottom: "5%",
+                    right: "5%",
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'item',
+                    axisPointer: {
+                        type: 'none'
+                    }
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#6173A3'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        textStyle: {
+                            color: '#9ea7c4',
+                            fontSize: 14
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    data: xAxisData
+                },],
+                yAxis: [{
+                    name: 'AvgAttendenceRate perWEEK',
+                    position: 'left',
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            color: '#9ea7c4',
+                            fontSize: 14,
+                            formatter: '{value} %'
+                        }
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#6173A3'
+                        }
+                    },
+                },],
+                dataZoom: [
+                    {   //  take X as default
+                        type: 'slider', //  dataZoom component
+                        start: 10,      // 左边在 10% 的位置。
+                        end: 60         // 右边在 60% 的位置。
+                    }
+                ],
+                series: serieData
+            };
+                myChart.setOption(option);
+    myChart.on('click', function (param) {
+       var name = param.name;
+        if (name == "IIP") {
+          parent.location.href="IIP.html"; 
+       } else if (name == "LAC") {
+           parent.location.href="LAC.html"; 
+        } else if (name == "CPP") {
+          parent.location.href="CPP.html"; 
+       } else {
+           
+        }
+   });
+   myChart.on('click', eConsole);
+
+    // make chart
+      var ecConfig = require('echarts/config');
+      myChart.on(ecConfig.EVENT.CLICK, eConsole);
+
+    </script>
+{% endblock %}

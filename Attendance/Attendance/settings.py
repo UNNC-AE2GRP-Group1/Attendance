@@ -33,13 +33,18 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
-    # Add your apps here to enable them
+    'profile',
+    'student',
+    'session',
+    'absence_form',
+    'statistics',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bridgekeeper',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -51,6 +56,11 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'bridgekeeper.backends.RulePermissionBackend',
 ]
 
 ROOT_URLCONF = 'Attendance.urls'

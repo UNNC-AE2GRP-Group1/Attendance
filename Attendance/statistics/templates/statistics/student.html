@@ -1,0 +1,91 @@
+{% extends "app/layout.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div id="attendance-linechart-student" style="width: 800px;height:800px;"></div>
+{% endblock %}
+
+{# todo: render data provided by view #}
+{# todo: translate comments in Chinese #}
+{% block scripts %}
+<script src="{% static 'statistics/scripts/echarts.js' %}"></script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('attendance-linechart-student'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: 'Modules Attendence Rate'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['PGA','LAC','CPP','IIP','SWM']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+          //  data: ['2017.3.1','2017.4.5','2017.5.1','2017.6.1','2017.9.1','2017.10.1','2018.4.1']
+        },
+        yAxis: {
+            type: 'value',
+            name: 'Attendence Rate',
+            min: 0,
+            max: 100,
+            position: 'left',
+            axisLabel: {
+                formatter: '{value} %'
+            }
+        },
+        series: [
+            {
+                name:'PGA',
+                type:'line',
+                stack: 'AttenceRate',
+                data:[(1,12), (2,13),(3,10), (4,13), (5,90), (6,20), (7,21)]
+            },
+            {
+                name:'LAC',
+                type:'line',
+                stack: 'AttenceRate',
+                data:[(1,20), (2,43),(3,50), (4,63), (5,90), (6,50), (7,21)]
+            },
+            {
+                name:'CPP',
+                type:'line',
+                stack: 'AttenceRate',
+                data:[(1,12), (2,23),(3,30), (4,43), (5,50), (6,70), (7,81)]
+            },
+            {
+                name:'IIP',
+                type:'line',
+                stack: 'AttenceRate',
+                data:[(1,92), (2,43),(3,50), (4,63), (5,70), (6,20), (7,11)]
+            },
+            {
+                name:'SWM',
+                type:'line',
+                stack: 'AttenceRate',
+               data:[(1,72), (2,83),(3,59), (4,23), (5,40), (6,30), (7,81)]
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+{% endblock %}
