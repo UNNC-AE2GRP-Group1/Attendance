@@ -93,7 +93,6 @@
     <Folder Include="absence_form\migrations\" />
     <Folder Include="absence_form\templates\" />
     <Folder Include="absence_form\templates\application\" />
-    <Folder Include="absence_form\templates\EC\" />
     <Folder Include="app\" />
     <Folder Include="app\migrations\" />
     <Folder Include="app\static\" />
@@ -129,14 +128,11 @@
     <Folder Include="student\templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="absence_form\templates\AbsenceForm\index.html" />
     <Content Include="absence_form\templates\application\edit.html" />
     <Content Include="absence_form\templates\application\index.html" />
-    <Content Include="absence_form\templates\EC\index.html" />
     <Content Include="app\templates\app\layout.html" />
     <Content Include="profile\templates\index.html" />
     <Content Include="requirements.txt" />
-    <Content Include="app\static\app\content\bootstrap.css" />
     <Content Include="app\static\app\content\bootstrap.min.css" />
     <Content Include="app\static\app\content\site.css" />
     <Content Include="app\static\app\fonts\glyphicons-halflings-regular.eot" />
