@@ -1,65 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <style>
-	.container 
-	{
-		margin-top: 50px;
-		text-align: center;
-	} 
-	
-    h1 
-	{
-		margin-top: 100px;
-	} 
-	.btn-group
-	{
-		right: -350px;
-	}
-	</style>
+{% extends "app/layout.html" %}
 
-  </head>
-  <body>
+{% load staticfiles %}
 
-   	<nav class="navbar navbar-default navbar-fixed-top" role="navigation"> 
-   		<div class="container-fluid"> 
-	        <ul class="nav navbar-nav"> 
-	            <li><a href="#">Home</a></li> 
-	            <li><a href="#">Module</a></li> 
-	            <li class="active"><a href="#">AE2PGA</a></li> 
-	        </ul>
-	    </div>
-	</nav>
-	<h1 align="center"> AE2PGA</h1>
-	<div class="container">
-		<span class="row">
-			<ul class="col-md-2 list-group" id="mainList">
-				<li class="list-group-item">PGA</li>
-				<li class="list-group-item">ACE</li>
-			</ul>
+{% block content %}
 
-			<div class="btn-group">
-				<button type="button" class="btn btn-default">detail</button>
-				<button type="button" class="btn btn-default">add session</button>
-			</div>
+<h1 align="center"> AE2PGA</h1>
+<div class="container">
+    <span class="row">
+        <ul class="col-md-2 list-group" id="mainList">
+            <li class="list-group-item">PGA</li>
+            <li class="list-group-item">ACE</li>
+        </ul>
 
-			<br></br>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default">detail</button>
+            <button type="button" class="btn btn-default">add session</button>
+        </div>
+        
+        <ul class="col-md-10 list-group ">
+            <li class="list-group-item">Session Lec 1 02/03/2018 10:00 80%</li>
+            <li class="list-group-item">Session Lab 1 03/03/2018 12:00 75%</li>
+            <li class="list-group-item">Session Lec 2 09/03/2018 10:00 82%</li>
+            <li class="list-group-item">Session Lab 2 10/03/2018 12:00 76%</li>
+        </ul>
+    </span>
+</div>
 
-			<ul class="col-md-10 list-group ">
-				<li class="list-group-item">Session Lec 1 02/03/2018 10:00 80%</li>
-				<li class="list-group-item">Session Lab 1 03/03/2018 12:00 75%</li>
-				<li class="list-group-item">Session Lec 2 09/03/2018 10:00 82%</li>
-				<li class="list-group-item">Session Lab 2 10/03/2018 12:00 76%</li>
-			</ul>
-		</span>
-	</div>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
-    
-  </body>
-</html>
+{% endblock %}

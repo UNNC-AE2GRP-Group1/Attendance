@@ -14,7 +14,7 @@ def module_index(request):
 def module_attendance_history(request, module_pk):
     return render(request, 'module/attendance_history.html')
 
-def session_index(request):
+def session_overview(request):
     return render(request, 'session/overview.html')
 
 # show attendees, 
