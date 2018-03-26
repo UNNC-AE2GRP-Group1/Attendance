@@ -1,0 +1,92 @@
+﻿{% extends "app/layout.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+        <style>
+
+
+    .center {
+        margin: auto;
+        width: 50%;
+        text-align: center;
+
+     }
+    .container-fluid{
+            margin-top:50px;
+    }
+
+
+    </style>
+
+	</head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="center">
+                    <h1>Programming Paradigms</h1>
+                    <br/>
+                    <div class="btn-group action-btn" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary">Print</button>
+                        <button type="button" class="btn btn-primary">Edit</button>
+                        <button type="button" class="btn btn-primary">Download</button>
+                        <button type="button" class="btn btn-primary">Add Student</button>
+                        <button type="button" class="btn btn-primary">Student List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 col-sm-2 col-xs-4">
+                    <dl class="col-md-9 list-group ">
+                        <dt class="list-group-item">lab1</dt>
+                        <dd class="list-group-item">-02/03/2018 SEB306 10:00 80%</dd>
+                        <dt class="list-group-item">lec1</dt>
+                        <dd class="list-group-item">-02/03/2018 SEB306 10:00 80%</ddclass="list-group-item">
+                        <dt class="list-group-item">lab2</dt>
+                        <dd class="list-group-item">-02/03/2018 SEB306 10:00 80%</ddclass="list-group-item">
+                        <dt class="list-group-item">lec2</dt>
+                        <dd class="list-group-item">-02/03/2018 SEB306 10:00 80%</dd>
+                    </dl>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-8">
+                    <table class="table" title="Absent list">
+                        <caption>Absent list</caption>
+                        <thead>
+                            <tr>
+                               
+                                <th scope="col"> Student ID</th>
+                                <th scope="col"> Student Name</th>
+                                <th scope="col"> Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-8">
+                    <table class="table">
+                        <caption>Attendence list</caption>
+                        <thead>
+                            <tr>
+                               
+                                <th scope="col"> Student ID</th>
+                                <th scope="col"> Student Name</th>
+                                <th scope="col"> Note</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+    </body>
+	<script type="text/javascript" src="{% static 'session/js/addStudent.js' %}"></script>
+
+{% endblock %}
