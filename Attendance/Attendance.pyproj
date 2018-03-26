@@ -162,7 +162,11 @@
     <Content Include="app\templates\app\index.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="session\static\module\absent.jpg" />
+    <Content Include="session\static\module\attendance.jpg" />
     <Content Include="session\static\module\attendance_history.css" />
+    <Content Include="session\static\module\comment.jpg" />
+    <Content Include="session\static\module\ec.jpg" />
     <Content Include="session\templates\module\EC.html" />
     <Content Include="session\templates\module\attendance_history.html" />
     <Content Include="session\templates\module\index.html" />
