@@ -14,10 +14,12 @@ def module_index(request):
 def module_attendance_history(request, module_pk):
     return render(request, 'module/attendance_history.html')
 
-
 def session_index(request):
-    return render(request, 'session/index.html')
+    return render(request, 'session/overview.html')
 
 # show attendees, 
-def session_detail(request, session_id):
+def session_detail(request, session_pk):
     return render(request, 'session/detail.html')
+
+def session_taking_attendance(request, session_pk):
+    return render(request, 'session/taking.html')

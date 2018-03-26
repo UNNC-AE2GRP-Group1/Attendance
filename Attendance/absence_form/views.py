@@ -5,8 +5,8 @@ from bridgekeeper import perms
 from .models import *
 
 # todo: implement function
-def EC_index(request):
-    return render(request, 'EC/index.html')
+def application_index(request):
+    return render(request, 'application/index.html')
 
-def AbsenceForm_index(request):
-    return render(request, 'AbsenceForm/index.html')
+def application_edit(request, application_pk):
+    return render(request, 'application/edit.html')
