@@ -1,10 +1,10 @@
-from django.conf.urls import include, url
+from django.urls import include, path, re_path
 
 from . import views
 
 urlpatterns = [
-    url(r'^sessions/$', views.session_overview, name='session-overview'),
-    url(r'^sessions/(?P<session_pk>\w+)/attendance$', views.session_taking_attendance),
-    url(r'^modules/$', views.module_index, name='module-index'),
-    url(r'^modules/(?P<module_pk>\w+)/attendance$', views.module_attendance_history),
+    path('sessions/', views.session_overview, name='session-overview'),
+    path('sessions/<int:session_pk>/attendance', views.session_taking_attendance),
+    path('modules/', views.module_index, name='module-index'),
+    path('modules/<int:module_pk>/attendance', views.module_attendance_history),
 ]
