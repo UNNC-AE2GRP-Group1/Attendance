@@ -1,9 +1,9 @@
-from django.conf.urls import include, url
+from django.urls import include, path, re_path
 
 from . import views
 
 # todo: add url tests
 urlpatterns = [
-    url(r'^students/(?P<student_id>\w+)/stat/$', views.student_attendance_history),
-    url(r'^modules/(?P<module_pk>\w+)/stat/$', views.module_attendance_history),
+    path('students/(<int:student_id>/stat/', views.student_attendance_history),
+    path('modules/(<int:module_pk>/stat/', views.module_attendance_history),
 ]

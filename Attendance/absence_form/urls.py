@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import include, path, re_path
 
 # todo: review url
 from . import views
 urlpatterns = [
-    url(r'^applications/$', views.application_index, name='application-index'),
-    url(r'^applications/(?P<application_pk>\w+)/edit$', views.application_edit, name='index'),
+    path('applications/', views.application_index, name='application-index'),
+    path('applications/<int:application_pk>/edit', views.application_edit, name='index'),
 ]

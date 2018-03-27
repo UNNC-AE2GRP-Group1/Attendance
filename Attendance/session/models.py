@@ -10,13 +10,16 @@ from student.models import Student
 
 # Create your models here.
 
+def getyear():
+    return timezone.now().year
+
 class Module(models.Model):
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=8)
     academic_year = models.SmallIntegerField(validators=[
         MaxValueValidator(3881),
         MinValueValidator(1881)
-    ], default=lambda: timezone.now().year)
+    ], default=getyear)
     convenors = models.ManyToManyField(User, related_name='convenors', blank=True)
     assistants = models.ManyToManyField(User, related_name='assistants', blank=True)
     students = models.ManyToManyField(Student, through='Enrollment', blank=True)

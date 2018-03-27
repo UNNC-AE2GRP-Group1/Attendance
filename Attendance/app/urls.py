@@ -1,6 +1,5 @@
 from datetime import datetime
-from django.conf.urls import include
-from django.conf.urls import url
+from django.urls import include, path, re_path
 import django.contrib.auth.views
 
 import app.forms
@@ -13,10 +12,10 @@ import app.views
 
 urlpatterns = [
     # Examples:
-    url(r'^$', app.views.home, name='home'),
-    url(r'^contact$', app.views.contact, name='contact'),
-    url(r'^about', app.views.about, name='about'),
-    url(r'^login/$',
+    path('', app.views.home, name='home'),
+    path('contact', app.views.contact, name='contact'),
+    path('about', app.views.about, name='about'),
+    path('login/',
         django.contrib.auth.views.login,
         {
             'template_name': 'app/login.html',
@@ -28,7 +27,7 @@ urlpatterns = [
             }
         },
         name='login'),
-    url(r'^logout$',
+    path('logout',
         django.contrib.auth.views.logout,
         {
             'next_page': '/',
