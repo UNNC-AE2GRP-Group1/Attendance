@@ -90,7 +90,7 @@ $("#btn-preview-csv").click(function () {
             }
         },
         before: function (file, inputElem) {
-            $('#student-list-preview').empty();
+            // $('#student-list-preview').empty();
         },
         error: function (err, file, inputElem, reason) {
             console.log(err);
@@ -102,6 +102,21 @@ $("#btn-preview-csv").click(function () {
 });
 
 $("#btn-upload-csv").click(function() {
-    var csvFormData = new FormData();
+    var tableData = $('#student-list-preview').data('JSGrid').data;
+    var csvString = "";
+    for (var i = 0; i < tableData.length; ++i) {
+        csvString += `${tableData[i]['Student Id']},${tableData[i]['First Name']},${tableData[i]['Last Name']}\n`;
+    }
 
+    var csvFormData = new FormData();
+    var csvBlob = new Blob([csvString], { type: 'text/csv' });
+
+    csvFormData.set('student_list_csv', csvBlob, 'students.csv');
+    csvFormData.set('csrfmiddlewaretoken', $('[name=csrfmiddlewaretoken]').val());
+
+    var request = new XMLHttpRequest();
+    request.open('POST', 'import');
+    request.send(csvFormData);
+
+    // todo: reload after POST success, or display conflict list
 });
