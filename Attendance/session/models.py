@@ -30,19 +30,37 @@ class Module(models.Model):
 
     # todo: ensure that it does not overwrite old info
     # todo: find out conflicts
+    # returns: conflicted Student objects
     def batch_enroll_from_csv(self, student_reader):
-        students = [
-            # todo: make column name more explicit
-            Student(
-                student_id=row[0],
-                first_name=row[1],
-                last_name=row[2]
-            )
+        # todo: make column name more explicit
+        students = {
+            row[0]: { # student id
+                'first_name': row[1],
+                'last_name': row[2]
+            }
             for row in student_reader
-        ]
-        Student.objects.bulk_create(students)
-        real_students = Student.objects.filter(student_id__in=[s.student_id for s in students])
-        self.students.add(*real_students)
+        }
+        conflicts = []
+        # fetch old information and compare
+        existing_students = Student.objects.filter(student_id__in=students.keys())
+        for s in existing_students:
+            new_info = students.get(s.student_id)
+            if new_info is not None:
+                if s.first_name != new_info['first_name'] or s.last_name != new_info['last_name']:
+                    conflicts.append(s)
+
+        if not conflicts:
+            Student.objects.bulk_create([
+                Student(
+                    student_id=sid,
+                    first_name=v['first_name'],
+                    last_name=v['last_name']
+                ) for sid, v in students.items()
+            ])
+            new_students_saved = Student.objects.filter(student_id__in=students.keys())
+            self.students.add(*new_students_saved)
+
+        return conflicts
 
     def calculate_attendance_rate(self):
         """Calculate the average attendance rate from all sessions whose
