@@ -11,8 +11,8 @@ from session.models import Module
 class EC(models.Model):
     modules = models.ManyToManyField(Module, blank=True)
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
-    from_date = models.DateTimeField(default = timezone.now)
-    duration = models.DurationField(default=timedelta(hours=1))
+    from_time = models.DateTimeField(default = timezone.now)
+    due_date = models.DateTimeField(default = timezone.now)
     EXAM = 'E'
     COURSEWORK = 'C'
     PLACEMENT = 'P'
@@ -21,6 +21,7 @@ class EC(models.Model):
         (COURSEWORK,'coursework'),
         (PLACEMENT,'placement')
     )
+    assessment_kind = models.CharField(max_length=1, choices=assessment, editable=True)
     APPROVED = 'A'
     DISAPPROVED = 'D'
     WAITING = 'W'
@@ -30,9 +31,30 @@ class EC(models.Model):
         (WAITING,'Waiting')
     )
     EC_status = models.CharField(max_length=1, choices=EC_approved, default=WAITING, editable=True)
+    comment = models.TextField(verbose_name="Comment for Approval/Disapproval")
     
     def __str__(self):
-        return self.student.get_full_name() + str(self.module) + str(self.date) + self.assessment + self.EC_approved
+        return '{}{}{}{}{}'.format(self.student, self.modules, self.from_time, self.due_date, self.EC_status)
+
+    def approve(self):
+        """Mark the EC application as approved and save the status.
+        """
+        status = self.get_status()
+        assert(status == self.DISAPPROVED or status == self.WAITING)
+
+        self.status = APPROVED
+        self.save()
+
+    def disapprove(self):
+        """Mark the EC application as disapproved and save the status.
+        """
+        status = self.get_status()
+        assert(status == self.APPROVED or status == self.WAITING)
+
+        self.status = DISAPPROVED
+        self.save()
+
+
 
 class Absence_Form(models.Model):
     modules = models.ManyToManyField(Module, blank=True)

@@ -1,21 +1,46 @@
 {% extends "app/layout.html" %}
-
 {% load staticfiles %}
 
 {% block content %}
 
-<h1 align="center">All Applications</h1>
+<h1 align="center">EC Overview</h1>
 <div class="container">
-	<span class="row">
-		<ul class="col-md-10 list-group ">
-			<li class="list-group-item">6511111 08/03/2018 Fever
-			<span class="btn btn-default">Edit</span>
-			</li>
-			<li class="list-group-item">6512222 08/03/2018 12:00-14:00 Don't want go to lecture. No reason!
-				<span class="btn btn-default">Edit</span>
-			</li>
-		</ul>
-	</span>
+    <span class="row">
+        <div class=col-md-9>
+            <table class="   le col-md-9 col-sm-9 col-xs-4">
+                <thead>
+                    <tr>
+                       <th scope="col">Student</th>
+                       <th scope="col">Modules</th>
+                       <th scope="col">Assessment</th>
+                       <th scope="col">From date</th>
+                       <th scope="col">To date</th>
+                       <th scope="col">Status</th>
+                       <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if EC_list %}
+                        {% for ec in EC_list %}
+                        <tr>
+                            <td align="center"><nobr>{{ec.student}}</nobr></td>
+                            <td align="center">{{ec.modules}}</td>
+                            <td align="center">{{ec.assessment_kind}}</td>
+                            <td align="center"><nobr>{{ec.from_time}}</nobr></td>
+                            <td align="center"><nobr>{{ec.due_date}}</nobr></td>
+                            <td align="center">{{ec.EC_status}}</td>
+                            <td align="center"><span class="btn btn-default">Edit</span></td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td align="center">-</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </span>
 </div>
 
 {% endblock %}

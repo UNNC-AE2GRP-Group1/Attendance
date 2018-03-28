@@ -28,24 +28,31 @@
 					<label for="studentId">
 						Student ID
 					</label>
-					<input type="text" class="form-control" id="studentId">
+					<input type="text" class="form-control" id="studentId" value="{{specific_ec.student.student_id}}">
 				</div>
 				<div class="form-group">
 
 				<label for="studentName">
 						Student name
 					</label>
-					<input type="text" class="form-control" id="studentName">
+					<input type="text" class="form-control" id="studentName" value="{{specific_ec.student.get_full_name}}">
 				</div>
 
 				<div class="form-group">
 						 
-					<label for="timePeriod">
-						Time period
+					<label for="from-date">
+						From date
 					</label>
-					<input type="text" class="form-control" id="timePeriod">
+					<input type="text" class="form-control" id="fromDate" value="{{specific_ec.from_time}}">
 				</div>
-
+                
+				<div class="form-group">
+						 
+					<label for="due-date">
+						Due date
+					</label>
+					<input type="text" class="form-control" id="dueDate" value="{{specific_ec.due_date}}">
+				</div>
 				
 					
 				<button type="submit" class="btn btn-default">
