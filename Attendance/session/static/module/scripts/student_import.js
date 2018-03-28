@@ -28,12 +28,14 @@ $("#btn-preview-csv").click(function () {
                         'lastname': row[colLastname]
                     };
                 };
+                // todo: corner cases - single letter name parts, mixed cases (e.g. "HELLO Im TOUGH")
                 var namePolicySingle = function (row) {
                     if (!row[colFullname]) return {};
                     var parts = row[colFullname].split(/[\s,]+/);
                     var lastnames = [];
                     var firstnames = [];
                     for (var i = 0; i < parts.length; i++) {
+                        if (!parts[i]) continue;
                         if (parts[i] === parts[i].toUpperCase())
                             lastnames.push(parts[i]);
                         else
@@ -55,7 +57,7 @@ $("#btn-preview-csv").click(function () {
                 var data = [];
 
                 var toTitleCase = function(str) {
-                    return str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
+                    return str[0].toUpperCase() + str.slice(1).toLowerCase();
                 }
 
                 for (var i = skipHeader ? 1 : 0; i < studentCount; i++) {
@@ -63,11 +65,11 @@ $("#btn-preview-csv").click(function () {
                     if (!studentId) continue;
 
                     var student = namePolicy(results.data[i]);
-                    if (!student['firstname'] || !student['lastname']) continue;
+                    if (!student.firstname || !student.lastname) continue;
 
-                    student['studentid'] = studentId;
-                    student['firstname'] = toTitleCase(student['firstname']);
-                    student['lastname'] = toTitleCase(student['lastname']);
+                    student.studentid = studentId;
+                    student.firstname = toTitleCase(student.firstname);
+                    student.lastname = toTitleCase(student.lastname);
 
                     data.push({ id: i, values: student });
 
