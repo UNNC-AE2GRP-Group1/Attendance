@@ -115,6 +115,7 @@
     <Folder Include="session\static\" />
     <Folder Include="session\static\module\" />
     <Folder Include="session\static\module\scripts\" />
+    <Folder Include="session\static\module\styles\" />
     <Folder Include="session\static\session\css\" />
     <Folder Include="session\static\session\js\" />
     <Folder Include="session\static\session\" />
@@ -165,7 +166,9 @@
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
     <Content Include="session\static\module\attendance_history.css" />
+    <Content Include="session\static\module\scripts\editablegrid.min.js" />
     <Content Include="session\static\module\scripts\papaparse.min.js" />
+    <Content Include="session\static\module\styles\editablegrid.css" />
     <Content Include="session\templates\module\attendance_history.html" />
     <Content Include="session\templates\module\index.html" />
     <Content Include="session\templates\module\student_import.html" />

@@ -30,7 +30,10 @@ def module_student_import(request, module_pk):
         student_reader = csv.reader(StringIO(csv_file.read().decode('utf-8')), delimiter=',')
         m.batch_enroll_from_csv(student_reader)
 
-    return render(request, 'module/student_import.html')
+    context = {
+        'module': m
+    }
+    return render(request, 'module/student_import.html', context)
 
 def module_attendance_history(request, module_pk):
     return render(request, 'module/attendance_history.html')
