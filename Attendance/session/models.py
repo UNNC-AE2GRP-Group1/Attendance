@@ -28,6 +28,22 @@ class Module(models.Model):
     def __str__(self):
         return '{} ({})'.format(self.name, self.academic_year)
 
+    # todo: ensure that it does not overwrite old info
+    # todo: find out conflicts
+    def batch_enroll_from_csv(self, student_reader):
+        students = [
+            # todo: make column name more explicit
+            Student(
+                student_id=row[0],
+                first_name=row[1],
+                last_name=row[2]
+            )
+            for row in student_reader
+        ]
+        Student.objects.bulk_create(students)
+        real_students = Student.objects.filter(student_id__in=[s.student_id for s in students])
+        self.students.add(*real_students)
+
     def calculate_attendance_rate(self):
         """Calculate the average attendance rate from all sessions whose
         attendance records are completed.

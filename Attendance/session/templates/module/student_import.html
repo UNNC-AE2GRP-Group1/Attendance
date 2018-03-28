@@ -1,0 +1,126 @@
+﻿{% extends "app/layout.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container">
+    <div class="input-group">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="file-student-csv">
+            <label class="custom-file-label" for="file-student-csv">Choose file</label>
+        </div>
+    </div>
+
+    <legend class="pt-0">Name extraction</legend>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="has-header" />
+        <label class="form-check-label" for="has-header">
+            Has header
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="col-studentid">Column # of student id (todo: use heuristics)</label>
+        <input type="number" class="form-control" id="col-studentid" placeholder="0" value="3">
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="name-policies" id="name-policy-1" value="separate" checked>
+        <label class="form-check-label" for="name-policy-1">
+            Separated fields
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="col-firstname">Column # of first name</label>
+        <input type="number" class="form-control" id="col-firstname" placeholder="1" value="5">
+    </div>
+    <div class="form-group">
+        <label for="col-lastname">Column # of last name</label>
+        <input type="number" class="form-control" id="col-lastname" placeholder="2" value="4">
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="name-policies" id="name-policy-2" value="single">
+        <label class="form-check-label" for="name-policy-2">
+            Single field
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="col-fullname">Column # of full name</label>
+        <input type="number" class="form-control" id="col-fullname" placeholder="1">
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="reverse-name-order" id="reverse-name-order" value="option2">
+        <label class="form-check-label" for="reverse-name-order">
+            Reverse name order
+        </label>
+    </div>
+    <button id="btn-preview-csv" class="btn btn-primary">Preview</button>
+    
+    <div class="alert alert-primary" id="preview-message" role="alert"></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Student Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+        </tr>
+        </thead>
+        <tbody id="student-list">
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'module/scripts/papaparse.min.js' %}"></script>
+<script>
+    $("#btn-preview-csv").click(function() {
+        $('#file-student-csv').parse({
+            config: {
+                complete: function (results, file) {
+                    console.log("Parsing complete:", results, file);
+
+                    var namePolicy = $('input[name=name-policies]:checked').val();
+                    var skipHeader = $('#has-header').checked;
+
+                    var studentCount = results.data.length;
+                    var list = $('#student-list');
+
+                    var colStudentId = $('#col-studentid').val();
+                    var colFirstname = $('#col-firstname').val();
+                    var colLastname = $('#col-lastname').val();
+                    var colFullname = $('#col-fullname').val();
+                    var numValidStudents = 0;
+
+                    var namePolicySeparate = function(row) {
+                        return `<td>${row[colFirstname]}</td><td>${row[colLastname]}</td>`;
+                    }
+                    var namePolicyChoice = function() {};
+                    if (namePolicy === 'separate') {
+                        namePolicyChoice = namePolicySeparate;
+                    }
+
+                    for (var i = skipHeader ? 1 : 0; i < studentCount; i++) {
+                        var studentId = results.data[i][colStudentId];
+                        if (!studentId) continue;
+                        ++numValidStudents;
+                        list.append(`<tr><td>${studentId}</td>${namePolicyChoice(results.data[i])}</tr>`);
+                    }
+
+                    $('#preview-message').text(`Found ${numValidStudents} records`);
+                }
+            },
+            before: function (file, inputElem) {
+                $('#student-list').empty();
+            },
+            error: function (err, file, inputElem, reason) {
+                console.log(err);
+            },
+            complete: function() {
+                
+            }
+        });
+    });
+</script>
+{% endblock %}
