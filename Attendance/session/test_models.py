@@ -28,18 +28,18 @@ class ModuleWorkflowTest(TransactionTestCase):
             code="AE1PGP",
             academic_year=2018
         )
-        pgp.enroll_student(Student.objects.get(student_id="16510000"))
-        pgp.enroll_student(Student.objects.get(student_id="16510001"))
-        pgp.enroll_student(Student.objects.get(student_id="16510002"))
-        pgp.enroll_student(Student.objects.get(student_id="20001001"))
+        pgp.students.add(Student.objects.get(student_id="16510000"))
+        pgp.students.add(Student.objects.get(student_id="16510001"))
+        pgp.students.add(Student.objects.get(student_id="16510002"))
+        pgp.students.add(Student.objects.get(student_id="20001001"))
 
     def test_add_student_list(self):
         """Tests that students can be uniquely added to a module
         """
         pgp = Module.objects.get(code="AE1PGP")
 
-        with self.assertRaises(IntegrityError):
-            pgp.enroll_student(Student.objects.get(student_id="20001001"))
+        # fail silently
+        pgp.students.add(Student.objects.get(student_id="20001001"))
 
         student_list = pgp.students.all().order_by('student_id')
 

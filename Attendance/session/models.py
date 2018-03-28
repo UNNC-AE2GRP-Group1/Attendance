@@ -22,18 +22,11 @@ class Module(models.Model):
     ], default=getyear)
     convenors = models.ManyToManyField(User, related_name='convenors', blank=True)
     assistants = models.ManyToManyField(User, related_name='assistants', blank=True)
-    students = models.ManyToManyField(Student, through='Enrollment', blank=True)
+    students = models.ManyToManyField(Student, blank=True)
     attendance_rate = models.FloatField(null=True, editable=False)
 
     def __str__(self):
         return '{} ({})'.format(self.name, self.academic_year)
-
-    # todo: batch add student list
-    def enroll_student(self, student, date_enrolled=date.today()):
-        """Add the student to the student list.
-        """
-        enrollment = Enrollment(module=self, student=student, date_enrolled=date_enrolled)
-        enrollment.save()
 
     def calculate_attendance_rate(self):
         """Calculate the average attendance rate from all sessions whose
@@ -50,16 +43,6 @@ class Module(models.Model):
             .aggregate(Avg('attendance_rate'))
         self.attendance_rate = session_avg_rate['attendance_rate__avg']
         assert(self.attendance_rate != None)
-
-
-class Enrollment(models.Model):
-    module = models.ForeignKey(Module, on_delete=models.PROTECT)
-    student = models.ForeignKey(Student, on_delete=models.PROTECT)
-    date_enrolled = models.DateField(default=date.today)
-    date_unenrolled = models.DateField(null=True)
-
-    class Meta:
-        unique_together = ('module', 'student')
 
 
 class Session(models.Model):

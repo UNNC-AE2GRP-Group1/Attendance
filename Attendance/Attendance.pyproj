@@ -67,7 +67,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="session\rules.py" />
-    <Compile Include="session\tests.py" />
+    <Compile Include="session\test_models.py" />
+    <Compile Include="session\test_views.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="session\urls.py">
       <SubType>Code</SubType>
     </Compile>
@@ -111,6 +114,7 @@
     <Folder Include="session\migrations\" />
     <Folder Include="session\static\" />
     <Folder Include="session\static\module\" />
+    <Folder Include="session\static\module\scripts\" />
     <Folder Include="session\static\session\css\" />
     <Folder Include="session\static\session\js\" />
     <Folder Include="session\static\session\" />
@@ -161,8 +165,10 @@
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
     <Content Include="session\static\module\attendance_history.css" />
+    <Content Include="session\static\module\scripts\papaparse.min.js" />
     <Content Include="session\templates\module\attendance_history.html" />
     <Content Include="session\templates\module\index.html" />
+    <Content Include="session\templates\module\student_import.html" />
     <Content Include="session\templates\session\overview.html" />
     <Content Include="session\templates\session\taking.html" />
     <Content Include="statistics\static\statistics\scripts\echarts.js" />
