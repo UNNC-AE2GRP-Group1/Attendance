@@ -168,9 +168,11 @@
     <Content Include="session\static\module\attendance_history.css" />
     <Content Include="session\static\module\scripts\editablegrid.min.js" />
     <Content Include="session\static\module\scripts\papaparse.min.js" />
+    <Content Include="session\static\module\scripts\student_import.js" />
     <Content Include="session\static\module\styles\editablegrid.css" />
     <Content Include="session\templates\module\attendance_history.html" />
     <Content Include="session\templates\module\index.html" />
+    <Content Include="session\templates\module\students.html" />
     <Content Include="session\templates\module\student_import.html" />
     <Content Include="session\templates\session\overview.html" />
     <Content Include="session\templates\session\taking.html" />
