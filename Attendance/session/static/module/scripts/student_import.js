@@ -1,10 +1,3 @@
-var metadata = [];
-metadata.push({ name: "studentid", label: "Student Id", datatype: "string", editable: true });
-metadata.push({ name: "firstname", label: "First Name", datatype: "string", editable: true });
-metadata.push({ name: "lastname", label: "Last Name", datatype: "string", editable: true });
-
-studentEditableGrid = new EditableGrid("StudentListTable");
-
 $("#btn-preview-csv").click(function () {
     $('#file-student-csv').parse({
         config: {
@@ -24,8 +17,8 @@ $("#btn-preview-csv").click(function () {
 
                 var namePolicySeparate = function (row) {
                     return {
-                        'firstname': row[colFirstname],
-                        'lastname': row[colLastname]
+                        'First Name': row[colFirstname],
+                        'Last Name': row[colLastname]
                     };
                 };
                 // todo: corner cases - single letter name parts, mixed cases (e.g. "HELLO Im TOUGH")
@@ -42,8 +35,8 @@ $("#btn-preview-csv").click(function () {
                             firstnames.push(parts[i]);
                     }
                     return {
-                        'firstname': firstnames.join(" "),
-                        'lastname': lastnames.join(" ")
+                        'First Name': firstnames.join(" "),
+                        'Last Name': lastnames.join(" ")
                     };
                 };
                 var namePolicy = function () { };
@@ -65,21 +58,35 @@ $("#btn-preview-csv").click(function () {
                     if (!studentId) continue;
 
                     var student = namePolicy(results.data[i]);
-                    if (!student.firstname || !student.lastname) continue;
+                    if (!student['First Name'] || !student['Last Name']) continue;
 
-                    student.studentid = studentId;
-                    student.firstname = toTitleCase(student.firstname);
-                    student.lastname = toTitleCase(student.lastname);
+                    student['Student Id'] = studentId;
+                    student['First Name'] = toTitleCase(student['First Name']);
+                    student['Last Name'] = toTitleCase(student['Last Name']);
 
-                    data.push({ id: i, values: student });
+                    data.push(student);
 
                     ++numValidStudents;
                 }
 
                 $('#preview-message').text(`Found ${numValidStudents} records`);
+                $("#student-list-preview").jsGrid({
+                    inserting: true,
+                    editing: true,
 
-                studentEditableGrid.load({ "metadata": metadata, "data": data });
-                studentEditableGrid.renderGrid("student-list-preview", "table");
+                    width: "100%",
+
+                    noDataContent: "No Record",
+
+                    data: data,
+                    fields: [
+                        { name: "Student Id", type: "text", validate: "required" },
+                        { name: "First Name", type: "text", validate: "required" },
+                        { name: "Last Name", type: "text", validate: "required" },
+                        { type: "control" }
+                    ]
+                });
+
             }
         },
         before: function (file, inputElem) {
@@ -92,4 +99,9 @@ $("#btn-preview-csv").click(function () {
 
         }
     });
+});
+
+$("#btn-upload-csv").click(function() {
+    var csvFormData = new FormData();
+
 });
