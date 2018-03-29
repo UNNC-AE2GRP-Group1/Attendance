@@ -4,68 +4,6 @@
 
 {% block content %}
 {# todo: write css styles #}
-<style>   
-    table {
-        border-collapse: collapse;
-        height: 80%;
-        width: 80%;         /*  必须设置一个宽度， margin: 0 auto才能使之居于父组件中央*/
-        margin: 10px auto;  /*  通过设置外边距（margin）中的左右外边距属性为auto使之居于父组件（body）中间*/
-    }
-
-    td {
-        width: 3em;
-        height: 3em;
-     }
-
-    td.ec {
-        background: repeating-linear-gradient( 
-        -45deg,
-        white,
-        white 5px,
-        #aaa 5px,
-        #aaa 10px);
-    }
-
-    td.attendance {
-        background: white;
-    }
-
-    td.absent {
-        background: red;
-    }
-
-    td.ecAattendance {
-        background: repeating-linear-gradient(
-            -45deg, black, black 5px, white 5px, white 10px
-            )
-    }
-
-    td.ecAabsent {
-        background: repeating-linear-gradient(
-            -45deg, black, black 5px, red 5px, red 10px
-        );
-    }
-
-    .commented {
-        position: relative;
-    }
-
-    .commented::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        border-color: transparent;
-     border-style: solid;
-    }
-
-    .commented::before {
-        border-width: 0.5em;
-        border-right-color: orange;
-        border-top-color: orange;
-    }
-
-</style>
 <div class="row">
     <div class="col-md-2">
         <h2>Relative EC</h2>
@@ -77,90 +15,147 @@
         <h2 style="text-align:center">Attendance history in ACE</h2>
         <br />
         <br />
-        <table border=1 style="border-collapse: collapse;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-shadow: 0 1px 1px #ccc;
-    background: #D3D3D3">
+        <table id="attendance-history" border=1 style="border-collapse: collapse;
+border: 1px solid #ccc;
+border-radius: 6px;
+box-shadow: 0 1px 1px #ccc;
+background: #D3D3D3">
             <tr>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>StudentID\Session</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>studentName</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab1</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab2</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab3</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab4</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab5</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab6</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab7</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab8</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab9</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab10</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab11</td>
-              <td scope="col" width = 90 height = 50 style='text-align: center;'>lab12</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>StudentID\Session</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>studentName</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab1</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab2</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab3</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab4</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab5</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab6</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab7</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab8</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab9</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab10</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab11</td>
+                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab12</td>
             </tr>
             <tr>
-              <th scope="row" style='text-align: center;'>16518717</th>
-              <td style='text-align: center;'>Lvjiao</td>
-              <td style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <th scope="row" style='text-align: center;'>16518717</th>
+                <td style='text-align: center;'>Liuxiaodong</td>
+                <td style='text-align: center;'></td>
+                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
             </tr>
             <tr>
-              <th scope="row" style='text-align: center;'>16518739</th>
-              <td style='text-align: center;'>Mawentai</td>
-              <td style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="attendance commented" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="attendance" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="ecAattendance commented" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="ecAabsent commented" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="absent commented" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="ec commented" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="ecAabsent" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="commented" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="absent" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="ec" width = 90 height = 50 style='text-align: center;'></td>
+                <th scope="row" style='text-align: center;'>16518739</th>
+                <td style='text-align: center;'>Mawentai</td>
+                <td style='text-align: center;'></td>
+                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <td class="ec absent commented" width = 90 height = 50 style='text-align: center;'></td>
+                <td class="absent commented" width = 90 height = 50 style='text-align: center;'></td>
+                <td class="ec commented" width = 90 height = 50 style='text-align: center;'></td>
+                <td class="ec absent" width = 90 height = 50 style='text-align: center;'></td>
+                <td class="commented" width = 90 height = 50 style='text-align: center;'></td>
+                <td class="absent" width = 90 height = 50 style='text-align: center;'></td>
+                <td class="ec" width = 90 height = 50 style='text-align: center;'></td>
             </tr>
             <tr>
-              <th scope="row" style='text-align: center;'>6518716</th>
-              <td style='text-align: center;'>Larry</td>
-              <td style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="ec absent"width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, black, black 5px, red 5px, red 10px ); '></td>
-              <td class="ec" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
-              <td class="ec absent commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, black, black 5px, red 5px, red 10px );'></td>
-              <td class="ec attendance commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <th scope="row" style='text-align: center;'>6518716</th>
+                <td style='text-align: center;'>Larry</td>
+                <td style='text-align: center;'></td>
+                <td data-student-id="i am not feeling well.You can go to this website to see my EC form. www.baidu.com" date-ec-id="1" data-toggle="modal" data-target="#exampleModalCenter" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'>1</td>
+                <td data-student-id="2" date-ec-id="1" data-toggle="modal" data-target="#exampleModalCenter1" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'>2</td>
+                <td data-student-id="3" date-ec-id="1" data-toggle="modal" data-target="#exampleModalCenter2" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'>3</td>
+                <td data-toggle="modal" data-target="#exampleModalCenter3" class="ec absent"width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, black, black 5px, red 5px, red 10px ); '></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter4" class="ec" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter5" class="ec absent commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, black, black 5px, red 5px, red 10px );'></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter6" class="ec absent commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter7" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter8" bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter9" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
+                <td data-toggle="modal" data-target="#exampleModalCenter10" bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
             </tr>
         </table>
         <div class="row">
-            <br />
-            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <img alt="absent" width="50" height="45" src="../../static/module/absent.jpg" />
-            absent&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <img alt="ec" width="50" height="45" src="../../static/module/ec.jpg" />
-            ec&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <img alt="attendance" width="50" height="45" src="../../static/module/attendance.jpg" />
-            attendance&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-            <img alt="comment" width="50" height="45" src="../../static/module/comment.jpg" />
-            comment
-
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="attendance-detail">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter1" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="attendance-detail">
+            ma ge sha bi
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter2" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="attendance-detail">
+          jiao ge sha bi
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $('#attendance-history td').click(function(e) {
+        $('#attendance-detail').text($(e.target).data('student-id'));
+    })
+</script>
 {% endblock %}
