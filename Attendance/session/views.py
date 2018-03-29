@@ -10,10 +10,17 @@ from .models import *
 # Create your views here.
 
 def module_index(request):
-    #all_modules = Module.objects.all()
-    #visible_modules = perms['module.view'].filter(request.user, all_modules);
+    all_modules = Module.objects.all()
+    # visible_modules = perms['module.view'].filter(request.user, all_modules);
 
-    return render(request, 'module/index.html')
+    context = {
+        'modules': all_modules
+    }
+    return render(request, 'module/index.html', context)
+
+# todo: impl
+def module_detail(request, module_pk):
+    return redirect('module-students', module_pk=module_pk)
 
 # todo: data validation
 # todo: error checks
@@ -48,7 +55,7 @@ def module_attendance_history(request, module_pk):
     return render(request, 'module/attendance_history.html')
 
 def session_overview(request):
-    return render(request, 'session/overview.html')
+    return render(request, 'session/index.html')
 
 # show attendees, 
 def session_detail(request, session_pk):
