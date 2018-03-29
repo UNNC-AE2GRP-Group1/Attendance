@@ -1,5 +1,39 @@
-<ul class="list-group">
-    {% for s in module.session_set.all %}
-    <li class="list-group-item">{{ s }}</li>
-    {% endfor %}
-</ul>
+<a class="btn btn-primary" href="{% url 'session_create' %}" role="button">Create Session</a>
+<div class="row">
+    <div class="col">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Type</th>
+                <th scope="col">Time</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Location</th>
+                <th scope="col">Attendance Rate</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for s in module.session_set.all %}
+            <tr>
+                <td>
+                    <span class="badge badge-light">{{ s.get_type_display }}</span>
+                </td>
+                <td><a href="{% url 'session-detail' s.pk %}">{{ s.time }}</a></td>
+                <td>{{ s.duration }}</td>
+                <td>{{ s.place }}</td>
+                <td>
+                    {% if s.attendance_rate %}
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {% widthratio m.attendance_rate 1 100 %}; ">
+                            {% widthratio s.attendance_rate 1 100 %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'session_attendance' s.pk %}" class="btn btn-outline-primary">View Attendees</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
