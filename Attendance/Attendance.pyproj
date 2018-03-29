@@ -165,6 +165,8 @@
     <Content Include="app\templates\app\index.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="session\static\module\absent.jpg" />
+    <Content Include="session\static\module\attendance.jpg" />
     <Content Include="session\static\module\attendance_history.css" />
     <Content Include="session\static\module\scripts\editablegrid.min.js" />
     <Content Include="session\static\module\scripts\papaparse.min.js" />
