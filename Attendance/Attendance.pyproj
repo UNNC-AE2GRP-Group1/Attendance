@@ -31,6 +31,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="absence_form\admin.py" />
     <Compile Include="absence_form\urls.py" />
     <Compile Include="app\urls.py" />
     <Compile Include="profile\admin.py" />
