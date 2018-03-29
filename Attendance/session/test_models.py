@@ -84,6 +84,28 @@ class ModuleWorkflowTest(TransactionTestCase):
         self.assertEqual(student_list[6].first_name, "Hello")
         self.assertEqual(student_list[7].first_name, "Ming")
 
+        # identical students remain
+        student_csv = StringIO(
+            "16510004,Chris,Rudd\n"
+            "16510005,Paul,Dempster\n"
+            "16510007,Ming,Xiao\n"
+        )
+        student_reader = csv.reader(student_csv, delimiter=',')
+        conflict = pgp.batch_enroll_from_csv(student_reader)
+        self.assertFalse(conflict)
+
+        student_list = pgp.students.all().order_by('student_id')
+
+        self.assertEqual(student_list.count(), 8)
+        self.assertEqual(student_list[0].first_name, "Hua")
+        self.assertEqual(student_list[1].first_name, "Tai Man")
+        self.assertEqual(student_list[2].first_name, "Ivan")
+        self.assertEqual(student_list[3].first_name, "Jane")
+        self.assertEqual(student_list[4].first_name, "Chris")
+        self.assertEqual(student_list[5].first_name, "Paul")
+        self.assertEqual(student_list[6].first_name, "Hello")
+        self.assertEqual(student_list[7].first_name, "Ming")
+
 
     def test_add_student_list(self):
         """Tests that students can be uniquely added to a module
