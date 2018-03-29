@@ -6,7 +6,6 @@ from datetime import date, timedelta
 
 from student.models import Student
 from session.models import Module
-from session.models import Enrollment
 
 # todo: review
 class EC(models.Model):

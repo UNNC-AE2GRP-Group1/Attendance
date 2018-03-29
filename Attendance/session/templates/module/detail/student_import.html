@@ -1,0 +1,51 @@
+<div class="input-group">
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="file-student-csv">
+        <label class="custom-file-label" for="file-student-csv">Choose file</label>
+    </div>
+</div>
+
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="col-studentid">Student Id Col#</label>
+            <input type="number" class="form-control" id="col-studentid" placeholder="0" value="0">
+        </div>
+        <div class="form-group col-md-6">
+            <input class="form-check-input" type="checkbox" id="skip-header"/>
+            <label class="form-check-label" for="skip-header">Skip header</label>
+        </div>
+    </div>
+    <div class="form-row">
+        <input class="form-check-input" type="radio" name="name-policies" id="name-policy-1" value="separate" checked>
+        <label class="form-check-label" for="name-policy-1">
+            Separated fields
+        </label>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="col-firstname">First Name Col#</label>
+            <input type="number" class="form-control" id="col-firstname" placeholder="1" value="5">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="col-lastname">Last Name Col#</label>
+            <input type="number" class="form-control" id="col-lastname" placeholder="2" value="4">
+        </div>
+    </div>
+    <div class="form-row">
+        <input class="form-check-input" type="radio" name="name-policies" id="name-policy-2" value="single">
+        <label class="form-check-label" for="name-policy-2">Single field</label>
+    </div>
+    <div class="form-row">
+        <label for="col-fullname">Full Name Col#</label>
+        <input type="number" class="form-control" id="col-fullname" placeholder="1" value="1">
+    </div>
+</form>
+<button id="btn-preview-csv" class="btn btn-primary">Preview</button>
+<button id="btn-upload-csv" class="btn">Upload</button>
+
+{% csrf_token %}
+
+<div class="alert alert-primary" id="preview-message" role="alert"></div>
+
+<div id="student-list-preview"></div>
