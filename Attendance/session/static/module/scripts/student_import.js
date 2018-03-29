@@ -115,7 +115,7 @@ $("#btn-upload-csv").click(function() {
     csvFormData.set('csrfmiddlewaretoken', $('[name=csrfmiddlewaretoken]').val());
 
     var request = new XMLHttpRequest();
-    request.open('POST', 'import');
+    request.open('POST', postUrl);
     request.send(csvFormData);
 
     // todo: reload after POST success, or display conflict list

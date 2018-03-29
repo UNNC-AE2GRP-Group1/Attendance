@@ -10,14 +10,20 @@
 {% block content %}
 <ul class="nav nav-tabs" id="module-info-tab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="student-list-tab" data-toggle="tab" href="#student-list" role="tab" aria-controls="student-list" aria-selected="true">Students</a>
+        <a class="nav-link active" id="session-list-tab" data-toggle="tab" href="#session-list" role="tab" aria-controls="session-list" aria-selected="true">Sessions</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="student-list-tab" data-toggle="tab" href="#student-list" role="tab" aria-controls="student-list" aria-selected="false">Students</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" id="student-import-tab" data-toggle="tab" href="#student-import" role="tab" aria-controls="student-import" aria-selected="false">Import</a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="student-list" role="tabpanel" aria-labelledby="student-list-tab">
+    <div class="tab-pane show active" id="session-list" role="tabpanel" aria-labelledby="student-list-tab">
+        {% include 'module/detail/session_list.html' %}
+    </div>
+    <div class="tab-pane" id="student-list" role="tabpanel" aria-labelledby="student-list-tab">
         <table class="table">
             <thead>
             <tr>
@@ -37,8 +43,8 @@
             </tbody>
         </table>
     </div>
-    <div class="tab-pane fade" id="student-import" role="tabpanel" aria-labelledby="student-import-tab">
-    {% include 'module/student_import.html' %}
+    <div class="tab-pane" id="student-import" role="tabpanel" aria-labelledby="student-import-tab">
+        {% include 'module/detail/student_import.html' %}
     </div>
 </div>
 {% endblock %}
@@ -46,5 +52,8 @@
 {% block scripts %}
 <script src="{% static 'module/scripts/papaparse.min.js' %}"></script>
 <script src="{% static 'module/scripts/jsgrid.min.js' %}"></script>
+<script>
+    var postUrl = "{% url 'module-student-import' module.pk %}";
+</script>
 <script src="{% static 'module/scripts/student_import.js' %}"></script>
 {% endblock %}
