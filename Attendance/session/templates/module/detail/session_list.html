@@ -1,0 +1,5 @@
+<ul class="list-group">
+    {% for s in module.session_set.all %}
+    <li class="list-group-item">{{ s }}</li>
+    {% endfor %}
+</ul>

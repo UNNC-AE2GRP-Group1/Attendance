@@ -22,18 +22,45 @@ class Module(models.Model):
     ], default=getyear)
     convenors = models.ManyToManyField(User, related_name='convenors', blank=True)
     assistants = models.ManyToManyField(User, related_name='assistants', blank=True)
-    students = models.ManyToManyField(Student, through='Enrollment', blank=True)
+    students = models.ManyToManyField(Student, blank=True)
     attendance_rate = models.FloatField(null=True, editable=False)
 
     def __str__(self):
         return '{} ({})'.format(self.name, self.academic_year)
 
-    # todo: batch add student list
-    def enroll_student(self, student, date_enrolled=date.today()):
-        """Add the student to the student list.
-        """
-        enrollment = Enrollment(module=self, student=student, date_enrolled=date_enrolled)
-        enrollment.save()
+    # todo: ensure that it does not overwrite old info
+    # todo: find out conflicts
+    # returns: conflicted Student objects
+    def batch_enroll_from_csv(self, student_reader):
+        # todo: make column name more explicit
+        students = {
+            row[0]: { # student id
+                'first_name': row[1],
+                'last_name': row[2]
+            }
+            for row in student_reader
+        }
+        conflicts = []
+        # fetch old information and compare
+        existing_students = Student.objects.filter(student_id__in=students.keys())
+        for s in existing_students:
+            new_info = students.get(s.student_id)
+            if new_info is not None:
+                if s.first_name != new_info['first_name'] or s.last_name != new_info['last_name']:
+                    conflicts.append(s)
+
+        if not conflicts:
+            Student.objects.bulk_create([
+                Student(
+                    student_id=sid,
+                    first_name=v['first_name'],
+                    last_name=v['last_name']
+                ) for sid, v in students.items()
+            ])
+            new_students_saved = Student.objects.filter(student_id__in=students.keys())
+            self.students.add(*new_students_saved)
+
+        return conflicts
 
     def calculate_attendance_rate(self):
         """Calculate the average attendance rate from all sessions whose
@@ -50,16 +77,6 @@ class Module(models.Model):
             .aggregate(Avg('attendance_rate'))
         self.attendance_rate = session_avg_rate['attendance_rate__avg']
         assert(self.attendance_rate != None)
-
-
-class Enrollment(models.Model):
-    module = models.ForeignKey(Module, on_delete=models.PROTECT)
-    student = models.ForeignKey(Student, on_delete=models.PROTECT)
-    date_enrolled = models.DateField(default=date.today)
-    date_unenrolled = models.DateField(null=True)
-
-    class Meta:
-        unique_together = ('module', 'student')
 
 
 class Session(models.Model):

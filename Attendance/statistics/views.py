@@ -15,6 +15,13 @@ def student_attendance_history(request, student_id):
         # {'poll': p}
     )
 
+def module_attendance_history_all(request):
+    return render(
+        request,
+        'statistics/module.html',
+        # {'poll': p}
+    )
+
 def module_attendance_history(request, module_pk):
     try:
         m = Module.objects.get(pk=module_pk)

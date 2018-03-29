@@ -4,6 +4,68 @@
 
 {% block content %}
 {# todo: write css styles #}
+<style>   
+    table {
+        border-collapse: collapse;
+        height: 80%;
+        width: 80%;         /*  必须设置一个宽度， margin: 0 auto才能使之居于父组件中央*/
+        margin: 10px auto;  /*  通过设置外边距（margin）中的左右外边距属性为auto使之居于父组件（body）中间*/
+    }
+
+    td {
+        width: 3em;
+        height: 3em;
+     }
+
+    td.ec {
+        background: repeating-linear-gradient( 
+        -45deg,
+        white,
+        white 5px,
+        #aaa 5px,
+        #aaa 10px);
+    }
+
+    td.attendance {
+        background: white;
+    }
+
+    td.absent {
+        background: red;
+    }
+
+    td.ecAattendance {
+        background: repeating-linear-gradient(
+            -45deg, black, black 5px, white 5px, white 10px
+            )
+    }
+
+    td.ecAabsent {
+        background: repeating-linear-gradient(
+            -45deg, black, black 5px, red 5px, red 10px
+        );
+    }
+
+    .commented {
+        position: relative;
+    }
+
+    .commented::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-color: transparent;
+     border-style: solid;
+    }
+
+    .commented::before {
+        border-width: 0.5em;
+        border-right-color: orange;
+        border-top-color: orange;
+    }
+
+</style>
 <div class="row">
     <div class="col-md-2">
         <h2>Relative EC</h2>
@@ -57,13 +119,13 @@
               <td style='text-align: center;'>Mawentai</td>
               <td style='text-align: center;'></td>
               <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-              <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="ec absent commented" width = 90 height = 50 style='text-align: center;'></td>
+              <td class="attendance commented" width = 90 height = 50 style='text-align: center;'></td>
+              <td class="attendance" width = 90 height = 50 style='text-align: center;'></td>
+              <td class="ecAattendance commented" width = 90 height = 50 style='text-align: center;'></td>
+              <td class="ecAabsent commented" width = 90 height = 50 style='text-align: center;'></td>
               <td class="absent commented" width = 90 height = 50 style='text-align: center;'></td>
               <td class="ec commented" width = 90 height = 50 style='text-align: center;'></td>
-              <td class="ec absent" width = 90 height = 50 style='text-align: center;'></td>
+              <td class="ecAabsent" width = 90 height = 50 style='text-align: center;'></td>
               <td class="commented" width = 90 height = 50 style='text-align: center;'></td>
               <td class="absent" width = 90 height = 50 style='text-align: center;'></td>
               <td class="ec" width = 90 height = 50 style='text-align: center;'></td>
@@ -78,7 +140,7 @@
               <td class="ec absent"width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, black, black 5px, red 5px, red 10px ); '></td>
               <td class="ec" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
               <td class="ec absent commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, black, black 5px, red 5px, red 10px );'></td>
-              <td class="ec absent commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
+              <td class="ec attendance commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
               <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
               <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
               <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
@@ -86,6 +148,17 @@
             </tr>
         </table>
         <div class="row">
+            <br />
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            <img alt="absent" width="50" height="45" src="../../static/module/absent.jpg" />
+            absent&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            <img alt="ec" width="50" height="45" src="../../static/module/ec.jpg" />
+            ec&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            <img alt="attendance" width="50" height="45" src="../../static/module/attendance.jpg" />
+            attendance&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            <img alt="comment" width="50" height="45" src="../../static/module/comment.jpg" />
+            comment
+
         </div>
     </div>
 </div>

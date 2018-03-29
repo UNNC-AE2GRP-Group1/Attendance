@@ -7,6 +7,7 @@
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    {% block styles %}{% endblock %}
 </head>
 
 <body>
@@ -26,7 +27,7 @@
                 <a class="nav-link" href="{% url 'module-index' %}">Modules</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Statistics</a>
+                <a class="nav-link" href="{% url 'module-attendance-history-all' %}">Statistics</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'application-index' %}">Applications(todo:ST only)</a>
