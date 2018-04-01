@@ -6,6 +6,7 @@ from io import StringIO
 import csv
 
 from .models import *
+from .forms import *
 
 # Create your views here.
 
@@ -18,9 +19,33 @@ def module_index(request):
     }
     return render(request, 'module/index.html', context)
 
-# todo: impl
 def module_detail(request, module_pk):
-    return redirect('module-students', module_pk=module_pk)
+    try:
+        m = Module.objects.get(pk=module_pk)
+    except Module.DoesNotExist:
+        raise Http404("Module does not exist")
+
+    context = {
+        'module': m
+    }
+    return render(request, 'module/detail.html', context)
+
+# todo: permission
+def module_create_session(request, module_pk):
+    try:
+        m = Module.objects.get(pk=module_pk)
+    except Module.DoesNotExist:
+        raise Http404("Module does not exist")
+
+    if request.method == 'POST':
+        form = SessionCreateForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = SessionCreateForm()
+
+    return render(request, 'name.html', {'form': form})
+    return render(request, 'session/create.html')
 
 # todo: data validation
 # todo: error checks
