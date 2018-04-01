@@ -1,0 +1,16 @@
+{% extends "app/layout.html" %}
+
+{% load staticfiles %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container ">
+    <form action="{% url 'module_create' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">Create</button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock %}

@@ -10,6 +10,17 @@ from .forms import *
 
 # Create your views here.
 
+def module_create(request):
+    if request.method == 'POST':
+        form = ModuleCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('module-index')
+    else:
+        form = ModuleCreateForm()
+
+    return render(request, 'module/create.html', { 'form': form })
+
 def module_index(request):
     all_modules = Module.objects.all()
     # visible_modules = perms['module.view'].filter(request.user, all_modules);

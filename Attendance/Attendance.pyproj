@@ -176,6 +176,7 @@
     <Content Include="session\static\module\styles\jsgrid-theme.min.css" />
     <Content Include="session\static\module\styles\jsgrid.min.css" />
     <Content Include="session\templates\module\attendance_history.html" />
+    <Content Include="session\templates\module\create.html" />
     <Content Include="session\templates\module\detail.html" />
     <Content Include="session\templates\module\detail\session_list.html" />
     <Content Include="session\templates\session\create.html" />
