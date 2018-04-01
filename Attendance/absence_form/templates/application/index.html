@@ -4,43 +4,40 @@
 {% block content %}
 
 <h1 align="center">EC Overview</h1>
-<div class="container">
-    <span class="row">
-        <div class=col-md-9>
-            <table class="   le col-md-9 col-sm-9 col-xs-4">
-                <thead>
-                    <tr>
-                       <th scope="col">Student</th>
-                       <th scope="col">Modules</th>
-                       <th scope="col">Assessment</th>
-                       <th scope="col">From date</th>
-                       <th scope="col">To date</th>
-                       <th scope="col">Status</th>
-                       <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if EC_list %}
-                        {% for ec in EC_list %}
-                        <tr>
-                            <td align="center"><nobr>{{ec.student}}</nobr></td>
-                            <td align="center">{{ec.modules}}</td>
-                            <td align="center">{{ec.assessment_kind}}</td>
-                            <td align="center"><nobr>{{ec.from_time}}</nobr></td>
-                            <td align="center"><nobr>{{ec.due_date}}</nobr></td>
-                            <td align="center">{{ec.EC_status}}</td>
-                            <td align="center"><span class="btn btn-default">Edit</span></td>
-                        </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td align="center">-</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
-    </span>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Student</th>
+                <th scope="col">Modules</th>
+                <th scope="col">Assessment</th>
+                <th scope="col">From date</th>
+                <th scope="col">To date</th>
+                <th scope="col">Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if EC_list %}
+                {% for ec in EC_list %}
+                <tr>
+                    <td align="center">{{ec.student}}</td>
+                    <td align="center">{{ec.modules}}</td>
+                    <td align="center">{{ec.assessment_kind}}</td>
+                    <td align="center">{{ec.from_time}}</td>
+                    <td align="center">{{ec.due_date}}</td>
+                    <td align="center">{{ec.EC_status}}</td>
+                    <td align="center"><a class="btn btn-default" href="{% url 'application-edit' ec.pk %}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td align="center">-</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
 </div>
+ 
 
 {% endblock %}
