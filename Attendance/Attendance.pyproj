@@ -58,6 +58,9 @@
     <Compile Include="profile\__init__.py" />
     <Compile Include="session\admin.py" />
     <Compile Include="session\apps.py" />
+    <Compile Include="session\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="session\migrations\__init__.py" />
     <Compile Include="session\models.py" />
     <Compile Include="session\permissions.py">
@@ -175,6 +178,8 @@
     <Content Include="session\templates\module\attendance_history.html" />
     <Content Include="session\templates\module\detail.html" />
     <Content Include="session\templates\module\detail\session_list.html" />
+    <Content Include="session\templates\session\create.html" />
+    <Content Include="session\templates\session\detail.html" />
     <Content Include="session\templates\session\index.html" />
     <Content Include="session\templates\module\detail\student_import.html" />
     <Content Include="session\templates\module\index.html" />
