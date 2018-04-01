@@ -1,6 +1,12 @@
 from django import forms
+from django.forms import ModelForm
 import datetime
-from .models import Session
+from .models import *
+
+class ModuleCreateForm(ModelForm):
+    class Meta:
+        model = Module
+        exclude = ['students', 'attendance_rate']
 
 class SessionCreateForm(forms.Form):
     time = forms.DateTimeField(initial=datetime.datetime.now)
