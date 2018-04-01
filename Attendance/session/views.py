@@ -51,12 +51,18 @@ def module_create_session(request, module_pk):
     if request.method == 'POST':
         form = SessionCreateForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/thanks/')
+            session = form.save(commit=False)
+            session.module = m
+            session.save()
+            return redirect('module-detail', module_pk=m.pk)
     else:
         form = SessionCreateForm()
 
-    return render(request, 'name.html', {'form': form})
-    return render(request, 'session/create.html')
+    context = {
+        'module': m,
+        'form': form,
+    }
+    return render(request, 'session/create.html', context)
 
 # todo: data validation
 # todo: error checks

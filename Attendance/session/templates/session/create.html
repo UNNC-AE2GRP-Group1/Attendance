@@ -1,9 +1,15 @@
 {% extends "app/layout.html" %}
 
+{% load bootstrap4 %}
+
 {% block content %}
-<form action="{% url 'session_create' %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Create" />
-</form>
+<div class="container">
+    <form action="{% url 'module_create_session' module.pk %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">Create</button>
+        {% endbuttons %}
+    </form>
+</div>
 {% endblock %}
