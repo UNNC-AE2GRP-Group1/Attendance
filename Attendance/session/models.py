@@ -1,10 +1,16 @@
+from io import BytesIO
+from datetime import date, timedelta
 from django.db import models
 from django.utils import timezone
 from django.db.models.fields.related import ManyToManyField
 from django.contrib.auth.models import User
-from datetime import date, timedelta
 from django.db.models import Avg, Count
 from django.core.validators import MaxValueValidator, MinValueValidator
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
 
 from student.models import Student
 
@@ -161,8 +167,68 @@ class Session(models.Model):
         self.status = self.PENDING
 
     # todo
-    def get_signature_sheet(self):
-        pass
+    # https://assist-software.net/blog/how-create-pdf-files-python-django-application-using-reportlab
+    def get_signature_sheet_pdf(self):
+        self.prepare()
+        buffer = BytesIO()
+        # set some characteristics for pdf document
+        doc = SimpleDocTemplate(
+            buffer,
+            rightMargin=30,
+            leftMargin=40,
+            topMargin=40,
+            bottomMargin=30,
+            pagesize=A4
+        )
+        # a collection of styles offer by the library
+        styles = getSampleStyleSheet()
+        # add custom paragraph style
+        styles.add(ParagraphStyle(
+            name="TableHeader", fontSize=11, alignment=TA_CENTER))
+        styles.add(ParagraphStyle(
+            name="ParagraphTitle", fontSize=11, alignment=TA_JUSTIFY))
+        styles.add(ParagraphStyle(
+            name="Justify", alignment=TA_JUSTIFY))
+        # list used for elements added into document
+        data = []
+        data.append(Paragraph("{0} Signature Sheet".format(self.module), styles['h2']))
+        data.append(Paragraph("Time: {0} Place: {1}".format(
+            self.time.strftime('%a, %d %b %Y %H:%M'),
+            self.place
+        ), styles['h2']))
+        # insert a blank space
+        data.append(Spacer(1, 12))
+        table_data = []
+        # table header
+        table_data.append([
+            Paragraph('Student Id', styles['TableHeader']),
+            Paragraph('First Name', styles['TableHeader']),
+            Paragraph('Last Name', styles['TableHeader']),
+            Paragraph('Signature', styles['TableHeader']),
+        ])
+        for a in self.attendee_set.prefetch_related('student').all():
+            s = a.student
+            # add a row to table
+            table_data.append([
+                s.student_id,
+                s.first_name,
+                s.last_name,
+                '',
+            ])
+        # create table
+        wh_table = Table(table_data, colWidths=[doc.width/4.0]*4)
+        wh_table.hAlign = 'LEFT'
+        wh_table.setStyle(TableStyle(
+            [('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+             ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
+             ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+             ('BACKGROUND', (0, 0), (-1, 0), colors.gray)]))
+        data.append(wh_table)
+        # create document
+        doc.build(data)
+        pdf = buffer.getvalue()
+        buffer.close()
+        return pdf
 
     def calculate_attendance_rate(self):
         """Calculate the attendance rate from the attendance record.

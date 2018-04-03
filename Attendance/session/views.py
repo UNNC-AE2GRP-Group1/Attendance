@@ -105,3 +105,22 @@ def session_detail(request, session_pk):
 
 def session_taking_attendance(request, session_pk):
     return render(request, 'session/taking.html')
+
+# todo: permission
+def session_download_attendance_sheet(request, session_pk):
+    try:
+        s = Session.objects.get(pk=session_pk)
+    except Session.DoesNotExist:
+        raise Http404("Session does not exist")
+
+    response = HttpResponse(content_type='application/pdf')
+    # todo: sanitize file name
+    filename = 'attendance_sheet_{0}_{1}_{2}'.format(
+        s.module.name,
+        s.time.strftime('%Y-%m-%d'),
+        s.place
+    )
+    response['Content-Disposition'] = 'attachement; filename={0}.pdf'.format(filename)
+    pdf = s.get_signature_sheet_pdf()
+    response.write(pdf)
+    return response
