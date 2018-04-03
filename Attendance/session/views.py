@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from bridgekeeper import perms
 from io import StringIO
 
@@ -112,6 +112,9 @@ def session_download_attendance_sheet(request, session_pk):
         s = Session.objects.get(pk=session_pk)
     except Session.DoesNotExist:
         raise Http404("Session does not exist")
+
+    if(s.get_status() != Session.PENDING):
+        raise Http404("The signature sheet is not available until the session is started")
 
     response = HttpResponse(content_type='application/pdf')
     # todo: sanitize file name

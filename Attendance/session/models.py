@@ -165,11 +165,12 @@ class Session(models.Model):
         Attendee.objects.bulk_create(attendee_list)
 
         self.status = self.PENDING
+        self.save()
 
-    # todo
     # https://assist-software.net/blog/how-create-pdf-files-python-django-application-using-reportlab
     def get_signature_sheet_pdf(self):
-        self.prepare()
+        assert(self.get_status() == self.PENDING)
+
         buffer = BytesIO()
         # set some characteristics for pdf document
         doc = SimpleDocTemplate(
@@ -206,7 +207,8 @@ class Session(models.Model):
             Paragraph('Last Name', styles['TableHeader']),
             Paragraph('Signature', styles['TableHeader']),
         ])
-        for a in self.attendee_set.prefetch_related('student').all():
+        attendees = self.attendee_set.prefetch_related('student').all()
+        for a in attendees:
             s = a.student
             # add a row to table
             table_data.append([
@@ -249,6 +251,9 @@ class Attendee(models.Model):
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
     presented = models.BooleanField(default=False)
     comment = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = ('session', 'student')
 
     # todo: potential performance issue when amount entries are large
     def __str__(self):
