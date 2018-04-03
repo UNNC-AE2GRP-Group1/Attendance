@@ -30,11 +30,16 @@ def module_index(request):
     }
     return render(request, 'module/index.html', context)
 
-def module_detail(request, module_pk):
+# todo: permission
+def get_module(module_pk):
     try:
         m = Module.objects.get(pk=module_pk)
     except Module.DoesNotExist:
         raise Http404("Module does not exist")
+    return m
+
+def module_detail(request, module_pk):
+    m = get_module(module_pk)
 
     context = {
         'module': m
@@ -43,10 +48,7 @@ def module_detail(request, module_pk):
 
 # todo: permission
 def module_create_session(request, module_pk):
-    try:
-        m = Module.objects.get(pk=module_pk)
-    except Module.DoesNotExist:
-        raise Http404("Module does not exist")
+    m = get_module(module_pk)
 
     if request.method == 'POST':
         form = SessionCreateForm(request.POST)
@@ -69,23 +71,16 @@ def module_create_session(request, module_pk):
 # todo: resolve information conflicts instead of overwriting
 # todo: permission
 def module_students(request, module_pk):
-    try:
-        m = Module.objects.get(pk=module_pk)
-    except Module.DoesNotExist:
-        raise Http404("Module does not exist")
+    m = get_module(module_pk)
 
     context = {
         'module': m
     }
     return render(request, 'module/students.html', context)
 
-# todo: permission
 def module_student_import(request, module_pk):
     if request.method == 'POST':
-        try:
-            m = Module.objects.get(pk=module_pk)
-        except Module.DoesNotExist:
-            raise Http404("Module does not exist")
+        m = get_module(module_pk)
 
         csv_file = request.FILES['student_list_csv']
         student_reader = csv.reader(StringIO(csv_file.read().decode('utf-8')), delimiter=',')
@@ -99,6 +94,14 @@ def module_attendance_history(request, module_pk):
 def session_overview(request):
     return render(request, 'session/index.html')
 
+# todo: permission
+def get_session(session_pk):
+    try:
+        s = Session.objects.get(pk=session_pk)
+    except Session.DoesNotExist:
+        raise Http404("Session does not exist")
+    return s
+
 # show attendees, 
 def session_detail(request, session_pk):
     return render(request, 'session/detail.html')
@@ -106,12 +109,8 @@ def session_detail(request, session_pk):
 def session_taking_attendance(request, session_pk):
     return render(request, 'session/taking.html')
 
-# todo: permission
 def session_download_attendance_sheet(request, session_pk):
-    try:
-        s = Session.objects.get(pk=session_pk)
-    except Session.DoesNotExist:
-        raise Http404("Session does not exist")
+    s = get_session(session_pk)
 
     if(s.get_status() != Session.PENDING):
         raise Http404("The signature sheet is not available until the session is started")
