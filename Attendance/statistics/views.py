@@ -43,10 +43,8 @@ def module_attendance_history(request):
 
             'legendData': json.dumps(['LAC', 'IIP', 'CPP']),
 
-            #to do:test legendData0
             'legendData0': json.dumps(modulesName),
 
-             #to do:test sessions0
              'sessions': json.dumps(allModulesSessions, indent=4, sort_keys=True, default=str),
 
             'sessions0': json.dumps([
