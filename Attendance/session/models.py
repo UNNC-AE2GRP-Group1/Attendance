@@ -108,6 +108,7 @@ class Session(models.Model):
     type = models.CharField(max_length=1, choices=SESSION_TYPES)
 
     # todo: when to switch to I and F status?
+    # todo: session status needs reworking
     SCHEDULED = 'S'
     PENDING = 'P'       # prepare: S -> P
     IN_PROGRESS = 'I'   # implicit, when now() is between time and time + duration

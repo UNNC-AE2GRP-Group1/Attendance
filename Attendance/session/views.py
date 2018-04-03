@@ -106,6 +106,12 @@ def get_session(session_pk):
 def session_detail(request, session_pk):
     return render(request, 'session/detail.html')
 
+def session_prepare(request, session_pk):
+    s = get_session(session_pk)
+    s.prepare()
+
+    return redirect('session-detail', session_pk=session_pk)
+
 def session_taking_attendance(request, session_pk):
     return render(request, 'session/taking.html')
 
