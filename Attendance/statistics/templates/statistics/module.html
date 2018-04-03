@@ -7,8 +7,6 @@
 {% endblock %}
 
 
-
-
 {% block scripts %}
 <script src="{% static 'statistics/scripts/echarts.js' %}"></script>
 <script type="text/javascript">
@@ -17,13 +15,6 @@
     var myChart = echarts.init(document.getElementById('attendance-linechart-module'));
     var legendData = {{legendData|safe}};
     var sessions= {{sessions|safe}};
-
-//var legendData = [];
-//{% for data in legendData %}
-// legendData.push('{{data}}');
-//{% endfor %}
-//var timenum=new Date(2015, 9, 1, 0, len * 10000).getTime();
-//  alert('hello');
 
     var serieData = [];
     for (var v = 0; v < legendData.length; v++) {
@@ -35,22 +26,6 @@
                 return Math.round(value[2] / 10) + 2;
             },
             data: (function () {
-
-//                var d = [];
-//                var len = 0;
-//                var now = new Date();
-//                var value;
-//                while (len++ < 10) {
-//                    d.push(
-//                       [
-//                        //new Date(2015, 9, v, 0, len * 10000),
-//                        //(Math.random() * 30).toFixed(2),
-//                        //(Math.random() * 100).toFixed(2) - 0,
-//                        //"absentStudent List" + v
-//                       ]
-//                  );
-//                }
-    
                 d=sessions[v];
                 return d;
            })()
@@ -65,7 +40,6 @@
     option = {
         title: {
             text: 'Modules Attendance',
-
 //         subtext: 'Attendance Rate perSession'
 
         },
@@ -75,14 +49,6 @@
             triggerOn: 'click',
             formatter: function (params) {
                 return params.value[3];
-//                        var date = new Date(params.value[0]);
-//                        data = date.getFullYear() + '-'
-//                            + (date.getMonth() + 1) + '-'
-//                            + date.getDate() + ' '
-//                           + date.getHours() + ':'
-//                        return data + '<br />'
-//                            + params.value[1] + ', '
-//                            + params.value[2];
             }
         },
         toolbox: {
@@ -116,7 +82,8 @@
         yAxis: [
             {
                 name: 'AttendenceRate(%)',
-                type: 'value'
+                type: 'value',
+     	        scale: true
             }
         ],
         series: serieData
