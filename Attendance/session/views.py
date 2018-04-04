@@ -52,10 +52,16 @@ def module_create_session(request, module_pk):
 
     if request.method == 'POST':
         form = SessionCreateForm(request.POST)
+        # todo: bulk create
         if form.is_valid():
             session = form.save(commit=False)
             session.module = m
-            session.save()
+            week = datetime.timedelta(days=7)
+            for x in range(0, form.cleaned_data['repeat_for_weeks']):
+                session.pk = None
+                session.save()
+                session.time += week
+
             return redirect('module-detail', module_pk=m.pk)
     else:
         form = SessionCreateForm()

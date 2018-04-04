@@ -1,6 +1,8 @@
 from django.test import TransactionTestCase, Client
 from io import StringIO
 from django.urls import reverse
+import datetime
+from dateutil.tz import tzlocal
 
 from session.models import Module
 
@@ -55,3 +57,26 @@ class ModuleViewTest(TransactionTestCase):
         pgp = Module.objects.get(code="AE1PGP")
 
         # todo: test that signature sheet can only be downloaded after prepare the session
+
+    def test_create_session(self):
+        """Test that multiple sessions can be created by sepcifying the repeat time"""
+        pgp = Module.objects.get(code="AE1PGP")
+
+        c = Client()
+        
+        response = c.post(reverse('module_create_session', args=[pgp.pk]), {
+            'time': '2018-04-15 16:00:00',
+            'duration': '01:00:00',
+            'place': 'SEB306',
+            'type': 'A',
+            'repeat_for_weeks': '4',
+        })
+        self.assertEqual(response.status_code, 302) # redirect to index
+
+        sessions = pgp.session_set.all().order_by('time')
+
+        self.assertEqual(sessions.count(), 4)
+        self.assertEqual(sessions[0].time, datetime.datetime(year=2018,month=4,day=15,hour=16,tzinfo=tzlocal()))
+        self.assertEqual(sessions[1].time, datetime.datetime(year=2018,month=4,day=22,hour=16,tzinfo=tzlocal()))
+        self.assertEqual(sessions[2].time, datetime.datetime(year=2018,month=4,day=29,hour=16,tzinfo=tzlocal()))
+        self.assertEqual(sessions[3].time, datetime.datetime(year=2018,month=5,day=6,hour=16,tzinfo=tzlocal()))

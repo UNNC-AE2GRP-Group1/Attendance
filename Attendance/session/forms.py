@@ -9,9 +9,8 @@ class ModuleCreateForm(ModelForm):
         exclude = ['students', 'attendance_rate']
 
 class SessionCreateForm(ModelForm):
-    repeat = forms.BooleanField()
-    repeat_times = forms.IntegerField(min_value=1)
+    repeat_for_weeks = forms.IntegerField(min_value=1, initial=1)
 
     class Meta:
         model = Session
-        fields = ['time', 'duration', 'place', 'type', 'repeat', 'repeat_times']
+        fields = ['time', 'duration', 'place', 'type', 'repeat_for_weeks']
