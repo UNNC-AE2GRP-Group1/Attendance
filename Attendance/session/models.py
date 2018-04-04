@@ -29,7 +29,11 @@ class Module(models.Model):
     convenors = models.ManyToManyField(User, related_name='convenors', blank=True)
     assistants = models.ManyToManyField(User, related_name='assistants', blank=True)
     students = models.ManyToManyField(Student, blank=True)
-    attendance_rate = models.FloatField(null=True, editable=False)
+    attendance_rate = models.FloatField(
+        null=True, editable=False,
+        # todo: test
+        validators = [MinValueValidator(0.0), MaxValueValidator(1.0)]
+    )
 
     def __str__(self):
         return '{} ({})'.format(self.name, self.academic_year)
@@ -74,6 +78,7 @@ class Module(models.Model):
             new_students_saved = Student.objects.filter(student_id__in=uploaded_dict.keys())
             self.students.add(*new_students_saved)
 
+        # todo: display conflicts to user
         return conflicts_models
 
     def calculate_attendance_rate(self):
@@ -125,7 +130,10 @@ class Session(models.Model):
     # S/P/C. use get_status() to get the logical status instead.
     status = models.CharField(max_length=1, choices=SESSION_STATUSES, default=SCHEDULED, editable=False)
     attendance_recorded = models.BooleanField(default=False, editable=False)
-    attendance_rate = models.FloatField(null=True, editable=False)
+    attendance_rate = models.FloatField(
+        null=True, editable=False,
+        validators = [MinValueValidator(0.0), MaxValueValidator(1.0)]
+    )
 
     def __str__(self):
         return '[{}][{}] {}'.format(self.time, self.get_type_display(), self.module)
