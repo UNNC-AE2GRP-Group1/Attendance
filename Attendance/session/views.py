@@ -61,7 +61,6 @@ def module_create_session(request, module_pk):
                 session.pk = None
                 session.save()
                 session.time += week
-
             return redirect('module-detail', module_pk=m.pk)
     else:
         form = SessionCreateForm()
@@ -112,20 +111,11 @@ def get_session(session_pk):
 def session_detail(request, session_pk):
     return render(request, 'session/detail.html')
 
-def session_prepare(request, session_pk):
-    s = get_session(session_pk)
-    s.prepare()
-
-    return redirect('session-detail', session_pk=session_pk)
-
 def session_taking_attendance(request, session_pk):
     return render(request, 'session/taking.html')
 
 def session_download_attendance_sheet(request, session_pk):
     s = get_session(session_pk)
-
-    if(s.get_status() != Session.PENDING):
-        raise Http404("The signature sheet is not available until the session is started")
 
     response = HttpResponse(content_type='application/pdf')
     # todo: sanitize file name

@@ -81,21 +81,14 @@ class Module(models.Model):
         # todo: display conflicts to user
         return conflicts_models
 
-    def calculate_attendance_rate(self):
-        """Calculate the average attendance rate from all sessions whose
-        attendance records are completed.
-        The instance must be saved from otherwhere afterwards.
-
-        Call this after updating the attendance rate of a session.
-        It should be not be called from Session.update_attendance_rate()
-        because when several sessions from a module are updated together,
-        doing the calculation after each update will be inefficient.
+    def update_attendance_rate(self):
+        """Calculate the average attendance rate from all sessions whose attendance records are completed.
         """
         session_avg_rate = self.session_set\
             .filter(attendance_rate__isnull=False)\
             .aggregate(Avg('attendance_rate'))
         self.attendance_rate = session_avg_rate['attendance_rate__avg']
-        assert(self.attendance_rate != None)
+        self.save()
 
 
 class Session(models.Model):
@@ -104,32 +97,15 @@ class Session(models.Model):
     duration = models.DurationField(default=timedelta(hours=1))
     place = models.CharField(max_length=127)
 
-    LAB = 'A'
-    LECTURE = 'E'
+    LAB = 'LA'
+    LECTURE = 'LE'
     SESSION_TYPES = (
         (LAB, 'Lab'),
         (LECTURE, 'Lecture'),
     )
-    type = models.CharField(max_length=1, choices=SESSION_TYPES)
+    type = models.CharField(max_length=2, choices=SESSION_TYPES)
 
-    # todo: when to switch to I and F status?
-    # todo: session status needs reworking
-    SCHEDULED = 'S'
-    PENDING = 'P'       # prepare: S -> P
-    IN_PROGRESS = 'I'   # implicit, when now() is between time and time + duration
-    FINISHED = 'F'      # implicit, when now() > time + duration
-    CANCELLED = 'C'
-    SESSION_STATUSES = (
-        (SCHEDULED, 'Scheduled'),
-        (PENDING, 'Pending'),
-        (IN_PROGRESS, 'In Progress'),
-        (FINISHED, 'Finished'),
-        (CANCELLED, 'Cancelled'),
-    )
-    # this field does not change automatically with time, thus it can only be
-    # S/P/C. use get_status() to get the logical status instead.
-    status = models.CharField(max_length=1, choices=SESSION_STATUSES, default=SCHEDULED, editable=False)
-    attendance_recorded = models.BooleanField(default=False, editable=False)
+    # only not null after taking attendance
     attendance_rate = models.FloatField(
         null=True, editable=False,
         validators = [MinValueValidator(0.0), MaxValueValidator(1.0)]
@@ -138,47 +114,29 @@ class Session(models.Model):
     def __str__(self):
         return '[{}][{}] {}'.format(self.time, self.get_type_display(), self.module)
 
-    def cancel(self):
-        """Mark the session as cancelled and save the status.
-        """
-        status = self.get_status()
-        assert(status == self.SCHEDULED or status == self.PENDING)
+    #def __copy_student_list(self):
+    #    """Copy the student list from module so that the 
+    #    """Initialize attendee list using the student list of the module of this session,
+    #    then change the status from scheduled to pending.
+    #    The attendee list can now be edited, and the signature sheet is available for
+    #    download.
+    #    """
+    #    assert(self.attendance_recorded == False)
 
-        self.status = CANCELLED
-        self.save()
+    #    student_list = self.module.students.all()
+    #    attendee_list = []
+    #    for s in student_list:
+    #        attendee_list.append(Attendee(session=self, student=s))
+    #    Attendee.objects.bulk_create(attendee_list)
 
-    def get_status(self):
-        """Get the logical status of the session including IN_PROGRESS and FINISHED,
-        the status will be updated according to current time without saving.
-        """
-        now = timezone.now()
-        if now >= self.time:
-            if now < self.time + self.duration:
-                self.status = self.IN_PROGRESS
-            else:
-                self.status = self.FINISHED
-        return self.status
+    #    self.status = self.PENDING
+    #    self.save()
 
-    def prepare(self):
-        """Initialize attendee list using the student list of the module of this session,
-        then change the status from scheduled to pending.
-        The attendee list can now be edited, and the signature sheet is available for
-        download.
-        """
-        assert(self.status == self.SCHEDULED)
-
-        student_list = self.module.students.all()
-        attendee_list = []
-        for s in student_list:
-            attendee_list.append(Attendee(session=self, student=s))
-        Attendee.objects.bulk_create(attendee_list)
-
-        self.status = self.PENDING
-        self.save()
-
-    # https://assist-software.net/blog/how-create-pdf-files-python-django-application-using-reportlab
+    # todo: write a test
     def get_signature_sheet_pdf(self):
-        assert(self.get_status() == self.PENDING)
+        """Generate a signature sheet pdf from the module student list.
+        """
+        assert(self.attendance_rate == None)
 
         buffer = BytesIO()
         # set some characteristics for pdf document
@@ -193,12 +151,7 @@ class Session(models.Model):
         # a collection of styles offer by the library
         styles = getSampleStyleSheet()
         # add custom paragraph style
-        styles.add(ParagraphStyle(
-            name="TableHeader", fontSize=11, alignment=TA_CENTER))
-        styles.add(ParagraphStyle(
-            name="ParagraphTitle", fontSize=11, alignment=TA_JUSTIFY))
-        styles.add(ParagraphStyle(
-            name="Justify", alignment=TA_JUSTIFY))
+        styles.add(ParagraphStyle(name="TableHeader", fontSize=11, alignment=TA_CENTER))
         # list used for elements added into document
         data = []
         data.append(Paragraph("{0} Signature Sheet".format(self.module), styles['h2']))
@@ -216,14 +169,13 @@ class Session(models.Model):
             Paragraph('Last Name', styles['TableHeader']),
             Paragraph('Signature', styles['TableHeader']),
         ])
-        attendees = self.attendee_set.prefetch_related('student').all()
+        attendees = self.module.students.all()
         for a in attendees:
-            s = a.student
             # add a row to table
             table_data.append([
-                s.student_id,
-                s.first_name,
-                s.last_name,
+                a.student_id,
+                a.first_name,
+                a.last_name,
                 '',
             ])
         # create table
@@ -241,18 +193,15 @@ class Session(models.Model):
         buffer.close()
         return pdf
 
-    def calculate_attendance_rate(self):
-        """Calculate the attendance rate from the attendance record.
-        The instance must be saved from otherwhere afterwards.
-        Call this when the attendance record is saved for the first time or updated.
-        """
-        assert(self.attendance_recorded == True)
+    def update_attendance_rate(self):
+        """Calculate the attendance rate from the attendance records."""
 
         total_attendees = self.attendee_set.all().count()
         attended = self.attendee_set\
             .filter(presented=True)\
             .count()
         self.attendance_rate = attended / total_attendees
+        self.save()
 
 
 class Attendee(models.Model):

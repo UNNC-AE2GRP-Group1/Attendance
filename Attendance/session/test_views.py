@@ -4,7 +4,7 @@ from django.urls import reverse
 import datetime
 from dateutil.tz import tzlocal
 
-from session.models import Module
+from session.models import Module, Session
 
 class ModuleViewTest(TransactionTestCase):
 
@@ -68,7 +68,7 @@ class ModuleViewTest(TransactionTestCase):
             'time': '2018-04-15 16:00:00',
             'duration': '01:00:00',
             'place': 'SEB306',
-            'type': 'A',
+            'type': Session.LAB,
             'repeat_for_weeks': '4',
         })
         self.assertEqual(response.status_code, 302) # redirect to index

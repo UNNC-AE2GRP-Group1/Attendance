@@ -5,7 +5,6 @@ from . import views
 urlpatterns = [
     path('sessions/', views.session_overview, name='session-overview'),
     path('sessions/<int:session_pk>/', views.session_detail, name='session-detail'),
-    path('sessions/<int:session_pk>/prepare', views.session_prepare, name='session_prepare'),
     path('sessions/<int:session_pk>/attendance_sheet', views.session_download_attendance_sheet, name='session_download_attendance_sheet'),
     path('sessions/<int:session_pk>/attendance/', views.session_taking_attendance, name="session_attendance"),
     path('modules/', views.module_index, name='module-index'),
