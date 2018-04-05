@@ -1,0 +1,37 @@
+{% extends "app/layout.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h1 align="center">Detail of Absence case {{absence.pk}}</h1>
+<p>{{absence}}</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Module</th>
+                <th scope="col">From Time</th>
+                <th scope="col">Due Time</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if absence %}
+                {% for a in absence.absencedetail_set.all %}
+                <tr>
+                    <td>{{a.module}}</td>
+                    <td>{{a.from_time}}</td>
+                    <td>{{a.due_date}}</td>
+                    <td><a class="btn btn-default" href="{% url 'absence-appeal' a.pk%}">Appeal</a></td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+            <tr>
+                <td><a class="btn btn-default" href="{% url 'add-module' absence.pk%}">Add</a><a class="btn btn-default" href="{% url 'AbsenceForm-index' %}">Return</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+ 
+
+{% endblock %}

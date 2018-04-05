@@ -4,4 +4,4 @@ from django.contrib import admin
 from .models import *
 
 admin.site.register(Ec)
-admin.site.register(Absence_Form)
+admin.site.register(AbsenceForm)

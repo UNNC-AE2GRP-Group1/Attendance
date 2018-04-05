@@ -3,6 +3,7 @@
 
 {% block content %}
 
+<td><a class="btn btn-default" href="{% url 'AbsenceForm-index' %}">View Absence</a></td>
 <h1 align="center">EC Overview</h1>
 <div class="table-responsive">
     <table class="table">
@@ -25,15 +26,6 @@
                     <td>{{ec.EC_status}}</td>
                     <td><a class="btn btn-default" href="{% url 'ec-detail' ec.pk %}">View detail</a></td>
                 </tr>
-                    {% for detail in ec.entry_set.all %}
-                        <tr>
-                            <td>{{detail.module}}</td>
-                            <td>{{detail.assessment_kind}}</td>
-                            <td>{{detail.from_time}}</td>
-                            <td>{{detail.due_date}}</td>
-                            <td><a class="btn btn-default" href="{% url 'single-edit' detail.pk %}">Edit single module's EC</a></td>
-                        </tr>
-                    {% endfor%}
                 {% endfor %}
             {% endif %}
             <tr>

@@ -97,6 +97,7 @@
     <Folder Include="absence_form\migrations\" />
     <Folder Include="absence_form\templates\" />
     <Folder Include="absence_form\templates\application\" />
+    <Folder Include="absence_form\templates\absence\" />
     <Folder Include="app\" />
     <Folder Include="app\migrations\" />
     <Folder Include="app\static\" />
@@ -111,6 +112,7 @@
     <Folder Include="profile\" />
     <Folder Include="profile\migrations\" />
     <Folder Include="profile\templates\" />
+    <Folder Include="session\" />
     <Folder Include="session\migrations\" />
     <Folder Include="session\migrations\__pycache__\" />
     <Folder Include="session\static\" />
@@ -134,11 +136,17 @@
     <Folder Include="student\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="absence_form\templates\absence\absence_add_appeal.html" />
+    <Content Include="absence_form\templates\absence\add_module.html" />
+    <Content Include="absence_form\templates\absence\create_absence.html" />
+    <Content Include="absence_form\templates\absence\absence_detail.html" />
+    <Content Include="absence_form\templates\absence\absence_appeal.html" />
+    <Content Include="absence_form\templates\absence\index.html" />
+    <Content Include="absence_form\templates\application\add_appeal.html" />
     <Content Include="absence_form\templates\application\add_assessment.html" />
     <Content Include="absence_form\templates\application\create_ec.html" />
+    <Content Include="absence_form\templates\application\detail_appeal.html" />
     <Content Include="absence_form\templates\application\ec_detail.html" />
-    <Content Include="absence_form\templates\application\single_edit.html" />
-    <Content Include="absence_form\templates\application\edit.html" />
     <Content Include="absence_form\templates\application\index.html" />
     <Content Include="app\templates\app\layout.html" />
     <Content Include="profile\templates\index.html" />
