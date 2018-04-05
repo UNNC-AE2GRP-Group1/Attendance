@@ -95,7 +95,7 @@ class Session(models.Model):
     module = models.ForeignKey(Module, on_delete=models.PROTECT)
     time = models.DateTimeField(default=timezone.now)
     duration = models.DurationField(default=timedelta(hours=1))
-    place = models.CharField(max_length=127)
+    place = models.CharField(max_length=127, blank=True)
 
     LAB = 'LA'
     LECTURE = 'LE'
@@ -201,6 +201,7 @@ class Session(models.Model):
             .filter(presented=True)\
             .count()
         self.attendance_rate = attended / total_attendees
+        assert(self.attendance_rate != None)
         self.save()
 
 

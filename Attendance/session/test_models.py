@@ -1,6 +1,6 @@
 import django
 from django.test import TransactionTestCase
-from session.models import Module, Session
+from session.models import Module, Session, Attendee
 from student.models import Student
 from django.db import IntegrityError
 from datetime import date, timedelta
@@ -106,7 +106,6 @@ class ModuleWorkflowTest(TransactionTestCase):
         self.assertEqual(student_list[6].first_name, "Hello")
         self.assertEqual(student_list[7].first_name, "Ming")
 
-
     def test_add_student_list(self):
         """Tests that students can be uniquely added to a module
         """
@@ -123,60 +122,44 @@ class ModuleWorkflowTest(TransactionTestCase):
         self.assertEqual(student_list[2].first_name, "Ivan")
         self.assertEqual(student_list[3].first_name, "Jane")
 
-    # todo: rewrite after implementing taking attendance
-    #def test_prepare_session_copies_student_list(self):
-    #    """Tests that the student list is copied as attendee list
-    #    """
-    #    pgp = Module.objects.get(code="AE1PGP")
-    #    session = pgp.session_set.create()
-    #    session.prepare()
+    def test_attendance_rates(self):
+        """
+        The attendance rate of a module is the average of those of finished
+        sessions whose attendance rate are calculated.
+        """
+        pgp = Module.objects.get(code="AE1PGP")
+        self.assertEqual(pgp.attendance_rate, None)
 
-    #    attendee_list = session.attendee_set.all().order_by('student_id')
-    #    attendee_list.prefetch_related('student')
+        # session 1
+        session = pgp.session_set.create()
+        session.attendee_set.add(Attendee.objects.create(session=session, student=Student.objects.get(student_id='16510000'), presented=True))
+        session.attendee_set.add(Attendee.objects.create(session=session, student=Student.objects.get(student_id='16510001'), presented=True))
+        session.attendee_set.add(Attendee.objects.create(session=session, student=Student.objects.get(student_id='16510002'), presented=True))
+        session.attendee_set.add(Attendee.objects.create(session=session, student=Student.objects.get(student_id='16510003'), presented=False))
+        session.update_attendance_rate()
+        pgp.update_attendance_rate()
 
-    #    self.assertEqual(attendee_list.count(), 4)
-    #    self.assertEqual(attendee_list[0].student.first_name, "Hua")
-    #    self.assertEqual(attendee_list[1].student.first_name, "Tai Man")
-    #    self.assertEqual(attendee_list[2].student.first_name, "Ivan")
-    #    self.assertEqual(attendee_list[3].student.first_name, "Jane")
+        self.assertAlmostEqual(session.attendance_rate, 0.75)
+        self.assertAlmostEqual(pgp.attendance_rate, 0.75)
 
-    #def test_attendance_rates(self):
-    #    """
-    #    The attendance rate of a module is the average of those of finished
-    #    sessions whose attendance rate are calculated.
-    #    """
-    #    pgp = Module.objects.get(code="AE1PGP")
-    #    self.assertEqual(pgp.attendance_rate, None)
+        # session 2
+        Student.objects.create(student_id="16510004", first_name="Paul", last_name="Dave")
 
-    #    # session 1
-    #    session = pgp.session_set.create()
-    #    session.prepare()
-    #    for index, attendee in enumerate(session.attendee_set.all()):
-    #        if index == 3:
-    #            break
-    #        attendee.presented = True
-    #        attendee.save()
-    #    session.update_attendance_rate()
-    #    pgp.update_attendance_rate()
+        session = pgp.session_set.create()
+        session.attendee_set.bulk_create([
+            Attendee(session=session, student=Student.objects.get(student_id='16510000'), presented=True),
+            Attendee(session=session, student=Student.objects.get(student_id='16510001'), presented=True),
+            Attendee(session=session, student=Student.objects.get(student_id='16510002'), presented=True),
+            Attendee(session=session, student=Student.objects.get(student_id='16510003'), presented=False),
+            Attendee(session=session, student=Student.objects.get(student_id='16510004'), presented=False),
+        ])
+        session.update_attendance_rate()
+        pgp.update_attendance_rate()
 
-    #    self.assertAlmostEqual(session.attendance_rate, 0.75)
-    #    self.assertAlmostEqual(pgp.attendance_rate, 0.75)
+        self.assertAlmostEqual(session.attendance_rate, 0.6)
+        self.assertAlmostEqual(pgp.attendance_rate, 0.675)
 
-    #    # session 2
-    #    session = pgp.session_set.create()
-    #    session.prepare()
-    #    for index, attendee in enumerate(session.attendee_set.all()):
-    #        if index == 2:
-    #            break
-    #        attendee.presented = True
-    #        attendee.save()
-    #    session.update_attendance_rate()
-    #    pgp.update_attendance_rate()
-
-    #    self.assertAlmostEqual(session.attendance_rate, 0.5)
-    #    self.assertAlmostEqual(pgp.attendance_rate, 0.625)
-
-    #    # session 3
-    #    session = pgp.session_set.create()
-    #    self.assertAlmostEqual(session.attendance_rate, None)
-    #    self.assertAlmostEqual(pgp.attendance_rate, 0.625)
+        # session 3
+        session = pgp.session_set.create()
+        self.assertAlmostEqual(session.attendance_rate, None)
+        self.assertAlmostEqual(pgp.attendance_rate, 0.675)

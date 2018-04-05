@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
+from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 from bridgekeeper import perms
 from io import StringIO
-
+import json
 import csv
+from django.db import transaction
 
 from .models import *
 from .forms import *
@@ -83,6 +85,7 @@ def module_students(request, module_pk):
     }
     return render(request, 'module/students.html', context)
 
+# todo: @requires_csrf_token
 def module_student_import(request, module_pk):
     if request.method == 'POST':
         m = get_module(module_pk)
@@ -111,8 +114,74 @@ def get_session(session_pk):
 def session_detail(request, session_pk):
     return render(request, 'session/detail.html')
 
+@ensure_csrf_cookie
 def session_taking_attendance(request, session_pk):
-    return render(request, 'session/taking.html')
+    session = get_session(session_pk)
+
+    if request.method == 'POST':
+        # todo: test csrf
+        @csrf_protect
+        @transaction.atomic
+        def take_attendance(request):
+            # possibilities:
+            # in module student list - create Attendees
+            # not in module list, but in database - fetch them, if name conflicts, a comment is addd
+            # not in database - create a record, but it can only be changed afterwards by admin
+            # { sid: { student_id: , first_name: , last_name: , presented: , comment: } }
+            attendance = json.loads(request.body)
+            sid_dict = dict(Student.objects.filter(student_id__in=attendance.keys()).values_list('student_id', 'pk'))
+
+            attendees = []
+            for sid, a in attendance.items():
+                spk = sid_dict.get(sid)
+                if spk == None:
+                    new_student = Student(
+                        student_id=sid,
+                        first_name=a['first_name'],
+                        last_name=a['last_name']
+                    )
+                    new_student.save()
+                    spk = new_student.pk
+                attendees.append(Attendee(
+                    session=session,
+                    student=Student(pk=spk),
+                    presented=a['presented'],
+                    comment=a['comment']
+                ))
+            session.attendee_set.all().delete()
+            session.attendee_set.bulk_create(attendees)
+            # this is the only place that the attendance rate should be updated
+            session.update_attendance_rate()
+            session.module.update_attendance_rate()
+
+            # get back to parent method but via GET
+            return redirect('session_attendance', session_pk=session_pk)
+        take_attendance(request)
+
+    attendees = []
+    if session.attendee_set.exists():
+        for a in session.attendee_set.prefetch_related('student').all().order_by('student__student_id'):
+            attendees.append({
+                'student_id': a.student.student_id,
+                'first_name': a.student.first_name,
+                'last_name': a.student.last_name,
+                'presented': a.presented,
+                'comment': a.comment,
+            })
+    else:
+        for s in session.module.students.all().order_by('student_id'):
+            attendees.append({
+                'student_id': s.student_id,
+                'first_name': s.first_name,
+                'last_name': s.last_name,
+                'presented': True,
+                'comment': '',
+            })
+    context = {
+        'session': session,
+        'attendees': json.dumps(attendees),
+    }
+    return render(request, 'session/attendance.html', context)
 
 def session_download_attendance_sheet(request, session_pk):
     s = get_session(session_pk)

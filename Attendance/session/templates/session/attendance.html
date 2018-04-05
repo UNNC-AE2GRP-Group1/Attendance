@@ -1,0 +1,79 @@
+{% extends "app/layout.html" %}
+
+{% load staticfiles %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'module/styles/jsgrid.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'module/styles/jsgrid-theme.min.css' %}"/>
+<style>
+    
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ session }}</h2>
+    <button type="button" class="btn btn-primary" id="save">Save</button>
+    <div id="attendance-list"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'module/scripts/papaparse.min.js' %}"></script>
+<script src="{% static 'module/scripts/jsgrid.min.js' %}"></script>
+<script src="{% static 'module/scripts/js.cookie.js' %}"></script>
+<script>
+    var students = {{ attendees|safe }};
+    $("#attendance-list").jsGrid({
+        inserting: true,
+        editing: true,
+        width: "100%",
+        noDataContent: "No Record",
+        // save current row when clicking elsewhere
+        // https://github.com/tabalinas/jsgrid/issues/154
+        rowClick: function(args) {
+            var $row = $(args.event.target).closest("tr");
+
+            if(this._editingRow) {
+                this.updateItem().done($.proxy(function() {
+                    this.editing && this.editItem($row);
+                }, this));
+                return;
+            }
+
+            this.editing && this.editItem($row);
+        },
+        data: students,
+        fields: [
+            { name: 'student_id', title: "Student Id", type: "text", validate: "required", editing: false },
+            { name: 'first_name', title: "First Name", type: "text", validate: "required", editing: false },
+            { name: 'last_name', title: "Last Name", type: "text", validate: "required", editing: false },
+            { name: 'presented', title: "Presented", type: "checkbox" },
+            { name: 'comment', title: "Comment", type: "textarea" },
+            { type: "control" }
+        ]
+    });
+
+    $('#save').click(function() {
+        var postUrl = "{% url 'session_attendance' session.pk %}";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', postUrl, true);
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xhr.setRequestHeader('X-CSRFToken', Cookies.get('csrftoken'));
+
+        var attendance = $('#attendance-list').data('JSGrid').data;
+        var upload = {};
+        for (var i = 0; i < attendance.length; ++i) {
+            upload[attendance[i].student_id] = attendance[i];
+        }
+        var payload = JSON.stringify(upload);
+        xhr.send(payload);
+
+        xhr.onloadend = function() {
+            // done
+        };
+    });
+
+</script>
+{% endblock %}
