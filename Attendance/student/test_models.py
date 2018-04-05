@@ -27,3 +27,14 @@ class StudentModelTest(TestCase):
                 first_name="John",
                 last_name="Doe"
             )
+
+    def test_name_sanitization(self):
+        """Test that student names are Title Cased and do not contain spaces more than one and id are trimmed"""
+        s = Student.objects.create(
+            student_id="    12345  \t",
+            first_name=" very    bad    NAME  !!! ",
+            last_name=" whatever "
+        )
+        self.assertEqual(s.student_id, "12345")
+        self.assertEqual(s.first_name, "Very Bad Name !!!")
+        self.assertEqual(s.last_name, "Whatever")
