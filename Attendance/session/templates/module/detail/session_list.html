@@ -22,7 +22,7 @@
             <td class="align-middle">
                 {% if s.attendance_rate %}
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: {% widthratio m.attendance_rate 1 100 %}; ">
+                    <div class="progress-bar" role="progressbar" style="width: {% widthratio s.attendance_rate 1 100 %}%; ">
                         {% widthratio s.attendance_rate 1 100 %}
                     </div>
                 </div>
