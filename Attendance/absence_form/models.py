@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 from django.utils import timezone
 from django.db.models.fields.related import ManyToManyField
 from django.contrib.auth.models import User
@@ -8,9 +9,26 @@ from student.models import Student
 from session.models import Module
 
 # todo: review
-class EC(models.Model):
-    modules = models.ManyToManyField(Module, blank=True)
+class Ec(models.Model):
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
+    comment = models.TextField(verbose_name="Comment for Approval/Disapproval")
+    submit_date = models.DateTimeField(default = timezone.now)
+    APPROVED = 'A'
+    DISAPPROVED = 'D'
+    WAITING = 'W'
+    EC_approved = (
+        (APPROVED,'Approved'),
+        (DISAPPROVED,'Disapproved'),
+        (WAITING,'Waiting')
+    )
+    EC_status = models.CharField(max_length=1, choices=EC_approved, default=WAITING, editable=True)
+    def __str__(self):
+        return '{}{}{}{}'.format(self.student, self.comment, self.submit_date, self.EC_status)
+    
+
+class EcDetail(models.Model):
+    Ec = models.ForeignKey(Ec, on_delete=models.PROTECT)
+    module = models.ForeignKey(Module, blank=True, on_delete=models.PROTECT)
     from_time = models.DateTimeField(default = timezone.now)
     due_date = models.DateTimeField(default = timezone.now)
     EXAM = 'E'
@@ -22,16 +40,6 @@ class EC(models.Model):
         (PLACEMENT,'placement')
     )
     assessment_kind = models.CharField(max_length=1, choices=assessment, editable=True)
-    APPROVED = 'A'
-    DISAPPROVED = 'D'
-    WAITING = 'W'
-    EC_approved = (
-        (APPROVED,'Approved'),
-        (DISAPPROVED,'Disapproved'),
-        (WAITING,'Waiting')
-    )
-    EC_status = models.CharField(max_length=1, choices=EC_approved, default=WAITING, editable=True)
-    comment = models.TextField(verbose_name="Comment for Approval/Disapproval")
     
     def __str__(self):
         return '{}{}{}{}{}'.format(self.student, self.modules, self.from_time, self.due_date, self.EC_status)
@@ -54,6 +62,10 @@ class EC(models.Model):
         self.status = DISAPPROVED
         self.save()
 
+class EcAppeal(models.Model):
+    EcDetail = models.ForeignKey(EcDetail, on_delete=models.PROTECT)
+    Appeal_time = models.DateTimeField(default=timezone.now)
+    Appeal_status = models.CharField(max_length=1, choices=Ec.EC_approved, default=Ec.WAITING, editable=True)
 
 
 class Absence_Form(models.Model):

@@ -9,10 +9,8 @@
         <thead>
             <tr>
                 <th scope="col">Student</th>
-                <th scope="col">Modules</th>
-                <th scope="col">Assessment</th>
-                <th scope="col">From date</th>
-                <th scope="col">To date</th>
+                <th scope="col">Comment</th>
+                <th scope="col">Submit Date</th>
                 <th scope="col">Status</th>
                 <th></th>
             </tr>
@@ -21,20 +19,26 @@
             {% if EC_list %}
                 {% for ec in EC_list %}
                 <tr>
-                    <td align="center">{{ec.student}}</td>
-                    <td align="center">{{ec.modules}}</td>
-                    <td align="center">{{ec.assessment_kind}}</td>
-                    <td align="center">{{ec.from_time}}</td>
-                    <td align="center">{{ec.due_date}}</td>
-                    <td align="center">{{ec.EC_status}}</td>
-                    <td align="center"><a class="btn btn-default" href="{% url 'application-edit' ec.pk %}">Edit</a></td>
+                    <td>{{ec.student}}</td>
+                    <td>{{ec.comment}}</td>
+                    <td>{{ec.submit_date}}</td>
+                    <td>{{ec.EC_status}}</td>
+                    <td><a class="btn btn-default" href="{% url 'ec-detail' ec.pk %}">View detail</a></td>
                 </tr>
+                    {% for detail in ec.entry_set.all %}
+                        <tr>
+                            <td>{{detail.module}}</td>
+                            <td>{{detail.assessment_kind}}</td>
+                            <td>{{detail.from_time}}</td>
+                            <td>{{detail.due_date}}</td>
+                            <td><a class="btn btn-default" href="{% url 'single-edit' detail.pk %}">Edit single module's EC</a></td>
+                        </tr>
+                    {% endfor%}
                 {% endfor %}
-            {% else %}
-                <tr>
-                    <td align="center">-</td>
-                </tr>
             {% endif %}
+            <tr>
+                <td><a class="btn btn-default" href="{% url 'create_ec' %}">Add</a></td>
+            </tr>
         </tbody>
     </table>
 </div>

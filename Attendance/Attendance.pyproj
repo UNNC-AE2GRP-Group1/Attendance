@@ -32,6 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="absence_form\admin.py" />
+    <Compile Include="absence_form\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="absence_form\urls.py" />
     <Compile Include="app\urls.py" />
     <Compile Include="profile\admin.py" />
@@ -57,27 +60,20 @@
     <Compile Include="profile\tests.py" />
     <Compile Include="profile\views.py" />
     <Compile Include="profile\__init__.py" />
-    <Compile Include="session\admin.py" />
-    <Compile Include="session\apps.py" />
-    <Compile Include="session\forms.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="session\migrations\__init__.py" />
-    <Compile Include="session\models.py" />
-    <Compile Include="session\permissions.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="profile\rules.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="session\admin.py" />
+    <Compile Include="session\apps.py" />
+    <Compile Include="session\forms.py" />
+    <Compile Include="session\migrations\0001_initial.py" />
+    <Compile Include="session\migrations\__init__.py" />
+    <Compile Include="session\models.py" />
+    <Compile Include="session\permissions.py" />
     <Compile Include="session\rules.py" />
     <Compile Include="session\test_models.py" />
-    <Compile Include="session\test_views.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="session\urls.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="session\test_views.py" />
+    <Compile Include="session\urls.py" />
     <Compile Include="session\views.py" />
     <Compile Include="session\__init__.py" />
     <Compile Include="statistics\admin.py" />
@@ -111,22 +107,21 @@
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
     <Folder Include="Attendance\" />
+    <Folder Include="C:\Users\ 你爸爸\Desktop\attendance2\Attendance\session\" />
     <Folder Include="profile\" />
     <Folder Include="profile\migrations\" />
     <Folder Include="profile\templates\" />
-    <Folder Include="session\" />
     <Folder Include="session\migrations\" />
+    <Folder Include="session\migrations\__pycache__\" />
     <Folder Include="session\static\" />
     <Folder Include="session\static\module\" />
     <Folder Include="session\static\module\scripts\" />
     <Folder Include="session\static\module\styles\" />
-    <Folder Include="session\static\session\css\" />
-    <Folder Include="session\static\session\js\" />
-    <Folder Include="session\static\session\" />
     <Folder Include="session\templates\" />
     <Folder Include="session\templates\module\" />
     <Folder Include="session\templates\module\detail\" />
     <Folder Include="session\templates\session\" />
+    <Folder Include="session\__pycache__\" />
     <Folder Include="statistics\" />
     <Folder Include="statistics\migrations\" />
     <Folder Include="statistics\static\" />
@@ -139,6 +134,10 @@
     <Folder Include="student\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="absence_form\templates\application\add_assessment.html" />
+    <Content Include="absence_form\templates\application\create_ec.html" />
+    <Content Include="absence_form\templates\application\ec_detail.html" />
+    <Content Include="absence_form\templates\application\single_edit.html" />
     <Content Include="absence_form\templates\application\edit.html" />
     <Content Include="absence_form\templates\application\index.html" />
     <Content Include="app\templates\app\layout.html" />
@@ -170,6 +169,9 @@
     <Content Include="app\templates\app\index.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="session\.gitignore" />
+    <Content Include="session\migrations\__pycache__\0001_initial.cpython-36.pyc" />
+    <Content Include="session\migrations\__pycache__\__init__.cpython-36.pyc" />
     <Content Include="session\static\module\attendance_history.css" />
     <Content Include="session\static\module\scripts\jsgrid.min.js" />
     <Content Include="session\static\module\scripts\papaparse.min.js" />
@@ -180,12 +182,20 @@
     <Content Include="session\templates\module\create.html" />
     <Content Include="session\templates\module\detail.html" />
     <Content Include="session\templates\module\detail\session_list.html" />
+    <Content Include="session\templates\module\detail\student_import.html" />
+    <Content Include="session\templates\module\index.html" />
     <Content Include="session\templates\session\create.html" />
     <Content Include="session\templates\session\detail.html" />
     <Content Include="session\templates\session\index.html" />
-    <Content Include="session\templates\module\detail\student_import.html" />
-    <Content Include="session\templates\module\index.html" />
     <Content Include="session\templates\session\taking.html" />
+    <Content Include="session\__pycache__\admin.cpython-36.pyc" />
+    <Content Include="session\__pycache__\forms.cpython-36.pyc" />
+    <Content Include="session\__pycache__\models.cpython-36.pyc" />
+    <Content Include="session\__pycache__\permissions.cpython-36.pyc" />
+    <Content Include="session\__pycache__\rules.cpython-36.pyc" />
+    <Content Include="session\__pycache__\urls.cpython-36.pyc" />
+    <Content Include="session\__pycache__\views.cpython-36.pyc" />
+    <Content Include="session\__pycache__\__init__.cpython-36.pyc" />
     <Content Include="statistics\static\statistics\scripts\echarts.js" />
     <Content Include="statistics\templates\statistics\module.html" />
     <Content Include="statistics\templates\statistics\student.html" />
