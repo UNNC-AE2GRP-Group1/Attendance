@@ -36,7 +36,7 @@ def create_ec(request):
         form = CreateEcForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('application-index')
+            return redirect('application_index')
     else:
         form = CreateEcForm()
 

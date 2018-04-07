@@ -18,7 +18,7 @@ def module_create(request):
         form = ModuleCreateForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('module-index')
+            return redirect('module_index')
     else:
         form = ModuleCreateForm()
 
@@ -65,7 +65,7 @@ def module_create_session(request, module_pk):
                 sessions.append(deepcopy(prototype))
                 prototype.time += week
             Session.objects.bulk_create(sessions)
-            return redirect('module-detail', module_pk=m.pk)
+            return redirect('module_detail', module_pk=m.pk)
     else:
         form = SessionCreateForm()
 
@@ -96,7 +96,7 @@ def module_student_import(request, module_pk):
         student_reader = csv.reader(StringIO(csv_file.read().decode('utf-8')), delimiter=',')
         m.batch_enroll_from_csv(student_reader)
 
-    return redirect('module-students', module_pk=module_pk)
+    return redirect('module_students', module_pk=module_pk)
 
 def module_attendance_history(request, module_pk):
     module = get_module(module_pk)

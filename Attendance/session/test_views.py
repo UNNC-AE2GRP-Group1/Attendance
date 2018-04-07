@@ -31,7 +31,7 @@ class ModuleViewTest(TransactionTestCase):
             "6510002,First,Last\n"
         )
         # add students to module student list
-        response = c.post(reverse('module-student-import', args=[pgp.pk]), { 'student_list_csv': student_csv })
+        response = c.post(reverse('module_student_import', args=[pgp.pk]), { 'student_list_csv': student_csv })
         student_list = pgp.students.all().order_by('student_id')
 
         self.assertEqual(student_list.count(), 3)
@@ -46,7 +46,7 @@ class ModuleViewTest(TransactionTestCase):
             "6510003,Ming,Xiao\n"
         )
         # todo: the test currently fails due to integrity violation on the uniqueness of student_id, this case should be dealt with by checking conflicts before insertion
-        response = c.post(reverse('module-student-import', args=[pgp.pk]), { 'student_list_csv': student_csv })
+        response = c.post(reverse('module_student_import', args=[pgp.pk]), { 'student_list_csv': student_csv })
         student_list2 = pgp.students.all().order_by('student_id')
 
         # data conflict, nothing is changed

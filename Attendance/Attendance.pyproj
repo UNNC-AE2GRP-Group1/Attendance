@@ -111,9 +111,8 @@
     <Folder Include="app\migrations\" />
     <Folder Include="app\static\" />
     <Folder Include="app\static\app\" />
-    <Folder Include="app\static\app\content\" />
-    <Folder Include="app\static\app\fonts\" />
     <Folder Include="app\static\app\scripts\" />
+    <Folder Include="app\static\app\styles\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
     <Folder Include="Attendance\" />
@@ -155,15 +154,12 @@
     <Content Include="absence_form\templates\application\detail_appeal.html" />
     <Content Include="absence_form\templates\application\ec_detail.html" />
     <Content Include="absence_form\templates\application\index.html" />
+    <Content Include="app\static\app\styles\open-iconic-bootstrap.min.css" />
     <Content Include="app\templates\app\layout.html" />
     <Content Include="profile\templates\index.html" />
     <Content Include="requirements.txt" />
-    <Content Include="app\static\app\content\bootstrap.min.css" />
-    <Content Include="app\static\app\content\site.css" />
-    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\static\app\styles\bootstrap.min.css" />
+    <Content Include="app\static\app\styles\site.css" />
     <Content Include="app\static\app\scripts\bootstrap.js" />
     <Content Include="app\static\app\scripts\bootstrap.min.js" />
     <Content Include="app\static\app\scripts\jquery-1.10.2.intellisense.js" />
@@ -189,6 +185,7 @@
     <Content Include="session\static\module\scripts\jsgrid.min.js" />
     <Content Include="session\static\module\scripts\papaparse.min.js" />
     <Content Include="session\static\module\scripts\student_import.js" />
+    <Content Include="session\static\module\styles\attendance_history.css" />
     <Content Include="session\static\module\styles\jsgrid-theme.min.css" />
     <Content Include="session\static\module\styles\jsgrid.min.css" />
     <Content Include="session\templates\module\attendance_history.html" />

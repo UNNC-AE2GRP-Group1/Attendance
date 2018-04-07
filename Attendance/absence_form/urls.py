@@ -4,7 +4,7 @@ from django.urls import include, path, re_path
 from . import views
 
 urlpatterns = [
-    path('applications/', views.application_index, name='application-index'),
+    path('applications/', views.application_index, name='application_index'),
     path('applications/<int:application_pk>/EcDetail', views.ec_detail, name='ec-detail'),
     path('applications/<int:Ec_pk>/AddAssessment', views.add_assessment, name='add-assessment'),
     path('applications/<int:assessment_pk>/EcDetailAppeal', views.detail_appeal, name='detail-appeal'),
