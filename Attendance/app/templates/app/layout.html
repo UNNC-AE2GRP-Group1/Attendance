@@ -23,17 +23,17 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item {% if request.resolver_match.url_name == 'session-overview' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'session-overview' %}">Sessions</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if request.resolver_match.url_name == 'module-index' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'module-index' %}">Modules</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if request.resolver_match.url_name == 'module-attendance-history-all' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'module-attendance-history-all' %}">Statistics</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'application-index' %}">Applications(todo:ST only)</a>
+            <li class="nav-item {% if request.resolver_match.url_name == 'application-index' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'application-index' %}">Applications</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
