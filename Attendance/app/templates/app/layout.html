@@ -1,12 +1,13 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} - My Django Application</title>
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/styles/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/styles/site.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/styles/open-iconic-bootstrap.min.css' %}" />
     {% block styles %}{% endblock %}
 </head>
 
@@ -23,7 +24,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'session-overview' %}">Sessions <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'session-overview' %}">Sessions</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'module-index' %}">Modules</a>
