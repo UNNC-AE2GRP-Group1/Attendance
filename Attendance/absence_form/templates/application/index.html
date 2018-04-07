@@ -1,21 +1,39 @@
 {% extends "app/layout.html" %}
-
 {% load staticfiles %}
 
 {% block content %}
 
-<h1 align="center">All Applications</h1>
-<div class="container">
-	<span class="row">
-		<ul class="col-md-10 list-group ">
-			<li class="list-group-item">6511111 08/03/2018 Fever
-			<span class="btn btn-default">Edit</span>
-			</li>
-			<li class="list-group-item">6512222 08/03/2018 12:00-14:00 Don't want go to lecture. No reason!
-				<span class="btn btn-default">Edit</span>
-			</li>
-		</ul>
-	</span>
+<td><a class="btn btn-default" href="{% url 'AbsenceForm-index' %}">View Absence</a></td>
+<h1 align="center">EC Overview</h1>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Student</th>
+                <th scope="col">Comment</th>
+                <th scope="col">Submit Date</th>
+                <th scope="col">Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if EC_list %}
+                {% for ec in EC_list %}
+                <tr>
+                    <td>{{ec.student}}</td>
+                    <td>{{ec.comment}}</td>
+                    <td>{{ec.submit_date}}</td>
+                    <td>{{ec.EC_status}}</td>
+                    <td><a class="btn btn-default" href="{% url 'ec-detail' ec.pk %}">View detail</a></td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+            <tr>
+                <td><a class="btn btn-default" href="{% url 'create_ec' %}">Add</a></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+ 
 
 {% endblock %}

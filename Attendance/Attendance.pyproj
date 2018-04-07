@@ -31,6 +31,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="absence_form\admin.py" />
+    <Compile Include="absence_form\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="absence_form\urls.py" />
     <Compile Include="app\urls.py" />
     <Compile Include="profile\admin.py" />
@@ -56,19 +60,16 @@
     <Compile Include="profile\tests.py" />
     <Compile Include="profile\views.py" />
     <Compile Include="profile\__init__.py" />
-    <Compile Include="session\admin.py" />
-    <Compile Include="session\apps.py" />
-    <Compile Include="session\forms.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="session\migrations\__init__.py" />
-    <Compile Include="session\models.py" />
-    <Compile Include="session\permissions.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="profile\rules.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="session\admin.py" />
+    <Compile Include="session\apps.py" />
+    <Compile Include="session\forms.py" />
+    <Compile Include="session\migrations\0001_initial.py" />
+    <Compile Include="session\migrations\__init__.py" />
+    <Compile Include="session\models.py" />
+    <Compile Include="session\permissions.py" />
     <Compile Include="session\rules.py" />
     <Compile Include="session\templatetags\attendance_helper.py">
       <SubType>Code</SubType>
@@ -80,12 +81,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="session\test_models.py" />
-    <Compile Include="session\test_views.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="session\urls.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="session\test_views.py" />
+    <Compile Include="session\urls.py" />
     <Compile Include="session\views.py" />
     <Compile Include="session\__init__.py" />
     <Compile Include="statistics\admin.py" />
@@ -109,6 +106,7 @@
     <Folder Include="absence_form\migrations\" />
     <Folder Include="absence_form\templates\" />
     <Folder Include="absence_form\templates\application\" />
+    <Folder Include="absence_form\templates\absence\" />
     <Folder Include="app\" />
     <Folder Include="app\migrations\" />
     <Folder Include="app\static\" />
@@ -129,9 +127,6 @@
     <Folder Include="session\static\module\" />
     <Folder Include="session\static\module\scripts\" />
     <Folder Include="session\static\module\styles\" />
-    <Folder Include="session\static\session\css\" />
-    <Folder Include="session\static\session\js\" />
-    <Folder Include="session\static\session\" />
     <Folder Include="session\templates\" />
     <Folder Include="session\templates\module\" />
     <Folder Include="session\templates\module\detail\" />
@@ -148,7 +143,17 @@
     <Folder Include="student\templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="absence_form\templates\application\edit.html" />
+    <Content Include="absence_form\templates\absence\absence_add_appeal.html" />
+    <Content Include="absence_form\templates\absence\add_module.html" />
+    <Content Include="absence_form\templates\absence\create_absence.html" />
+    <Content Include="absence_form\templates\absence\absence_detail.html" />
+    <Content Include="absence_form\templates\absence\absence_appeal.html" />
+    <Content Include="absence_form\templates\absence\index.html" />
+    <Content Include="absence_form\templates\application\add_appeal.html" />
+    <Content Include="absence_form\templates\application\add_assessment.html" />
+    <Content Include="absence_form\templates\application\create_ec.html" />
+    <Content Include="absence_form\templates\application\detail_appeal.html" />
+    <Content Include="absence_form\templates\application\ec_detail.html" />
     <Content Include="absence_form\templates\application\index.html" />
     <Content Include="app\templates\app\layout.html" />
     <Content Include="profile\templates\index.html" />
@@ -191,11 +196,11 @@
     <Content Include="session\templates\session\attendance.html" />
     <Content Include="session\templates\module\detail.html" />
     <Content Include="session\templates\module\detail\session_list.html" />
+    <Content Include="session\templates\module\detail\student_import.html" />
+    <Content Include="session\templates\module\index.html" />
     <Content Include="session\templates\session\create.html" />
     <Content Include="session\templates\session\detail.html" />
     <Content Include="session\templates\session\index.html" />
-    <Content Include="session\templates\module\detail\student_import.html" />
-    <Content Include="session\templates\module\index.html" />
     <Content Include="session\templates\session\taking.html" />
     <Content Include="statistics\static\statistics\scripts\echarts.js" />
     <Content Include="statistics\templates\statistics\module.html" />

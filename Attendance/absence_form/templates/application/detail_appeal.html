@@ -1,0 +1,34 @@
+{% extends "app/layout.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h1 align="center">Detail of assessment case {{assessment.pk}}</h1>
+<p>{{assessment}}</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if assessment %}
+                {% for appeal in assessment.ecappeal_set.all %}
+                <tr>
+                    <td>{{appeal.time}}</td>
+                    <td>{{appeal.status}}</td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+            <tr>
+                <td><a class="btn btn-default" href="{% url 'add-appeal' assessment.pk%}">Add</a><a class="btn btn-default" href="{% url 'ec-detail' assessment.Ec.pk%}">Return</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+ 
+
+{% endblock %}
