@@ -11,7 +11,7 @@ from session.models import Module
 # todo: review
 class Ec(models.Model):
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
-    comment = models.TextField(verbose_name="Comment for Approval/Disapproval")
+    comment = models.TextField(blank=True)
     submit_date = models.DateTimeField(default = timezone.now)
     APPROVED = 'A'
     DISAPPROVED = 'D'
@@ -52,7 +52,7 @@ class EcAppeal(models.Model):
 
 class AbsenceForm(models.Model):
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
-    comment = models.TextField(verbose_name="Comment for Approval/Disapproval")
+    comment = models.TextField()
     submit_date = models.DateTimeField(default = timezone.now)
     APPROVED = 'A'
     DISAPPROVED = 'D'
