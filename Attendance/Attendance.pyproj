@@ -70,6 +70,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="session\rules.py" />
+    <Compile Include="session\templatetags\attendance_helper.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="session\templatetags\dict_access.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="session\templatetags\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="session\test_models.py" />
     <Compile Include="session\test_views.py">
       <SubType>Code</SubType>
@@ -115,6 +124,7 @@
     <Folder Include="profile\templates\" />
     <Folder Include="session\" />
     <Folder Include="session\migrations\" />
+    <Folder Include="session\templatetags\" />
     <Folder Include="session\static\" />
     <Folder Include="session\static\module\" />
     <Folder Include="session\static\module\scripts\" />

@@ -99,7 +99,31 @@ def module_student_import(request, module_pk):
     return redirect('module-students', module_pk=module_pk)
 
 def module_attendance_history(request, module_pk):
-    return render(request, 'module/attendance_history.html')
+    module = get_module(module_pk)
+
+    attendees = Attendee.objects.filter(session__module=module)\
+        .prefetch_related('session', 'student')
+    sessions = set()
+    students = set()
+    cells = {}
+
+    # first iteration: find universal set of sessions and students
+    for a in attendees:
+        sessions.add(a.session)
+        students.add(a.student)
+        # build reverse search dict
+        cells[a.session.pk,a.student.pk] = a
+
+    sorted_sessions = sorted(sessions, key=lambda x: x.time)        # sort by time
+    sorted_students = sorted(students, key=lambda x: x.student_id)  # sort by student id
+
+    context = {
+        'module': module,
+        'students': sorted_students,
+        'sessions': sorted_sessions,
+        'cells': cells,
+    }
+    return render(request, 'module/attendance_history.html', context)
 
 def session_overview(request):
     return render(request, 'session/index.html')

@@ -27,7 +27,7 @@ class Student(models.Model):
         return '{} {}'.format(self.first_name, self.last_name)
 
     def __str__(self):
-        return '[{}] {}'.format(self.student_id, self.get_full_name())
+        return '{} ({})'.format(self.get_full_name(), self.student_id)
 
     def save(self, *args, **kwargs):
         """The method is overridden to sanitize the data"""

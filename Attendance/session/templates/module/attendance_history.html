@@ -1,155 +1,43 @@
 {% extends "app/layout.html" %}
 
 {% load staticfiles %}
+{% load dict_access %}
+{% load attendance_helper %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'module/styles/attendance_history.css' %}"/>
+{% endblock %}
 
 {% block content %}
-{# todo: write css styles #}
-<div class="row">
-    <div class="col-md-2">
-        <h2>Relative EC</h2>
-        <p><br /><a class="btn btn-default" href="#">16518739, lab2 &raquo;</a></p>
-        <p><br /><a class="btn btn-default" href="#">16518739, lab3 &raquo;</a></p>
-
-    </div>
-    <div class="col-md-10">
-        <h2 style="text-align:center">Attendance history in ACE</h2>
-        <br />
-        <br />
-        <table id="attendance-history" border=1 style="border-collapse: collapse;
-border: 1px solid #ccc;
-border-radius: 6px;
-box-shadow: 0 1px 1px #ccc;
-background: #D3D3D3">
-            <tr>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>StudentID\Session</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>studentName</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab1</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab2</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab3</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab4</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab5</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab6</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab7</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab8</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab9</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab10</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab11</td>
-                <td scope="col" width = 90 height = 50 style='text-align: center;'>lab12</td>
-            </tr>
-            <tr>
-                <th scope="row" style='text-align: center;'>16518717</th>
-                <td style='text-align: center;'>Liuxiaodong</td>
-                <td style='text-align: center;'></td>
-                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-            </tr>
-            <tr>
-                <th scope="row" style='text-align: center;'>16518739</th>
-                <td style='text-align: center;'>Mawentai</td>
-                <td style='text-align: center;'></td>
-                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-                <td class="ec absent commented" width = 90 height = 50 style='text-align: center;'></td>
-                <td class="absent commented" width = 90 height = 50 style='text-align: center;'></td>
-                <td class="ec commented" width = 90 height = 50 style='text-align: center;'></td>
-                <td class="ec absent" width = 90 height = 50 style='text-align: center;'></td>
-                <td class="commented" width = 90 height = 50 style='text-align: center;'></td>
-                <td class="absent" width = 90 height = 50 style='text-align: center;'></td>
-                <td class="ec" width = 90 height = 50 style='text-align: center;'></td>
-            </tr>
-            <tr>
-                <th scope="row" style='text-align: center;'>6518716</th>
-                <td style='text-align: center;'>Larry</td>
-                <td style='text-align: center;'></td>
-                <td data-student-id="i am not feeling well.You can go to this website to see my EC form. www.baidu.com" date-ec-id="1" data-toggle="modal" data-target="#exampleModalCenter" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'>1</td>
-                <td data-student-id="2" date-ec-id="1" data-toggle="modal" data-target="#exampleModalCenter1" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'>2</td>
-                <td data-student-id="3" date-ec-id="1" data-toggle="modal" data-target="#exampleModalCenter2" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'>3</td>
-                <td data-toggle="modal" data-target="#exampleModalCenter3" class="ec absent"width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, black, black 5px, red 5px, red 10px ); '></td>
-                <td data-toggle="modal" data-target="#exampleModalCenter4" class="ec" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
-                <td data-toggle="modal" data-target="#exampleModalCenter5" class="ec absent commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, black, black 5px, red 5px, red 10px );'></td>
-                <td data-toggle="modal" data-target="#exampleModalCenter6" class="ec absent commented" width = 90 height = 50 style='text-align: center; background: repeating-linear-gradient( -45deg, white, white 5px, #aaa 5px, black 10px );'></td>
-                <td data-toggle="modal" data-target="#exampleModalCenter7" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td data-toggle="modal" data-target="#exampleModalCenter8" bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-                <td data-toggle="modal" data-target="#exampleModalCenter9" bgcolor="#EE0000" width = 90 height = 50 style='text-align: center;'></td>
-                <td data-toggle="modal" data-target="#exampleModalCenter10" bgcolor="#C0FF3E" width = 90 height = 50 style='text-align: center;'></td>
-            </tr>
-        </table>
-        <div class="row">
-        </div>
-    </div>
+<div class="container-fluid">
+    <table class="table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            {% for se in sessions %}
+            <th class="rotate" scope="col">
+                <div>
+                    <span>{{ se }}</span>
+                </div>
+            </th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for st in students %}
+        <tr>
+            <th scope="row">{{ st.student_id }}</th>
+            <th scope="row">{{ st.get_full_name }}</th>
+            {% for se in sessions %}
+            {% tuple_key cells se.pk st.pk as a %}
+            <td class="{% attendance_style a %}"></td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
-
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="attendance-detail">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="exampleModalCenter1" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="attendance-detail">
-            ma ge sha bi
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="exampleModalCenter2" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Reason</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="attendance-detail">
-          jiao ge sha bi
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               
-            </div>
-        </div>
-    </div>
-</div>
-
 {% endblock %}
 
 {% block scripts %}

@@ -112,7 +112,7 @@ class Session(models.Model):
     )
 
     def __str__(self):
-        return '[{}][{}] {}'.format(self.time, self.get_type_display(), self.module)
+        return '{} @ {}'.format(self.time.strftime("%b %d"), self.place)
 
     #def __copy_student_list(self):
     #    """Copy the student list from module so that the 
