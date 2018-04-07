@@ -6,6 +6,7 @@ from io import StringIO
 import json
 import csv
 from django.db import transaction
+from copy import deepcopy
 
 from .models import *
 from .forms import *
@@ -56,13 +57,14 @@ def module_create_session(request, module_pk):
         form = SessionCreateForm(request.POST)
         # todo: bulk create
         if form.is_valid():
-            session = form.save(commit=False)
-            session.module = m
+            prototype = form.save(commit=False)
+            prototype.module = m
             week = datetime.timedelta(days=7)
+            sessions = []
             for x in range(0, form.cleaned_data['repeat_for_weeks']):
-                session.pk = None
-                session.save()
-                session.time += week
+                sessions.append(deepcopy(prototype))
+                prototype.time += week
+            Session.objects.bulk_create(sessions)
             return redirect('module-detail', module_pk=m.pk)
     else:
         form = SessionCreateForm()
