@@ -1,4 +1,4 @@
-{% load staticfiles %}
+﻿{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,13 +20,29 @@
         <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
             {% include 'app/layout/nav_items.html' %}
+            {% include 'app/layout/loginpartial.html' %}
         </ul>
     </div>
     {% block navcontent %}{% endblock %}
 </nav>
 
 <ul class="sidenav" id="mobile-nav">
+    {% if user.is_authenticated %}
+    <li>
+        <div class="user-view">
+            <div class="background">
+            </div>
+            <a href="#user"><img class="circle"></a>
+            <a href="#name"><span class="white-text name">{{ user.username }}</span></a>
+            <a href="#name"><span class="white-text email"></span></a>
+        </div>
+    </li>
+    {% endif %}
     {% include 'app/layout/nav_items.html' %}
+    {% if user.is_authenticated %}
+    <li><div class="divider"></div></li>
+    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    {% endif %}
 </ul>
 
 {% block content %}{% endblock %}
@@ -36,6 +52,7 @@
 <script>
     $(document).ready(function(){
         $('.sidenav').sidenav();
+        $(".dropdown-trigger").dropdown();
     });
 </script>
 {% block scripts %}{% endblock %}

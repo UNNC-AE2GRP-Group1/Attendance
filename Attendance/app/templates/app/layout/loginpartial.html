@@ -1,0 +1,16 @@
+{% if user.is_authenticated %}
+
+<li><a class="dropdown-trigger" href="#!" data-target="user-dropdown">Hello {{ user.username }}!<i class="material-icons right">arrow_drop_down</i></a></li>
+
+<form id="logoutForm" action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <ul id="user-dropdown" class="dropdown-content">
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    </ul>
+</form>
+
+{% else %}
+
+<li><a href="{% url 'login' %}">Log in</a></li>
+
+{% endif %}

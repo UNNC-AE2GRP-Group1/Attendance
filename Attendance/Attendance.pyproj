@@ -180,7 +180,7 @@
     <Content Include="app\templates\app\about.html" />
     <Content Include="app\templates\app\contact.html" />
     <Content Include="app\templates\app\login.html" />
-    <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="app\templates\app\layout\loginpartial.html" />
     <Content Include="session\static\module\attendance_history.css" />
     <Content Include="session\static\module\scripts\js.cookie.js" />
     <Content Include="session\static\module\scripts\jsgrid.min.js" />
