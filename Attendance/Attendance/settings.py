@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'bridgekeeper',
-    'bootstrap4',
+    'material',
+    'material.frontend',
 ]
 
 MIDDLEWARE = [

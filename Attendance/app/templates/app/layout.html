@@ -1,11 +1,12 @@
-﻿<!DOCTYPE html>
+﻿{% load staticfiles %}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} - My Django Application</title>
-    {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'app/styles/bootstrap.min.css' %}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% include 'material/includes/material_css.html' %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/styles/site.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/styles/open-iconic-bootstrap.min.css' %}" />
     {% block styles %}{% endblock %}
@@ -13,41 +14,30 @@
 
 <body>
 
-<nav id="header-nav" class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(0,84,128);">
-    <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="{% static 'app/images/uon-logo.svg' %}" height="40" alt="University of Nottingham">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item {% if request.resolver_match.url_name == 'session_overview' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'session_overview' %}">Sessions</a>
-            </li>
-            <li class="nav-item {% if request.resolver_match.url_name == 'module_index' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'module_index' %}">Modules</a>
-            </li>
-            <li class="nav-item {% if request.resolver_match.url_name == 'module_attendance_history_all' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'module_attendance_history_all' %}">Statistics</a>
-            </li>
-            <li class="nav-item {% if request.resolver_match.url_name == 'application_index' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'application_index' %}">Applications</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
-            </li>
+<nav class="nav-extended">
+    <div class="nav-wrapper">
+        <a href="{% url 'home' %}" class="brand-logo"><img src="{% static 'app/images/uon-logo.svg' %}" alt="University of Nottingham"></a>
+        <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            {% include 'app/layout/nav_items.html' %}
         </ul>
-        {% include 'app/loginpartial.html' %}
     </div>
+    {% block navcontent %}{% endblock %}
 </nav>
+
+<ul class="sidenav" id="mobile-nav">
+    {% include 'app/layout/nav_items.html' %}
+</ul>
 
 {% block content %}{% endblock %}
 
 <script src="{% static 'app/scripts/jquery-3.3.1.min.js' %}"></script>
-<script src="{% static 'app/scripts/bootstrap.bundle.min.js' %}"></script>
+{% include 'material/includes/material_js.html' %}
+<script>
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+    });
+</script>
 {% block scripts %}{% endblock %}
-
 </body>
 </html>

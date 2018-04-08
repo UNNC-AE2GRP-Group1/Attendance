@@ -1,15 +1,26 @@
 {% extends "app/layout.html" %}
 
-{% load bootstrap4 %}
+{% load material_form %}
 
 {% block content %}
-<div class="container">
-    <form action="{% url 'module_create' %}" method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-            <button type="submit" class="btn btn-primary">Create</button>
-        {% endbuttons %}
-    </form>
+<div class="container expand-on-small-only">
+    <div class="row valign change-form">
+        <div class="col s12 m8 offset-m2 l8 offset-l2">
+            <div class="card">
+                <form action="{% url 'module_create' %}" method="post">
+                    {% csrf_token %}
+                    <div class="card-content">
+                        <span class="card-title grey-text text-darken-2">Create module</span>
+                        {% form form=form %}{% endform %}
+                    </div>
+                    <div class="card-action">
+                        <div class="right-align">
+                            <button type="submit" name="submit" class="waves-effect waves-light btn">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

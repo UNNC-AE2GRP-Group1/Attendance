@@ -1,45 +1,33 @@
-<a class="btn btn-primary" href="{% url 'module_create_session' module.pk %}" role="button">Create Session</a>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Type</th>
-            <th scope="col">Time</th>
-            <th scope="col">Duration</th>
-            <th scope="col">Location</th>
-            <th scope="col">Attendance Rate</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for s in module.session_set.all %}
-        <tr>
-            <td class="align-middle">
-                <span class="badge badge-light">{{ s.get_type_display }}</span>
-            </td>
-            <td class="align-middle"><a href="{% url 'session_detail' s.pk %}">{{ s.time }}</a></td>
-            <td class="align-middle">{{ s.duration }}</td>
-            <td class="align-middle">{{ s.place }}</td>
-            <td class="align-middle">
-                {% if s.attendance_rate %}
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: {% widthratio s.attendance_rate 1 100 %}%; ">
-                        {% widthratio s.attendance_rate 1 100 %}
-                    </div>
-                </div>
-                {% else %}
-                <div class="btn-group">
-                    <a href="{% url 'session_attendance' s.pk %}" class="btn btn-outline-primary">Take Attendance</a>
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{% url 'session_download_attendance_sheet' s.pk %}">Get Attendance Sheet</a>
-                    </div>
-                </div>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Time</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Location</th>
+        <th scope="col">Attendance Rate</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in module.session_set.all %}
+    <tr>
+        <td>
+            <span class="badge">{{ s.get_type_display }}</span>
+        </td>
+        <td><a href="{% url 'session_detail' s.pk %}">{{ s.time }}</a></td>
+        <td>{{ s.duration }}</td>
+        <td>{{ s.place }}</td>
+        <td>
+            {% if s.attendance_rate %}
+            <div class="progress">
+                <div class="determinate" style="width: {% widthratio s.attendance_rate 1 100 %}%"></div>
+            </div>
+            {% else %}
+            <a class="waves-effect waves-light btn-floating" href="{% url 'session_attendance' s.pk %}"><i class="material-icons left">assignment_turned_in</i></a>
+            <a class="waves-effect waves-light btn-floating" href="{% url 'session_download_attendance_sheet' s.pk %}"><i class="material-icons left">attach_file</i></a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

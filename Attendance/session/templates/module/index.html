@@ -1,11 +1,11 @@
 {% extends "app/layout.html" %}
 
 {% load staticfiles %}
+{% load attendance_helper %}
 
 {% block content %}
 <div class="container">
-    <a class="btn btn-primary" href="{% url 'module_create' %}" role="button">Create</a>
-    <table class="table">
+    <table>
         <thead>
         <tr>
             <th scope="col">Module</th>
@@ -19,11 +19,9 @@
                 <a href="{% url 'module_detail' m.pk %}" title="">{{ m }}</a>
             </td>
             <td>
+                {# todo: deal with null attendance rate #}
                 <div class="progress">
-                    {# todo: deal with null attendance rate #}
-                    <div class="progress-bar bg-success" role="progressbar" style="width: {% widthratio m.attendance_rate 1 100 %}%;">
-                        {% widthratio m.attendance_rate 1 100 %}
-                    </div>
+                    <div class="determinate" style="width: {% widthratio m.attendance_rate 1 100 %}%"></div>
                 </div>
             </td>
         </tr>
@@ -31,4 +29,18 @@
         </tbody>
     </table>
 </div>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red" href="{% url 'module_create' %}">
+        <i class="large material-icons">add</i>
+    </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $('.fixed-action-btn').floatingActionButton();
+    });
+</script>
 {% endblock %}

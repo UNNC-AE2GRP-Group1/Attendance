@@ -6,38 +6,41 @@
 
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{% static 'module/styles/attendance_history.css' %}"/>
+<style>
+    #attendance-table {
+        width: auto;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <table class="table-striped">
-        <thead>
-        <tr>
-            <th></th>
-            <th></th>
-            {% for se in sessions %}
-            <th class="rotate" scope="col">
-                <div>
-                    <span>{{ se }}</span>
-                </div>
-            </th>
-            {% endfor %}
-        </tr>
-        </thead>
-        <tbody>
-        {% for st in students %}
-        <tr>
-            <th scope="row">{{ st.student_id }}</th>
-            <th scope="row">{{ st.get_full_name }}</th>
-            {% for se in sessions %}
-            {% tuple_key cells se.pk st.pk as a %}
-            <td class="{% attendance_style a %}"></td>
-            {% endfor %}
-        </tr>
+<table id="attendance-table">
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+        {% for se in sessions %}
+        <th class="rotate" scope="col">
+            <div>
+                <span>{{ se }}</span>
+            </div>
+        </th>
         {% endfor %}
-        </tbody>
-    </table>
-</div>
+    </tr>
+    </thead>
+    <tbody>
+    {% for st in students %}
+    <tr>
+        <th scope="row">{{ st.student_id }}</th>
+        <th scope="row">{{ st.get_full_name }}</th>
+        {% for se in sessions %}
+        {% tuple_key cells se.pk st.pk as a %}
+        <td class="{% attendance_style a %}"></td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
 
 {% block scripts %}

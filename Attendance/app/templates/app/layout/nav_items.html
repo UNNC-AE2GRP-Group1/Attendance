@@ -1,0 +1,15 @@
+<li {% if request.resolver_match.url_name == 'session_overview' %}class="active"{% endif %}>
+    <a href="{% url 'session_overview' %}">Sessions</a>
+</li>
+<li {% if request.resolver_match.url_name == 'module_index' %}class="active"{% endif %}>
+    <a href="{% url 'module_index' %}">Modules</a>
+</li>
+<li {% if request.resolver_match.url_name == 'module_attendance_history_all' %}class="active"{% endif %}>
+    <a href="{% url 'module_attendance_history_all' %}">Statistics</a>
+</li>
+<li {% if request.resolver_match.url_name == 'application_index' %}class="active"{% endif %}>
+    <a href="{% url 'application_index' %}">Applications</a>
+</li>
+<li>
+    <a href="{% url 'admin:index' %}">Admin</a>
+</li>

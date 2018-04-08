@@ -115,6 +115,7 @@
     <Folder Include="app\static\app\styles\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
+    <Folder Include="app\templates\app\layout\" />
     <Folder Include="Attendance\" />
     <Folder Include="profile\" />
     <Folder Include="profile\migrations\" />
@@ -156,6 +157,7 @@
     <Content Include="absence_form\templates\application\index.html" />
     <Content Include="app\static\app\styles\open-iconic-bootstrap.min.css" />
     <Content Include="app\templates\app\layout.html" />
+    <Content Include="app\templates\app\layout\nav_items.html" />
     <Content Include="profile\templates\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\styles\bootstrap.min.css" />

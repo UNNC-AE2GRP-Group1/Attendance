@@ -5,3 +5,18 @@
 #header-nav {
     margin-bottom: 16px;
 }
+
+nav {
+    background-color: rgb(0, 84, 128);
+}
+
+.brand-logo img {
+    height: 48px;
+    margin: 8px;
+}
+
+/* workaround of scrollbar appearing under tabs 
+   https://github.com/Dogfalo/materialize/issues/4400 */
+.tabs {
+    overflow: hidden;
+}
