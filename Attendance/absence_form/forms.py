@@ -2,23 +2,17 @@ from django import forms
 import datetime
 from .models import *
 
-class CreateAbsenceApplicationForm(forms.ModelForm):
+class ApplicationCreateForm(forms.ModelForm):
     class Meta:
-        model = AbsenceApplication
+        model = Application
         exclude  = ['created_at']
-        
-class CreateExtenuatingCircumstanceApplicationForm(forms.ModelForm):
-    class Meta:
-        model = ExtenuatingCircumstanceApplication
-        exclude  = ['created_at']
-        field_order = ['identifier', 'from_date', 'to_date', 'student', 'status', 'comment']
 
-class AddApplicationDetailForm(forms.ModelForm):
+class DetailAddForm(forms.ModelForm):
     class Meta:
         model = Detail
-        exclude = []
+        exclude = ['application']
 
-class AddApplicationAppealForm(forms.ModelForm):
+class AppealAddForm(forms.ModelForm):
     class Meta:
         model = Appeal
-        exclude = []
+        exclude = ['detail']

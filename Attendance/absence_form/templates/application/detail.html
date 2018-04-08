@@ -9,21 +9,21 @@
         <div class="section">
             <h5>Basic Information</h5>
             <p>{{ application.student }}</p>
-            {% if application.extenuatingcircumstanceapplication %}
-            <p>Identifier: {{ application.extenuatingcircumstanceapplication.identifier }}</p>
-            <p>From: {{ application.extenuatingcircumstanceapplication.from_date }}</p>
-            <p>To: {{ application.extenuatingcircumstanceapplication.to_date }}</p>
-            {% endif %}
+            <p>Identifier: {{ application.identifier }}</p>
+            <p>From: {{ application.from_date }}</p>
+            <p>To: {{ application.to_date }}</p>
         </div>
         <div class="divider"></div>
         <div class="section">
             <h5>Affected Modules</h5>
+            <a href="{% url 'application_detail_create' application.pk %}" class="waves-effect waves-light btn">Add</a>
             <table>
                 <thead>
                 <tr>
                     <th scope="col">Module</th>
                     <th scope="col">From Date</th>
                     <th scope="col">To Date</th>
+                    <th scope="col">Appeal</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,6 +32,18 @@
                         <td>{{ d.module }}</td>
                         <td>{{ d.from_date }}</td>
                         <td>{{ d.to_date }}</td>
+                        <td>
+                            {% with d.appeal_set.all as appeals %}
+                            {% if appeals %}
+                            <ul class="collection">
+                                {% for a in appeals %}
+                                <li class="collection-item">{{ a.get_status_display }}{% if a.comment %} ({{ a.comment }}){% endif %}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% endwith %}
+                            <a href="{% url 'application_appeal_create' application.pk d.pk  %}" class="waves-effect waves-light btn">Appeal</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

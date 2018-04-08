@@ -151,8 +151,8 @@
     <Content Include="absence_form\templates\absence\absence_appeal.html" />
     <Content Include="absence_form\templates\absence\index.html" />
     <Content Include="absence_form\templates\application\add_appeal.html" />
-    <Content Include="absence_form\templates\application\add_assessment.html" />
-    <Content Include="absence_form\templates\application\create_ec.html" />
+    <Content Include="absence_form\templates\application\add_detail.html" />
+    <Content Include="absence_form\templates\application\create.html" />
     <Content Include="absence_form\templates\application\detail_appeal.html" />
     <Content Include="absence_form\templates\application\detail.html" />
     <Content Include="absence_form\templates\application\index.html" />
