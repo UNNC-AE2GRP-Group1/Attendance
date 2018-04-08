@@ -126,7 +126,13 @@ def module_attendance_history(request, module_pk):
     return render(request, 'module/attendance_history.html', context)
 
 def session_overview(request):
-    return render(request, 'session/index.html')
+    modules = Module.objects.all()
+    sessions = Session.objects.order_by('-time').prefetch_related('module')
+    context = {
+        'modules': modules,
+        'sessions': sessions,
+    }
+    return render(request, 'session/index.html', context)
 
 # todo: permission
 def get_session(session_pk):
