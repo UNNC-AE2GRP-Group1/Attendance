@@ -1,39 +1,43 @@
 {% extends "app/layout.html" %}
+
 {% load staticfiles %}
 
 {% block content %}
+<div class="container">
 
-<td><a class="btn btn-default" href="{% url 'AbsenceForm-index' %}">View Absence</a></td>
-<h1 align="center">EC Overview</h1>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Student</th>
-                <th scope="col">Comment</th>
-                <th scope="col">Submit Date</th>
-                <th scope="col">Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if EC_list %}
-                {% for ec in EC_list %}
-                <tr>
-                    <td>{{ec.student}}</td>
-                    <td>{{ec.comment}}</td>
-                    <td>{{ec.submit_date}}</td>
-                    <td>{{ec.EC_status}}</td>
-                    <td><a class="btn btn-default" href="{% url 'ec-detail' ec.pk %}">View detail</a></td>
-                </tr>
-                {% endfor %}
-            {% endif %}
-            <tr>
-                <td><a class="btn btn-default" href="{% url 'create_ec' %}">Add</a></td>
-            </tr>
-        </tbody>
-    </table>
+    {% for app in app_list %}
+    <div class="row">
+        <div class="col s12 m6 offset-m3">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">{{ app.get_status_display }}: {{ app.student }}</span>
+                    <p>{{ app.comment }}</p>
+                </div>
+                <ul class="collection">
+                    {% for d in app.detail_set.all %}
+                    <li class="collection-item">{{ d.module }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="card-action">
+                    <a href="{% url 'application_detail' app.pk %}">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
- 
 
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red" href="{% url 'create_ec' %}">
+        <i class="large material-icons">add</i>
+    </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $('.fixed-action-btn').floatingActionButton();
+    });
+</script>
 {% endblock %}

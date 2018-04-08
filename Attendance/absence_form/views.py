@@ -4,20 +4,22 @@ from bridgekeeper import perms
 from .models import *
 from .forms import *
 
-# todo: implement function
+def get_application(application_pk):
+    try:
+        app = Application.objects.get(pk=application_pk)
+    except Application.DoesNotExist:
+        raise Http404("Module does not exist")
+    return app
+
 def application_index(request):
-    EC_list = Ec.objects.all()
-    context = {'EC_list': EC_list}
+    appication_list = Application.objects.order_by('-created_at')\
+        .prefetch_related('detail_set')
+    context = {'app_list': appication_list}
     return render(request, 'application/index.html', context)
 
-def AbsenceForm_index(request):
-    AbsenceForm_list = AbsenceForm.objects.all()
-    context = {'AbsenceForm_list': AbsenceForm_list}
-    return render(request, 'absence/index.html', context)
-
-def ec_detail(request, application_pk):
-    context = {'specific_ec':Ec.objects.get(pk = application_pk)}
-    return render(request, 'application/ec_detail.html', context)
+def application_detail(request, application_pk):
+    context = { 'application': get_application(application_pk) }
+    return render(request, 'application/detail.html', context)
 
 def detail_appeal(request, assessment_pk):
     context = {'assessment':EcDetail.objects.get(pk = assessment_pk)}

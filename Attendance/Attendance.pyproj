@@ -111,6 +111,7 @@
     <Folder Include="app\migrations\" />
     <Folder Include="app\static\" />
     <Folder Include="app\static\app\" />
+    <Folder Include="app\static\app\images\" />
     <Folder Include="app\static\app\scripts\" />
     <Folder Include="app\static\app\styles\" />
     <Folder Include="app\templates\" />
@@ -153,8 +154,9 @@
     <Content Include="absence_form\templates\application\add_assessment.html" />
     <Content Include="absence_form\templates\application\create_ec.html" />
     <Content Include="absence_form\templates\application\detail_appeal.html" />
-    <Content Include="absence_form\templates\application\ec_detail.html" />
+    <Content Include="absence_form\templates\application\detail.html" />
     <Content Include="absence_form\templates\application\index.html" />
+    <Content Include="app\static\app\images\uon-logo.svg" />
     <Content Include="app\templates\app\layout.html" />
     <Content Include="app\templates\app\layout\nav_items.html" />
     <Content Include="profile\templates\index.html" />

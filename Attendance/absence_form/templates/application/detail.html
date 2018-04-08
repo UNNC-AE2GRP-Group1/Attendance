@@ -1,0 +1,51 @@
+{% extends "app/layout.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="divider"></div>
+        <div class="section">
+            <h5>Basic Information</h5>
+            <p>{{ application.student }}</p>
+            {% if application.extenuatingcircumstanceapplication %}
+            <p>Identifier: {{ application.extenuatingcircumstanceapplication.identifier }}</p>
+            <p>From: {{ application.extenuatingcircumstanceapplication.from_date }}</p>
+            <p>To: {{ application.extenuatingcircumstanceapplication.to_date }}</p>
+            {% endif %}
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h5>Affected Modules</h5>
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Module</th>
+                    <th scope="col">From Date</th>
+                    <th scope="col">To Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for d in application.detail_set.all %}
+                    <tr>
+                        <td>{{ d.module }}</td>
+                        <td>{{ d.from_date }}</td>
+                        <td>{{ d.to_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h5>Decision</h5>
+            <p>{{ application.get_status_display }}</p>
+            <p>{{ application.comment }}</p>
+        </div>
+    </div>
+</div>
+</div>
+ 
+
+{% endblock %}
