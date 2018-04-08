@@ -28,7 +28,7 @@ def module_attendance_history_all(request):
 
     allModulesSessions=[]
     for m in modules:
-         sessionList=m.session_set.all().order_by('time')
+         sessionList=m.session_set.filter(attendance_rate__isnull=False).order_by('time')
          moduleValueList=[]
          for s in sessionList:
              currValue=[]
