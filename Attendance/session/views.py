@@ -225,7 +225,7 @@ def session_download_attendance_sheet(request, session_pk):
         s.time.strftime('%Y-%m-%d'),
         s.place
     )
-    response['Content-Disposition'] = 'attachement; filename={0}.pdf'.format(filename)
+    response['Content-Disposition'] = 'filename={0}.pdf'.format(filename)
     pdf = s.get_signature_sheet_pdf()
     response.write(pdf)
     return response
