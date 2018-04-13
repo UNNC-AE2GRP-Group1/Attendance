@@ -24,3 +24,7 @@ nav {
 .sidenav .user-view .background {
     background-color: rgb(0, 84, 128);
 }
+
+.table-responsive {
+    overflow: auto;
+}

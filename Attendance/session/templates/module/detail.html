@@ -10,6 +10,7 @@
 {% block content %}
 <div class="container">
     <h4>{{ module }}</h4>
+    <a class="waves-effect waves-light btn" href="{% url 'module_attendance_history' module.pk %}">View Attendance History</a>
     <div class="row">
         <div class="col s12">
             <ul class="tabs">

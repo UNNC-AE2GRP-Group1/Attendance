@@ -14,33 +14,36 @@
 {% endblock %}
 
 {% block content %}
-<table id="attendance-table">
-    <thead>
-    <tr>
-        <th></th>
-        <th></th>
-        {% for se in sessions %}
-        <th class="rotate" scope="col">
-            <div>
-                <span>{{ se }}</span>
-            </div>
-        </th>
+<h4>{{ module }}</h4>
+<div class="table-responsive">
+    <table id="attendance-table">
+        <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            {% for se in sessions %}
+            <th class="rotate" scope="col">
+                <div>
+                    <span>{{ se }}</span>
+                </div>
+            </th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for st in students %}
+        <tr>
+            <th scope="row">{{ st.student_id }}</th>
+            <th scope="row">{{ st.get_full_name }}</th>
+            {% for se in sessions %}
+            {% tuple_key cells se.pk st.pk as a %}
+            <td class="{% attendance_style a student_to_app_details %}"></td>
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </tr>
-    </thead>
-    <tbody>
-    {% for st in students %}
-    <tr>
-        <th scope="row">{{ st.student_id }}</th>
-        <th scope="row">{{ st.get_full_name }}</th>
-        {% for se in sessions %}
-        {% tuple_key cells se.pk st.pk as a %}
-        <td class="{% attendance_style a student_to_app_details %}"></td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 {% endblock %}
 
 {% block scripts %}
