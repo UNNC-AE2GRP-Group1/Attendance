@@ -174,9 +174,7 @@
     <Content Include="session\templates\module\detail\student_import.html" />
     <Content Include="session\templates\module\index.html" />
     <Content Include="session\templates\session\create.html" />
-    <Content Include="session\templates\session\detail.html" />
     <Content Include="session\templates\session\index.html" />
-    <Content Include="session\templates\session\taking.html" />
     <Content Include="statistics\static\statistics\scripts\echarts.js" />
     <Content Include="statistics\templates\statistics\module.html" />
     <Content Include="statistics\templates\statistics\student.html" />

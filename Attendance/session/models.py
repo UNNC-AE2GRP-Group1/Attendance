@@ -112,25 +112,7 @@ class Session(models.Model):
     )
 
     def __str__(self):
-        return '{} @ {}'.format(self.time.strftime("%b %d"), self.place)
-
-    #def __copy_student_list(self):
-    #    """Copy the student list from module so that the 
-    #    """Initialize attendee list using the student list of the module of this session,
-    #    then change the status from scheduled to pending.
-    #    The attendee list can now be edited, and the signature sheet is available for
-    #    download.
-    #    """
-    #    assert(self.attendance_recorded == False)
-
-    #    student_list = self.module.students.all()
-    #    attendee_list = []
-    #    for s in student_list:
-    #        attendee_list.append(Attendee(session=self, student=s))
-    #    Attendee.objects.bulk_create(attendee_list)
-
-    #    self.status = self.PENDING
-    #    self.save()
+        return '{} @ {}'.format(self.time.strftime("%b %d %H:%M"), self.place)
 
     # todo: write a test
     def get_signature_sheet_pdf(self):

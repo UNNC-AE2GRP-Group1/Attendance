@@ -33,8 +33,8 @@
                 <td>
                     <span class="badge">{{ s.get_type_display }}</span>
                 </td>
-                <td>{{ s.module }}</td>
-                <td><a href="{% url 'session_detail' s.pk %}">{{ s.time }}</a></td>
+                <td><a href="{% url 'module_detail' s.module.pk %}" title="">{{ s.module }}</a></td>
+                <td><a href="{% url 'session_attendance' s.pk %}">{{ s.time }}</a></td>
                 <td>{{ s.duration }}</td>
                 <td>{{ s.place }}</td>
                 <td>
