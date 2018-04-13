@@ -106,7 +106,6 @@
     <Folder Include="absence_form\migrations\" />
     <Folder Include="absence_form\templates\" />
     <Folder Include="absence_form\templates\application\" />
-    <Folder Include="absence_form\templates\absence\" />
     <Folder Include="app\" />
     <Folder Include="app\migrations\" />
     <Folder Include="app\static\" />
@@ -144,12 +143,6 @@
     <Folder Include="student\templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="absence_form\templates\absence\absence_add_appeal.html" />
-    <Content Include="absence_form\templates\absence\add_module.html" />
-    <Content Include="absence_form\templates\absence\create_absence.html" />
-    <Content Include="absence_form\templates\absence\absence_detail.html" />
-    <Content Include="absence_form\templates\absence\absence_appeal.html" />
-    <Content Include="absence_form\templates\absence\index.html" />
     <Content Include="absence_form\templates\application\add_appeal.html" />
     <Content Include="absence_form\templates\application\add_detail.html" />
     <Content Include="absence_form\templates\application\create.html" />
@@ -166,7 +159,6 @@
     <Content Include="app\templates\app\contact.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\layout\loginpartial.html" />
-    <Content Include="session\static\module\attendance_history.css" />
     <Content Include="session\static\module\scripts\js.cookie.js" />
     <Content Include="session\static\module\scripts\jsgrid.min.js" />
     <Content Include="session\static\module\scripts\papaparse.min.js" />

@@ -1,12 +1,15 @@
 import django
 from django.test import TransactionTestCase
-from session.models import Module, Session, Attendee
-from student.models import Student
 from django.db import IntegrityError
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from django.utils import timezone
 import csv
 from io import StringIO
+from tzlocal import get_localzone
+
+from session.models import Module, Session, Attendee
+from student.models import Student
+from absence_form.models import Detail
 
 # TODO: Configure your database in settings.py and sync before running tests.
 
@@ -163,3 +166,64 @@ class ModuleWorkflowTest(TransactionTestCase):
         session = pgp.session_set.create()
         self.assertAlmostEqual(session.attendance_rate, None)
         self.assertAlmostEqual(pgp.attendance_rate, 0.675)
+
+    def test_session_affected_by_application(self):
+        """Tests that application influence is correctly determined"""
+        pgp = Module.objects.get(code="AE1PGP")
+        fake_pgp = Module.objects.create(
+            name="Programming Paradigms",
+            code="AE1PGP",
+            academic_year=2018
+        )
+        session = pgp.session_set.create(
+            time = datetime(2018, 4, 1, 12,0,tzinfo=get_localzone()),
+            duration=timedelta(hours=1)
+        )
+
+        # full coverage
+        detail = Detail(
+            module=pgp,
+            from_date=datetime(2018,3,29,tzinfo=get_localzone()),
+            to_date=datetime(2018,4,2,tzinfo=get_localzone()),
+        )
+        self.assertTrue(session.is_affected_by_application_detail(detail))
+
+        # fake module
+        detail = Detail(
+            module=fake_pgp,
+            from_date=datetime(2018,3,29,tzinfo=get_localzone()),
+            to_date=datetime(2018,4,2,tzinfo=get_localzone()),
+        )
+        self.assertFalse(session.is_affected_by_application_detail(detail))
+
+        # ends in middle
+        detail = Detail(
+            module=pgp,
+            from_date=datetime(2018,3,29,tzinfo=get_localzone()),
+            to_date=datetime(2018,4,1,12,30,tzinfo=get_localzone()),
+        )
+        self.assertTrue(session.is_affected_by_application_detail(detail))
+
+        # starts in middle
+        detail = Detail(
+            module=pgp,
+            from_date=datetime(2018,4,1,12,30,tzinfo=get_localzone()),
+            to_date=datetime(2018,4,1,2,tzinfo=get_localzone()),
+        )
+        self.assertTrue(session.is_affected_by_application_detail(detail))
+
+        # before start
+        detail = Detail(
+            module=pgp,
+            from_date=datetime(2018,3,1,12,30,tzinfo=get_localzone()),
+            to_date=datetime(2018,4,1,11,59,tzinfo=get_localzone()),
+        )
+        self.assertFalse(session.is_affected_by_application_detail(detail))
+
+        # after start
+        detail = Detail(
+            module=pgp,
+            from_date=datetime(2018,4,1,13,1,tzinfo=get_localzone()),
+            to_date=datetime(2018,5,1,12,30,tzinfo=get_localzone()),
+        )
+        self.assertFalse(session.is_affected_by_application_detail(detail))

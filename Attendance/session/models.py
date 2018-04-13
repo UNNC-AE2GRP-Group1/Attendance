@@ -204,6 +204,14 @@ class Session(models.Model):
         assert(self.attendance_rate != None)
         self.save()
 
+    def is_affected_by_application_detail(self, detail):
+        if detail.module != self.module:
+            return False
+        if detail.from_date < self.time:
+            return True if detail.to_date > self.time else False
+        else:
+            return True if detail.from_date <= self.time + self.duration else False
+
 
 class Attendee(models.Model):
     session = models.ForeignKey(Session, on_delete=models.PROTECT)

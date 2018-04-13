@@ -55,11 +55,6 @@ class ModuleViewTest(TransactionTestCase):
         self.assertEqual(student_list2[1].first_name, "Paul")
         self.assertEqual(student_list2[2].first_name, "First") # does not overwrite old record
 
-    def test_signature_sheet_availability(self):
-        pgp = Module.objects.get(code="AE1PGP")
-
-        # todo: test that signature sheet can only be downloaded after prepare the session
-
     def test_create_session(self):
         """Test that multiple sessions can be created by sepcifying the repeat time"""
         pgp = Module.objects.get(code="AE1PGP")
