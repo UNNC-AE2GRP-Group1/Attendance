@@ -10,6 +10,7 @@ from copy import deepcopy
 
 from .models import *
 from .forms import *
+from absence_form.models import *
 
 # Create your views here.
 
@@ -107,6 +108,18 @@ def module_attendance_history(request, module_pk):
     students = set()
     cells = {}
 
+    # fetch application details affecting this module
+    application_details = Detail.objects.filter(module=module).prefetch_related('application__student')
+    student_to_app_details = {}
+
+    for d in application_details:
+        stupk = d.application.student.pk
+        stu = student_to_app_details.get(stupk)
+        if stu == None:
+            student_to_app_details[stupk] = [d]
+        else:
+            student_to_app_details[stupk].append(d)
+
     # first iteration: find universal set of sessions and students
     for a in attendees:
         sessions.add(a.session)
@@ -122,6 +135,7 @@ def module_attendance_history(request, module_pk):
         'students': sorted_students,
         'sessions': sorted_sessions,
         'cells': cells,
+        'student_to_app_details': student_to_app_details
     }
     return render(request, 'module/attendance_history.html', context)
 

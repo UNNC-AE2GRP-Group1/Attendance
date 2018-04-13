@@ -35,7 +35,7 @@
         <th scope="row">{{ st.get_full_name }}</th>
         {% for se in sessions %}
         {% tuple_key cells se.pk st.pk as a %}
-        <td class="{% attendance_style a %}"></td>
+        <td class="{% attendance_style a student_to_app_details %}"></td>
         {% endfor %}
     </tr>
     {% endfor %}
