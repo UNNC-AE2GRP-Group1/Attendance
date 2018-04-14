@@ -28,3 +28,12 @@ nav {
 .table-responsive {
     overflow: auto;
 }
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    /* todo: hacking with materializecss. build interface. */
+    position: initial !important;
+    opacity: initial !important;
+    pointer-events: initial !important;
+    width: 24px !important;
+    height: 24px !important;
+}
