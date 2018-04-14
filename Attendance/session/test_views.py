@@ -91,7 +91,7 @@ class ModuleViewTest(TransactionTestCase):
 
         c = Client()
 
-        response = c.post(reverse('session_attendance', args=[session.pk]), json.dumps({
+        response = c.post(reverse('session_taking_attendance', args=[session.pk]), json.dumps({
             "16510000":{"student_id":"16510000","first_name":"Hua","last_name":"Li","presented":True,"comment":""},
             "16510001":{"student_id":"16510001","first_name":"Tai Man","last_name":"Chan","presented":False,"comment":""},
             "16510002":{"student_id":"16510002","first_name":"Ivan","last_name":"Horvat","presented":True,"comment":""},
@@ -112,7 +112,7 @@ class ModuleViewTest(TransactionTestCase):
         self.assertEqual(attendees[3].presented, True)
         self.assertAlmostEqual(session.attendance_rate, 0.75)
 
-        response = c.post(reverse('session_attendance', args=[session.pk]), json.dumps({
+        response = c.post(reverse('session_taking_attendance', args=[session.pk]), json.dumps({
             "16510000":{"student_id":"16510000","first_name":"Hua","last_name":"Li","presented":False,"comment":""},
             "16510001":{"student_id":"16510001","first_name":"Tai Man","last_name":"Chan","presented":True,"comment":""},
             "16510002":{"student_id":"16510002","first_name":"Ivan","last_name":"Horvat","presented":True,"comment":""},

@@ -156,9 +156,8 @@ def get_session(session_pk):
         raise Http404("Session does not exist")
     return s
 
-# show attendees, 
 def session_detail(request, session_pk):
-    return render(request, 'session/detail.html')
+    return redirect('session_taking_attendance', session_pk=session_pk)
 
 @ensure_csrf_cookie
 def session_taking_attendance(request, session_pk):
@@ -201,7 +200,7 @@ def session_taking_attendance(request, session_pk):
             session.module.update_attendance_rate()
 
             # get back to parent method but via GET
-            return redirect('session_attendance', session_pk=session_pk)
+            return redirect('session_taking_attendance', session_pk=session_pk)
         take_attendance(request)
 
     attendees = []

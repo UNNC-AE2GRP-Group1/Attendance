@@ -1,0 +1,33 @@
+{% extends "app/layout.html" %}
+
+{% load staticfiles %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h4>{{ student }}</h4>
+    <h5>Modules</h5>
+    <ul class="collection">
+        {% for m in modules %}
+        <li class="collection-item"><a href="{% url 'module_detail' m.pk %}">{{ m }}</a></li>
+        {% endfor %}
+    </ul>
+    <h5>Sessions</h5>
+    <ul class="collection">
+        {% for s in sessions %}
+        <li class="collection-item"><a href="{% url 'session_detail' m.pk %}">{{ s }}</a></li>
+        {% endfor %}
+    </ul>
+    <h5>Applications</h5>
+    <ul class="collection">
+        {% for a in applications %}
+        <li class="collection-item"><a href="{% url 'application_detail' a.pk %}">{{ a }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

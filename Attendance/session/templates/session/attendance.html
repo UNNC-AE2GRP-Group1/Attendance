@@ -56,7 +56,7 @@
     });
 
     $('#save').click(function() {
-        var postUrl = "{% url 'session_attendance' session.pk %}";
+        var postUrl = "{% url 'session_taking_attendance' session.pk %}";
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', postUrl, true);

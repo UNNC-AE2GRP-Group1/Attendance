@@ -16,6 +16,7 @@ urlpatterns = [
     path('', include('session.urls')),
     path('', include('statistics.urls')),
     path('', include('absence_form.urls')),
+    path('', include('student.urls')),
 
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),

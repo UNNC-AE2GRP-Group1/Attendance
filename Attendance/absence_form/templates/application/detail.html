@@ -8,7 +8,7 @@
         <div class="divider"></div>
         <div class="section">
             <h5>Basic Information</h5>
-            <p>{{ application.student }}</p>
+            <p><a href="{% url 'student_detail' application.student.student_id %}">{{ application.student }}</a></p>
             <p>Identifier: {{ application.identifier }}</p>
             <p>From: {{ application.from_date }}</p>
             <p>To: {{ application.to_date }}</p>
@@ -29,7 +29,7 @@
                 <tbody>
                     {% for d in application.detail_set.all %}
                     <tr>
-                        <td>{{ d.module }}</td>
+                        <td><a href="{% url 'module_detail' d.module.pk %}">{{ d.module }}</a></td>
                         <td>{{ d.from_date }}</td>
                         <td>{{ d.to_date }}</td>
                         <td>

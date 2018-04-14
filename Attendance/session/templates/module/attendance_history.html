@@ -33,7 +33,7 @@
         <tbody>
         {% for st in students %}
         <tr>
-            <th scope="row">{{ st.student_id }}</th>
+            <th scope="row"><a href="{% url 'student_detail' st.student_id %}">{{ st.student_id }}</a></th>
             <th scope="row">{{ st.get_full_name }}</th>
             {% for se in sessions %}
             {% tuple_key cells se.pk st.pk as a %}

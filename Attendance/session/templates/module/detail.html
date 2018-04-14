@@ -39,7 +39,7 @@
                 <tbody>
                 {% for s in module.students.all %}
                 <tr>
-                    <th scope="row">{{ s.student_id }}</th>
+                    <th scope="row"><a href="{% url 'student_detail' s.student_id %}">{{ s.student_id }}</a></th>
                     <td>{{ s.first_name }}</td>
                     <td>{{ s.last_name }}</td>
                 </tr>

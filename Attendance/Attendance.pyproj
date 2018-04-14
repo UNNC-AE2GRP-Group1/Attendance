@@ -98,6 +98,7 @@
     <Compile Include="student\migrations\__init__.py" />
     <Compile Include="student\models.py" />
     <Compile Include="student\test_models.py" />
+    <Compile Include="student\urls.py" />
     <Compile Include="student\views.py" />
     <Compile Include="student\__init__.py" />
   </ItemGroup>
@@ -141,6 +142,7 @@
     <Folder Include="student\" />
     <Folder Include="student\migrations\" />
     <Folder Include="student\templates\" />
+    <Folder Include="student\templates\student\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="absence_form\templates\application\add_appeal.html" />
@@ -178,7 +180,7 @@
     <Content Include="statistics\static\statistics\scripts\echarts.js" />
     <Content Include="statistics\templates\statistics\module.html" />
     <Content Include="statistics\templates\statistics\student.html" />
-    <Content Include="student\templates\index.html" />
+    <Content Include="student\templates\student\detail.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">
