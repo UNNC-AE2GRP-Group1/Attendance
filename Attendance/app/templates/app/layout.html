@@ -3,11 +3,12 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <title>{{ title }} - Attendance </title>
     {% include 'material/includes/material_css.html' %}
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'app/styles/site.css' %}" />
     {% block styles %}{% endblock %}
 </head>
@@ -48,7 +49,8 @@
 {% block content %}{% endblock %}
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
 {% include 'material/includes/material_js.html' %}
 <script>
     $(document).ready(function(){
