@@ -69,7 +69,7 @@ var preview_table = function () {
                     ++numValidStudents;
                 }
 
-                $('#preview-message').text(`Found ${numValidStudents} records`);
+                // $('#preview-message').text(`Found ${numValidStudents} records`);
                 $("#student-list-preview").jsGrid({
                     inserting: true,
                     editing: true,
@@ -86,7 +86,6 @@ var preview_table = function () {
                         { type: "control" }
                     ]
                 });
-
             }
         },
         before: function (file, inputElem) {
@@ -101,26 +100,6 @@ var preview_table = function () {
     });
 };
 
-var upload_list = function() {
-    var tableData = $('#student-list-preview').data('JSGrid').data;
-    var csvString = "";
-    for (var i = 0; i < tableData.length; ++i) {
-        csvString += `${tableData[i]['Student Id']},${tableData[i]['First Name']},${tableData[i]['Last Name']}\n`;
-    }
-
-    var csvFormData = new FormData();
-    var csvBlob = new Blob([csvString], { type: 'text/csv' });
-
-    csvFormData.set('student_list_csv', csvBlob, 'students.csv');
-    csvFormData.set('csrfmiddlewaretoken', $('[name=csrfmiddlewaretoken]').val());
-
-    var request = new XMLHttpRequest();
-    request.open('POST', postUrl);
-    request.send(csvFormData);
-
-    // todo: reload after POST success, or display conflict list
-};
-
 var import_app = new Vue({
     el: '#import_app',
     data: {
@@ -131,7 +110,9 @@ var import_app = new Vue({
         col_last_name: null,
         col_full_name: null,
         name_policy_choice: 'separate',
-        skip_header: true
+        skip_header: false,
+        response_text: null,
+        show_result: false
     },
     methods: {
         select_fields() {
@@ -143,7 +124,27 @@ var import_app = new Vue({
             preview_table();
         },
         upload() {
-            upload_list();
+            var tableData = $('#student-list-preview').data('JSGrid').data;
+            var csvString = "";
+            for (var i = 0; i < tableData.length; ++i) {
+                csvString += `${tableData[i]['Student Id']},${tableData[i]['First Name']},${tableData[i]['Last Name']}\n`;
+            }
+
+            var csvFormData = new FormData();
+            var csvBlob = new Blob([csvString], { type: 'text/csv' });
+
+            csvFormData.set('student_list_csv', csvBlob, 'students.csv');
+            csvFormData.set('csrfmiddlewaretoken', $('[name=csrfmiddlewaretoken]').val());
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', postUrl);
+            xhr.send(csvFormData);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    import_app.response_text = xhr.responseText;
+                    import_app.show_result = true;
+                }
+            }
         }
     }
 });

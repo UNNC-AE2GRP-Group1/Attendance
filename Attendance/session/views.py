@@ -7,6 +7,7 @@ import json
 import csv
 from django.db import transaction
 from copy import deepcopy
+from django.core.serializers import serialize
 
 from .models import *
 from .forms import *
@@ -83,19 +84,6 @@ def module_create_session(request, module_pk):
     }
     return render(request, 'session/create.html', context)
 
-# todo: data validation
-# todo: error checks
-# todo: resolve information conflicts instead of overwriting
-# todo: permission
-def module_students(request, module_pk):
-    m = get_module(module_pk)
-
-    context = {
-        'title': 'Students in {}'.format(m),
-        'module': m
-    }
-    return render(request, 'module/students.html', context)
-
 # todo: @requires_csrf_token
 def module_student_import(request, module_pk):
     if request.method == 'POST':
@@ -103,9 +91,14 @@ def module_student_import(request, module_pk):
 
         csv_file = request.FILES['student_list_csv']
         student_reader = csv.reader(StringIO(csv_file.read().decode('utf-8')), delimiter=',')
-        m.batch_enroll_from_csv(student_reader)
+        conflicts = m.batch_enroll_from_csv(student_reader)
+        if not conflicts:
+            return HttpResponse("Student list imported.")
+        else:
+            json_conflicts = serialize('json', conflicts, fields=('student_id','first_name','last_name'))
+            return HttpResponse(json_conflicts, status=409)
 
-    return redirect('module_students', module_pk=module_pk)
+    return redirect('module_detail', module_pk=m.pk)
 
 def module_attendance_history(request, module_pk):
     module = get_module(module_pk)

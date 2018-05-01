@@ -1,8 +1,9 @@
+{% verbatim %}
 <div id="import_app">
     <v-app id="inspire">
         <v-stepper v-model="step">
             <v-stepper-header>
-                <v-stepper-step step="1" :complete="step > 1 && file">Choose CSV File</v-stepper-step>
+                <v-stepper-step step="1" :complete="step > 1 && file != null">Choose CSV File</v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step step="2" :complete="step > 2">Choose Fields</v-stepper-step>
                 <v-divider></v-divider>
@@ -59,6 +60,9 @@
                     <v-btn flat @click.native="step--">Back</v-btn>
                 </v-stepper-content>
                 <v-stepper-content step="3">
+                    <v-alert type="info" :value="show_result">
+                        {{ response_text }}
+                    </v-alert>
                     <div id="student-list-preview"></div>
                     <v-btn color="primary" @click.native="upload()">Upload</v-btn>
                     <v-btn flat @click.native="step--">Back</v-btn>
@@ -69,4 +73,5 @@
     <v-container fluid>
     </v-container>
 </div>
+{% endverbatim %}
 {% csrf_token %}
