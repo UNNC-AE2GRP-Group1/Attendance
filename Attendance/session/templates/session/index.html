@@ -3,8 +3,34 @@
 {% block content %}
 <div id="session_list">
     {% verbatim %}
+    <v-btn color="primary" dark @click.stop="dialog = true">Filter</v-btn>
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition" scrollable>
+        <v-card tile>
+            <v-toolbar card dark color="primary">
+                <v-btn icon @click.native="dialog = false" dark>
+                    <v-icon>close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Choose Modules</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn dark flat @click.native="dialog = false">Ok</v-btn>
+                </v-toolbar-items>
+            </v-toolbar>
+            <v-card-text>
+                <v-list>
+                    <v-list-tile v-for="m in modules" :key="m" @click.native="display_modules[m.display_key]=!display_modules[m.display_key]">
+                        <v-list-tile-action>
+                            <v-checkbox v-model="display_modules[m.display_key]"></v-checkbox>
+                        </v-list-tile-action>
+                        <v-list-tile-title>{{ m.name }}</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-card-text>
+            <div style="flex: 1 1 auto;"></div>
+        </v-card>
+    </v-dialog>
     <v-list two-line>
-        <template v-for="(item, index) in items" v-if="modules[item.module_key]">
+        <template v-for="(item, index) in items" v-if="display_modules[item.module_key]">
             <v-list-tile @click="window.location=item.session_link" :key="item.title">
                 <v-list-tile-content>
                     <v-list-tile-title><a :href="item.module_link">{{ item.module }}</a></v-list-tile-title>
@@ -21,21 +47,6 @@
         </template>
     </v-list>
     {% endverbatim %}
-    <div class="row">
-        <div class="col l3">
-            <ul class="collection with-header">
-                <li class="collection-header"><h6>Modules</h6></li>
-                {% for m in modules %}
-                <li class="collection-item">
-                    <label>
-                        <input type="checkbox" checked="checked" v-model="modules.pk_{{ m.pk }}"/>
-                        <span>{{ m }}</span>
-                    </label>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
 </div>
 {% endblock %}
 
@@ -44,15 +55,22 @@
     var session_list = new Vue({
         el: '#session_list',
         data: {
-            "modules": {
+            modules: [
+                {% for m in modules %} {
+                display_key: "pk_{{ m.pk }}",
+                name: "{{ m }}" },
+                {% endfor %}
+            ],
+            display_modules: {
                 {% for m in modules %}
-                "pk_{{ m.pk }}": true,
+                pk_{{ m.pk }}: true,
                 {% endfor %}
             },
             rowsPerPageItems: [16, 32, 64],
             pagination: {
               rowsPerPage: 4
             },
+            dialog: false,
             items: [
                 {% for s in sessions %} {
                 "module": "{{ s.module }}",
