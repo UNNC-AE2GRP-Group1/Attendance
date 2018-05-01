@@ -8,6 +8,7 @@ import csv
 from django.db import transaction
 from copy import deepcopy
 from django.core.serializers import serialize
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
@@ -15,6 +16,7 @@ from absence_form.models import *
 
 # Create your views here.
 
+@login_required
 def module_create(request):
     if request.method == 'POST':
         form = ModuleCreateForm(request.POST)
@@ -30,6 +32,7 @@ def module_create(request):
     }
     return render(request, 'module/create.html', context)
 
+@login_required
 def module_index(request):
     all_modules = Module.objects.all()
     # visible_modules = perms['module.view'].filter(request.user, all_modules);
@@ -48,6 +51,7 @@ def get_module(module_pk):
         raise Http404("Module does not exist")
     return m
 
+@login_required
 def module_detail(request, module_pk):
     m = get_module(module_pk)
 
@@ -58,6 +62,7 @@ def module_detail(request, module_pk):
     return render(request, 'module/detail.html', context)
 
 # todo: permission
+@login_required
 def module_create_session(request, module_pk):
     m = get_module(module_pk)
 
@@ -85,6 +90,7 @@ def module_create_session(request, module_pk):
     return render(request, 'session/create.html', context)
 
 # todo: @requires_csrf_token
+@login_required
 def module_student_import(request, module_pk):
     if request.method == 'POST':
         m = get_module(module_pk)
@@ -100,6 +106,7 @@ def module_student_import(request, module_pk):
 
     return redirect('module_detail', module_pk=m.pk)
 
+@login_required
 def module_attendance_history(request, module_pk):
     module = get_module(module_pk)
 
@@ -141,6 +148,7 @@ def module_attendance_history(request, module_pk):
     }
     return render(request, 'module/attendance_history.html', context)
 
+@login_required
 def session_overview(request):
     modules = Module.objects.all()
     sessions = Session.objects.order_by('-time').prefetch_related('module')
@@ -159,9 +167,11 @@ def get_session(session_pk):
         raise Http404("Session does not exist")
     return s
 
+@login_required
 def session_detail(request, session_pk):
     return redirect('session_taking_attendance', session_pk=session_pk)
 
+@login_required
 @ensure_csrf_cookie
 def session_taking_attendance(request, session_pk):
     session = get_session(session_pk)
@@ -232,6 +242,7 @@ def session_taking_attendance(request, session_pk):
     }
     return render(request, 'session/attendance.html', context)
 
+@login_required
 def session_download_attendance_sheet(request, session_pk):
     s = get_session(session_pk)
 

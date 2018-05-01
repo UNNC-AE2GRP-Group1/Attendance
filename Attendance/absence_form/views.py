@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from bridgekeeper import perms
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
@@ -11,16 +12,19 @@ def get_application(application_pk):
         raise Http404("Application does not exist")
     return app
 
+@login_required
 def application_index(request):
     appication_list = Application.objects.order_by('-created_at')\
         .prefetch_related('detail_set')
     context = {'app_list': appication_list}
     return render(request, 'application/index.html', context)
 
+@login_required
 def application_detail(request, application_pk):
     context = { 'application': get_application(application_pk) }
     return render(request, 'application/detail.html', context)
 
+@login_required
 def application_create(request):
     if request.method == 'POST':
         form = ApplicationCreateForm(request.POST)
@@ -32,6 +36,7 @@ def application_create(request):
 
     return render(request, 'application/create.html', { 'form': form })
 
+@login_required
 def application_detail_create(request, application_pk):
     app = get_application(application_pk)
 
@@ -60,6 +65,7 @@ def get_detail(detail_pk):
         raise Http404("Module affection detail does not exist")
     return d
 
+@login_required
 def application_appeal_create(request, application_pk, detail_pk):
     app = get_application(application_pk)
     d = get_detail(detail_pk)

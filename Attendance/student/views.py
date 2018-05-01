@@ -1,4 +1,5 @@
 from django.shortcuts import render, Http404
+from django.contrib.auth.decorators import login_required
 
 from .models import Student
 from session.models import *
@@ -12,6 +13,7 @@ def get_student_by_id(student_id):
         raise Http404("Student does not exist")
     return s
 
+@login_required
 def student_detail(request, student_id):
     s = get_student_by_id(student_id)
 

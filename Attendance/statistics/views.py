@@ -4,8 +4,10 @@ from student.models import Student
 from session.models import Module, Session
 import json
 import time
+from django.contrib.auth.decorators import login_required
 
 # todo: which student should a user be allowed to view?
+@login_required
 def student_attendance_history(request, student_id):
     try:
         s = Student.objects.get(student_id=student_id)
@@ -17,6 +19,7 @@ def student_attendance_history(request, student_id):
         # {'poll': p}
     )
 
+@login_required
 def module_attendance_history_all(request):
 #get name list for all modules
     modules = Module.objects.all()
@@ -53,6 +56,7 @@ def module_attendance_history_all(request):
         }
     )
 
+@login_required
 def module_attendance_history(request, module_pk):
     try:
         m = Module.objects.get(pk=module_pk)

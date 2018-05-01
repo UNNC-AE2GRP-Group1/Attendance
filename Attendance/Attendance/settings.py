@@ -26,7 +26,10 @@ SECRET_KEY = '85de3e2a-9a64-40e0-9647-72441cc2ecd9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'demo.yuki.moe',
+    'localhost'
+]
 
 
 # Application definition
@@ -135,4 +138,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "/login/"

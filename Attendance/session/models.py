@@ -26,6 +26,7 @@ class Module(models.Model):
         MaxValueValidator(3881),
         MinValueValidator(1881)
     ], default=getyear)
+    # todo: should bind to profile in case a user does not have that
     convenors = models.ManyToManyField(User, related_name='convenors', blank=True)
     assistants = models.ManyToManyField(User, related_name='assistants', blank=True)
     students = models.ManyToManyField(Student, blank=True)
