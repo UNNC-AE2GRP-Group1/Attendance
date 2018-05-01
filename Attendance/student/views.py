@@ -1,5 +1,6 @@
 from django.shortcuts import render, Http404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
 from .models import Student
 from session.models import *
@@ -15,6 +16,9 @@ def get_student_by_id(student_id):
 
 @login_required
 def student_detail(request, student_id):
+    if not request.user.has_perm('student.view'):
+        return HttpResponseForbidden()
+
     s = get_student_by_id(student_id)
 
     # participated modules

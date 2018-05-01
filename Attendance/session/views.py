@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 from bridgekeeper import perms
 from io import StringIO
@@ -18,6 +18,9 @@ from absence_form.models import *
 
 @login_required
 def module_create(request):
+    if not request.user.has_perm('module.create'):
+        return HttpResponseForbidden()
+
     if request.method == 'POST':
         form = ModuleCreateForm(request.POST)
         if form.is_valid():
@@ -35,11 +38,11 @@ def module_create(request):
 @login_required
 def module_index(request):
     all_modules = Module.objects.all()
-    # visible_modules = perms['module.view'].filter(request.user, all_modules);
+    visible_modules = perms['module.view'].filter(request.user, all_modules)
 
     context = {
         'title': "All modules",
-        'modules': all_modules
+        'modules': visible_modules
     }
     return render(request, 'module/index.html', context)
 
@@ -55,6 +58,9 @@ def get_module(module_pk):
 def module_detail(request, module_pk):
     m = get_module(module_pk)
 
+    if not request.user.has_perm('module.view', m):
+        return HttpResponseForbidden()
+
     context = {
         'title': m,
         'module': m
@@ -65,6 +71,9 @@ def module_detail(request, module_pk):
 @login_required
 def module_create_session(request, module_pk):
     m = get_module(module_pk)
+
+    if not request.user.has_perm('module.create_session', m):
+        return HttpResponseForbidden()
 
     if request.method == 'POST':
         form = SessionCreateForm(request.POST)
@@ -95,6 +104,9 @@ def module_student_import(request, module_pk):
     if request.method == 'POST':
         m = get_module(module_pk)
 
+        if not request.user.has_perm('module.import_student', m):
+            return HttpResponseForbidden()
+
         csv_file = request.FILES['student_list_csv']
         student_reader = csv.reader(StringIO(csv_file.read().decode('utf-8')), delimiter=',')
         conflicts = m.batch_enroll_from_csv(student_reader)
@@ -109,6 +121,9 @@ def module_student_import(request, module_pk):
 @login_required
 def module_attendance_history(request, module_pk):
     module = get_module(module_pk)
+
+    if not request.user.has_perm('module.view_history', module):
+        return HttpResponseForbidden()
 
     attendees = Attendee.objects.filter(session__module=module)\
         .prefetch_related('session', 'student')
@@ -150,11 +165,15 @@ def module_attendance_history(request, module_pk):
 
 @login_required
 def session_overview(request):
-    modules = Module.objects.all()
-    sessions = Session.objects.order_by('-time').prefetch_related('module')
+    all_modules = Module.objects.all()
+    visible_modules = perms['module.view'].filter(request.user, all_modules)
+
+    sessions = Session.objects.filter(module__in=visible_modules)\
+        .order_by('-time').prefetch_related('module')
+
     context = {
         'title': 'All sessions',
-        'modules': modules,
+        'modules': visible_modules,
         'sessions': sessions,
     }
     return render(request, 'session/index.html', context)
@@ -175,6 +194,9 @@ def session_detail(request, session_pk):
 @ensure_csrf_cookie
 def session_taking_attendance(request, session_pk):
     session = get_session(session_pk)
+
+    if not request.user.has_perm('module.view', session.module):
+        return HttpResponseForbidden()
 
     if request.method == 'POST':
         # todo: test csrf
@@ -245,6 +267,9 @@ def session_taking_attendance(request, session_pk):
 @login_required
 def session_download_attendance_sheet(request, session_pk):
     s = get_session(session_pk)
+
+    if not request.user.has_perm('module.view', s.module):
+        return HttpResponseForbidden()
 
     response = HttpResponse(content_type='application/pdf')
     # todo: sanitize file name

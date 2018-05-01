@@ -57,9 +57,6 @@
     <Compile Include="profile\models.py" />
     <Compile Include="profile\views.py" />
     <Compile Include="profile\__init__.py" />
-    <Compile Include="profile\rules.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="session\admin.py" />
     <Compile Include="session\apps.py" />
     <Compile Include="session\forms.py" />

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
 from student.models import Student
 from session.models import Module, Session
 import json
@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 # todo: which student should a user be allowed to view?
 @login_required
 def student_attendance_history(request, student_id):
+    if not request.user.has_perm('statistics.view'):
+        return HttpResponseForbidden()
+
     try:
         s = Student.objects.get(student_id=student_id)
     except Student.DoesNotExist:
@@ -21,6 +24,9 @@ def student_attendance_history(request, student_id):
 
 @login_required
 def module_attendance_history_all(request):
+    if not request.user.has_perm('statistics.view'):
+        return HttpResponseForbidden()
+
 #get name list for all modules
     modules = Module.objects.all()
     modulesName=[m.name for m in modules]
@@ -58,6 +64,9 @@ def module_attendance_history_all(request):
 
 @login_required
 def module_attendance_history(request, module_pk):
+    if not request.user.has_perm('statistics.view'):
+        return HttpResponseForbidden()
+
     try:
         m = Module.objects.get(pk=module_pk)
     except Module.DoesNotExist:
