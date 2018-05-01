@@ -29,17 +29,21 @@
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="Student ID" :disabled="!editedStudent.user_added" v-model="editedStudent.student_id"></v-text-field>
+                            <v-flex xs12 sm6 md4 class="input-field">
+                                <input id="student_id" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.student_id">
+                                <label for="student_id">Student ID</label>
                             </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="First Name" :disabled="!editedStudent.user_added" v-model="editedStudent.first_name"></v-text-field>
+                            <v-flex xs12 sm6 md4 class="input-field">
+                                <input id="first_name" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.first_name">
+                                <label for="first_name">First Name</label>
                             </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="Last Name" :disabled="!editedStudent.user_added" v-model="editedStudent.last_name"></v-text-field>
+                            <v-flex xs12 sm6 md4 class="input-field">
+                                <input id="last_name" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.last_name">
+                                <label for="last_name">Last Name</label>
                             </v-flex>
-                            <v-flex xs12>
-                                <v-text-field label="Comment" v-model="editedStudent.comment" multi-line="true"></v-text-field>
+                            <v-flex xs12 class="input-field">
+                                <textarea id="comment" class="materialize-textarea" v-model="editedStudent.comment"></textarea>
+                                <label for="comment">Comment</label>
                             </v-flex>
                             <v-flex xs12>
                                 <v-checkbox label="Presented" v-model="editedStudent.presented"></v-checkbox>
