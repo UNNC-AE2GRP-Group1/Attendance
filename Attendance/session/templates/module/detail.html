@@ -21,12 +21,8 @@
         </div>
         <div id="session_list" class="col s12">
             <div id="session_list_wrapper">
+                <a class="waves-effect waves-light btn" href="{% url 'module_create_session' module.pk %}">Add Sessions</a>
                 {% include 'module/detail/session_list.html' %}
-                <div class="fixed-action-btn">
-                    <a class="btn-floating btn-large red" href="{% url 'module_create_session' module.pk %}">
-                        <i class="large material-icons">add</i>
-                    </a>
-                </div>
             </div>
         </div>
         <div id="student_list" class="col s12">
