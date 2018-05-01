@@ -1,18 +1,18 @@
-$("#btn-preview-csv").click(function () {
+var preview_table = function () {
     $('#file-student-csv').parse({
         config: {
             complete: function (results, file) {
                 console.log("Parsing complete:", results, file);
 
-                var namePolicyChoice = $('input[name=name-policies]:checked').val();
-                var skipHeader = $('#skip-header').is(":checked");
+                var namePolicyChoice = import_app.name_policy_choice;
+                var skipHeader = import_app.skip_header;
 
                 var studentCount = results.data.length;
 
-                var colStudentId = $('#col-studentid').val();
-                var colFirstname = $('#col-firstname').val();
-                var colLastname = $('#col-lastname').val();
-                var colFullname = $('#col-fullname').val();
+                var colStudentId = import_app.col_student_id;
+                var colFirstname = import_app.col_first_name;
+                var colLastname = import_app.col_last_name
+                var colFullname = import_app.col_full_name;
                 var numValidStudents = 0;
 
                 var namePolicySeparate = function (row) {
@@ -99,9 +99,9 @@ $("#btn-preview-csv").click(function () {
 
         }
     });
-});
+};
 
-$("#btn-upload-csv").click(function() {
+var upload_list = function() {
     var tableData = $('#student-list-preview').data('JSGrid').data;
     var csvString = "";
     for (var i = 0; i < tableData.length; ++i) {
@@ -119,4 +119,31 @@ $("#btn-upload-csv").click(function() {
     request.send(csvFormData);
 
     // todo: reload after POST success, or display conflict list
+};
+
+var import_app = new Vue({
+    el: '#import_app',
+    data: {
+        step: 0,
+        file: null,
+        col_student_id: null,
+        col_first_name: null,
+        col_last_name: null,
+        col_full_name: null,
+        name_policy_choice: 'separate',
+        skip_header: true
+    },
+    methods: {
+        select_fields() {
+            if(!this.file) alert("You must select a file to proceed!");
+            else this.step = 2;
+        },
+        preview() {
+            this.step = 3;
+            preview_table();
+        },
+        upload() {
+            upload_list();
+        }
+    }
 });

@@ -1,51 +1,72 @@
-<div class="input-group">
-    <div class="custom-file">
-        <input type="file" class="custom-file-input" id="file-student-csv">
-        <label class="custom-file-label" for="file-student-csv">Choose file</label>
-    </div>
+<div id="import_app">
+    <v-app id="inspire">
+        <v-stepper v-model="step">
+            <v-stepper-header>
+                <v-stepper-step step="1" :complete="step > 1 && file">Choose CSV File</v-stepper-step>
+                <v-divider></v-divider>
+                <v-stepper-step step="2" :complete="step > 2">Choose Fields</v-stepper-step>
+                <v-divider></v-divider>
+                <v-stepper-step step="3" :complete="step > 3">Preview</v-stepper-step>
+            </v-stepper-header>
+            <v-stepper-items>
+                <v-stepper-content step="1">
+                    <v-card class="mb-5">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file-student-csv" v-model="file">
+                            </div>
+                        </div>
+                    </v-card>
+                    <v-btn color="primary" @click.native="select_fields()">Continue</v-btn>
+                </v-stepper-content>
+                <v-stepper-content step="2">
+                    <v-card class="mb-5">
+                        <v-card-title primary-title>
+                            <div>
+                                <v-form>
+                                    <v-checkbox label="Skip First Row" v-model="skip_header"></v-checkbox>
+                                    <h5>Please specify the column numbers for student info, 0 is the first column.</h5>
+                                    <div class="input-field">
+                                        <input id="student_id" type="number" class="validate" v-model="col_student_id" placeholder="">
+                                        <label for="student_id" class="active">Student ID</label>
+                                    </div>
+                                    <h5>Student names locate in</h5>
+                                    <v-radio-group v-model="name_policy_choice" row>
+                                        <v-radio label="Separate Fields" value="separate"></v-radio>
+                                        <v-radio label="One Field" value="single"></v-radio>
+                                    </v-radio-group>
+                                    <div v-if="name_policy_choice=='separate'">
+                                        <div class="input-field">
+                                            <input id="first_name" type="number" class="validate" v-model="col_first_name" placeholder="">
+                                            <label for="first_name" class="active">First Name</label>
+                                        </div>
+                                        <div class="input-field">
+                                            <input id="last_name" type="number" class="validate" v-model="col_last_name" placeholder="">
+                                            <label for="last_name" class="active">Last Name</label>
+                                        </div>
+                                    </div>
+                                    <div v-if="name_policy_choice=='single'">
+                                        <div class="input-field">
+                                            <input id="full_name" type="number" class="validate" v-model="col_full_name" placeholder="">
+                                            <label for="full_name" class="active">Full Name</label>
+                                        </div>
+                                    </div>
+                                </v-form>
+                            </div>
+                        </v-card-title>
+                    </v-card>
+                    <v-btn color="primary" @click.native="preview()">Continue</v-btn>
+                    <v-btn flat @click.native="step--">Back</v-btn>
+                </v-stepper-content>
+                <v-stepper-content step="3">
+                    <div id="student-list-preview"></div>
+                    <v-btn color="primary" @click.native="upload()">Upload</v-btn>
+                    <v-btn flat @click.native="step--">Back</v-btn>
+                </v-stepper-content>
+            </v-stepper-items>
+        </v-stepper>
+    </v-app>
+    <v-container fluid>
+    </v-container>
 </div>
-
-<form>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="col-studentid">Student Id Col#</label>
-            <input type="number" class="form-control" id="col-studentid" placeholder="0" value="0">
-        </div>
-        <div class="form-group col-md-6">
-            <input class="form-check-input" type="checkbox" id="skip-header"/>
-            <label class="form-check-label" for="skip-header">Skip header</label>
-        </div>
-    </div>
-    <div class="form-row">
-        <input class="form-check-input" type="radio" name="name-policies" id="name-policy-1" value="separate" checked>
-        <label class="form-check-label" for="name-policy-1">
-            Separated fields
-        </label>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="col-firstname">First Name Col#</label>
-            <input type="number" class="form-control" id="col-firstname" placeholder="1" value="5">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="col-lastname">Last Name Col#</label>
-            <input type="number" class="form-control" id="col-lastname" placeholder="2" value="4">
-        </div>
-    </div>
-    <div class="form-row">
-        <input class="form-check-input" type="radio" name="name-policies" id="name-policy-2" value="single">
-        <label class="form-check-label" for="name-policy-2">Single field</label>
-    </div>
-    <div class="form-row">
-        <label for="col-fullname">Full Name Col#</label>
-        <input type="number" class="form-control" id="col-fullname" placeholder="1" value="1">
-    </div>
-</form>
-<button id="btn-preview-csv" class="btn btn-primary">Preview</button>
-<button id="btn-upload-csv" class="btn">Upload</button>
-
 {% csrf_token %}
-
-<div class="alert alert-primary" id="preview-message" role="alert"></div>
-
-<div id="student-list-preview"></div>
