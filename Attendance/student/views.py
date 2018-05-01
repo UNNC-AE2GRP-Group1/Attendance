@@ -19,7 +19,9 @@ def student_detail(request, student_id):
     modules = Module.objects.filter(students__student_id=student_id)
 
     # involved sessions
-    attendances = Session.objects.filter(attendee__student=s)
+    attendances = Attendee.objects.filter(student=s)\
+        .prefetch_related('session')\
+        .order_by('-session__time')
 
     # affected applications
     applications = Application.objects.filter(student=s)
@@ -27,7 +29,7 @@ def student_detail(request, student_id):
     context = {
         'student': s,
         'modules': modules,
-        'sessions': attendances,
+        'attendances': attendances,
         'applications': applications,
     }
 

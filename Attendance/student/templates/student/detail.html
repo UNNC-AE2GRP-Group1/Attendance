@@ -16,8 +16,8 @@
     </ul>
     <h5>Sessions</h5>
     <ul class="collection">
-        {% for s in sessions %}
-        <li class="collection-item"><a href="{% url 'session_detail' s.pk %}">{{ s }}</a></li>
+        {% for a in attendances %}
+        <li class="collection-item"><a href="{% url 'session_detail' a.session.pk %}">{{ a.session }}</a>{% if not a.presented %} (Absent){% endif %}</li>
         {% endfor %}
     </ul>
     <h5>Applications</h5>

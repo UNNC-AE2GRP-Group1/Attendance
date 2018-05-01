@@ -24,7 +24,7 @@
             {% for se in sessions %}
             <th class="rotate" scope="col">
                 <div>
-                    <span>{{ se }}</span>
+                    <span><a href="{% url 'session_detail' se.pk %}">{{ se }}</a></span>
                 </div>
             </th>
             {% endfor %}
