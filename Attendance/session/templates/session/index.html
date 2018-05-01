@@ -2,6 +2,25 @@
 
 {% block content %}
 <div id="session_list">
+    {% verbatim %}
+    <v-list two-line>
+        <template v-for="(item, index) in items" v-if="modules[item.module_key]">
+            <v-list-tile @click="window.location=item.session_link" :key="item.title">
+                <v-list-tile-content>
+                    <v-list-tile-title><a :href="item.module_link">{{ item.module }}</a></v-list-tile-title>
+                    <v-list-tile-sub-title class="text--primary">{{ item.time }}</v-list-tile-sub-title>
+                    <v-list-tile-sub-title>[{{ item.type }}] {{ item.place }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                    <v-list-tile-action-text>{{ item.duration }}</v-list-tile-action-text>
+                    <span v-if="item.attendance_rate">{{ (item.attendance_rate*100).toFixed(1) + "%" }}</span>
+                    <a title="Download Attendance Sheet" v-else :href="item.sheet_download" ><v-icon color="grey lighten-1">attach_file</v-icon></a>
+                </v-list-tile-action>
+            </v-list-tile>
+            <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
+        </template>
+    </v-list>
+    {% endverbatim %}
     <div class="row">
         <div class="col l3">
             <ul class="collection with-header">
@@ -9,48 +28,13 @@
                 {% for m in modules %}
                 <li class="collection-item">
                     <label>
-                        <input type="checkbox" checked="checked" v-model="module_{{ m.pk }}"/>
+                        <input type="checkbox" checked="checked" v-model="modules.pk_{{ m.pk }}"/>
                         <span>{{ m }}</span>
                     </label>
                 </li>
                 {% endfor %}
             </ul>
         </div>
-        <table class="col l9">
-            <thead>
-            <tr>
-                <th scope="col">Type</th>
-                <th scope="col">Module</th>
-                <th scope="col">Time</th>
-                <th scope="col">Duration</th>
-                <th scope="col">Location</th>
-                <th scope="col">Attendance Rate</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for s in sessions %}
-            <tr v-if="module_{{ s.module.pk }}">
-                <td>
-                    <span class="badge">{{ s.get_type_display }}</span>
-                </td>
-                <td><a href="{% url 'module_detail' s.module.pk %}" title="">{{ s.module }}</a></td>
-                <td><a href="{% url 'session_detail' s.pk %}">{{ s.time }}</a></td>
-                <td>{{ s.duration }}</td>
-                <td>{{ s.place }}</td>
-                <td>
-                    {% if s.attendance_rate %}
-                    <div class="progress">
-                        <div class="determinate" style="width: {%widthratio s.attendance_rate 1 100 %}% "></div>
-                    </div>
-                    {% else %}
-                    <a class="waves-effect waves-light btn-floating" href="{% url 'session_taking_attendance' s.pk %}"><i class="material-icons left">assignment_turned_in</i></a>
-                    <a class="waves-effect waves-light btn-floating" href="{% url 'session_download_attendance_sheet' s.pk %}"><i class="material-icons left">attach_file</i></a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
     </div>
 </div>
 {% endblock %}
@@ -60,10 +44,30 @@
     var session_list = new Vue({
         el: '#session_list',
         data: {
-            {% for m in modules %}
-            "module_{{ m.pk }}": true,
+            "modules": {
+                {% for m in modules %}
+                "pk_{{ m.pk }}": true,
+                {% endfor %}
+            },
+            rowsPerPageItems: [16, 32, 64],
+            pagination: {
+              rowsPerPage: 4
+            },
+            items: [
+                {% for s in sessions %} {
+                "module": "{{ s.module }}",
+                "module_key": "pk_{{ s.module.pk }}",
+                "time": "{{ s.time }}",
+                "duration": "{{ s.duration }}",
+                "place": "{{ s.place }}",
+                "type": "{{ s.get_type_display }}",
+                "attendance_rate": {% if s.attendance_rate %}{{ s.attendance_rate }}{% else %}null{% endif %},
+                "session_link": "{% url 'session_detail' s.pk %}",
+                "module_link": "{% url 'module_detail' s.module.pk %}",
+                "sheet_download": "{% url 'session_download_attendance_sheet' s.pk %}" },
             {% endfor %}
+            ]
         }
-    })
+    });
 </script>
 {% endblock %}
