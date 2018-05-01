@@ -41,11 +41,9 @@
     <Compile Include="absence_form\apps.py" />
     <Compile Include="absence_form\migrations\__init__.py" />
     <Compile Include="absence_form\models.py" />
-    <Compile Include="absence_form\tests.py" />
     <Compile Include="absence_form\views.py" />
     <Compile Include="absence_form\__init__.py" />
     <Compile Include="app\forms.py" />
-    <Compile Include="app\tests.py" />
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="app\migrations\__init__.py" />
@@ -57,7 +55,6 @@
     <Compile Include="profile\apps.py" />
     <Compile Include="profile\migrations\__init__.py" />
     <Compile Include="profile\models.py" />
-    <Compile Include="profile\tests.py" />
     <Compile Include="profile\views.py" />
     <Compile Include="profile\__init__.py" />
     <Compile Include="profile\rules.py">
@@ -89,7 +86,6 @@
     <Compile Include="statistics\apps.py" />
     <Compile Include="statistics\migrations\__init__.py" />
     <Compile Include="statistics\models.py" />
-    <Compile Include="statistics\tests.py" />
     <Compile Include="statistics\urls.py" />
     <Compile Include="statistics\views.py" />
     <Compile Include="statistics\__init__.py" />
