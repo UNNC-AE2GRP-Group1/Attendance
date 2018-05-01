@@ -23,13 +23,18 @@ def module_create(request):
     else:
         form = ModuleCreateForm()
 
-    return render(request, 'module/create.html', { 'form': form })
+    context = {
+        'form': form,
+        'title': "Create module"
+    }
+    return render(request, 'module/create.html', context)
 
 def module_index(request):
     all_modules = Module.objects.all()
     # visible_modules = perms['module.view'].filter(request.user, all_modules);
 
     context = {
+        'title': "All modules",
         'modules': all_modules
     }
     return render(request, 'module/index.html', context)
@@ -46,6 +51,7 @@ def module_detail(request, module_pk):
     m = get_module(module_pk)
 
     context = {
+        'title': m,
         'module': m
     }
     return render(request, 'module/detail.html', context)
@@ -71,6 +77,7 @@ def module_create_session(request, module_pk):
         form = SessionCreateForm()
 
     context = {
+        'title': 'Create sessions for {}'.format(m),
         'module': m,
         'form': form,
     }
@@ -84,6 +91,7 @@ def module_students(request, module_pk):
     m = get_module(module_pk)
 
     context = {
+        'title': 'Students in {}'.format(m),
         'module': m
     }
     return render(request, 'module/students.html', context)
@@ -131,6 +139,7 @@ def module_attendance_history(request, module_pk):
     sorted_students = sorted(students, key=lambda x: x.student_id)  # sort by student id
 
     context = {
+        'title': 'Attendance history of {}'.format(module),
         'module': module,
         'students': sorted_students,
         'sessions': sorted_sessions,
@@ -143,6 +152,7 @@ def session_overview(request):
     modules = Module.objects.all()
     sessions = Session.objects.order_by('-time').prefetch_related('module')
     context = {
+        'title': 'All sessions',
         'modules': modules,
         'sessions': sessions,
     }
@@ -223,6 +233,7 @@ def session_taking_attendance(request, session_pk):
                 'comment': '',
             })
     context = {
+        'title': 'Attendance sheet of {}'.format(session),
         'session': session,
         'attendees': json.dumps(attendees),
     }

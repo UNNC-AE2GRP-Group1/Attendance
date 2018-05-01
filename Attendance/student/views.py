@@ -27,6 +27,7 @@ def student_detail(request, student_id):
     applications = Application.objects.filter(student=s)
 
     context = {
+        'title': s,
         'student': s,
         'modules': modules,
         'attendances': attendances,

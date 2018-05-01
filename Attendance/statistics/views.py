@@ -47,7 +47,7 @@ def module_attendance_history_all(request):
         request,
         'statistics/module.html',
         {
-
+            'title': 'Attendance statistics',
             'legendData': json.dumps(modulesName),
             'sessions': json.dumps(allModulesSessions, indent=4, sort_keys=True, default=str),
         }
