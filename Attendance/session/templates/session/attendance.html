@@ -41,6 +41,9 @@
                             <v-flex xs12>
                                 <v-text-field label="Comment" v-model="editedStudent.comment" multi-line="true"></v-text-field>
                             </v-flex>
+                            <v-flex xs12>
+                                <v-checkbox label="Presented" v-model="editedStudent.presented"></v-checkbox>
+                            </v-flex>
                         </v-layout>
                     </v-container>
                 </v-card-text>
@@ -100,7 +103,8 @@
                 last_name: '',
                 presented: true,
                 comment: ''
-            }
+            },
+            students: []
         }),
         computed: {
             formTitle () {
