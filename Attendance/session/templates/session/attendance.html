@@ -3,14 +3,54 @@
 {% load staticfiles %}
 
 {% block styles %}
+<style>
+    .card {
+        margin: 0;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <h4>{{ session.module }}</h4>
+    <h4><a href="{% url 'module_detail' session.module.pk %}" title="">{{ session.module }}</a></h4>
     <h5>{{ session }}</h5>
     {% verbatim %}
     <div id="app">
+        <v-dialog v-model="dialog" max-width="500px">
+            <div class="fixed-action-btn" slot="activator">
+                <button class="btn-floating btn-large red">
+                    <i class="large material-icons">add</i>
+                </button>
+            </div>
+            <v-card>
+                <v-card-title>
+                    <span class="headline">{{ formTitle }}</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container grid-list-md>
+                        <v-layout wrap>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field label="Student ID" v-model="editedStudent.student_id"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field label="First Name" v-model="editedStudent.first_name"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                                <v-text-field label="Last Name" v-model="editedStudent.last_name"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field label="Comment" v-model="editedStudent.comment" multi-line="true"></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         <v-app id="inspire">
             <v-list three-line subheader>
                 <v-subheader>Attendance Sheet</v-subheader>
@@ -23,6 +63,11 @@
                         <v-list-tile-sub-title class="text--primary">{{ s.student_id }}</v-list-tile-sub-title>
                         <v-list-tile-sub-title>{{ s.comment }}</v-list-tile-sub-title>
                     </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon class="mx-0" @click.native="editStudent(s)">
+                            <v-icon>edit</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
                 </v-list-tile>
             </v-list>
         </v-app>
@@ -39,9 +84,61 @@
     var students_data = {{ attendees|safe }};
     var attendance_sheet = new Vue({
         el: '#app',
-        data() {
-            return {
-                students: students_data
+        data: () => ({
+            dialog: false,
+            editedIndex: -1,
+            editedStudent: {
+                student_id: '',
+                first_name: '',
+                last_name: '',
+                presented: true,
+                comment: ''
+            },
+            defaultStudent: {
+                student_id: '',
+                first_name: '',
+                last_name: '',
+                presented: true,
+                comment: ''
+            }
+        }),
+        computed: {
+            formTitle () {
+                return this.editedIndex === -1 ? 'New Student' : 'Edit Student';
+            }
+        },
+        watch: {
+            dialog (val) {
+                val || this.close();
+            }
+        },
+        created () {
+            this.initialize();
+        },
+        methods: {
+            initialize () {
+                this.students = students_data;
+            },
+            editStudent(student) {
+                this.editedIndex = this.students.indexOf(student);
+                this.editedStudent = Object.assign({}, student);
+                this.dialog = true;
+            },
+            close() {
+                this.dialog = false;
+                setTimeout(() => {
+                        this.editedStudent = Object.assign({}, this.defaultStudent);
+                        this.editedIndex = -1;
+                    },
+                    300);
+            },
+            save() {
+                if (this.editedIndex > -1) {
+                    Object.assign(this.students[this.editedIndex], this.editedStudent);
+                } else {
+                    this.students.push(this.editedStudent);
+                }
+                this.close();
             }
         }
     });
