@@ -27,7 +27,7 @@ def student_detail(request, student_id):
     context = {
         'student': s,
         'modules': modules,
-        'attendances': attendances,
+        'sessions': attendances,
         'applications': applications,
     }
 
