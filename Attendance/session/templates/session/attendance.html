@@ -30,13 +30,13 @@
                     <v-container grid-list-md>
                         <v-layout wrap>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field label="Student ID" v-model="editedStudent.student_id"></v-text-field>
+                                <v-text-field label="Student ID" :disabled="!editedStudent.user_added" v-model="editedStudent.student_id"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field label="First Name" v-model="editedStudent.first_name"></v-text-field>
+                                <v-text-field label="First Name" :disabled="!editedStudent.user_added" v-model="editedStudent.first_name"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field label="Last Name" v-model="editedStudent.last_name"></v-text-field>
+                                <v-text-field label="Last Name" :disabled="!editedStudent.user_added" v-model="editedStudent.last_name"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field label="Comment" v-model="editedStudent.comment" multi-line="true"></v-text-field>
@@ -66,6 +66,11 @@
                         <v-list-tile-sub-title class="text--primary">{{ s.student_id }}</v-list-tile-sub-title>
                         <v-list-tile-sub-title>{{ s.comment }}</v-list-tile-sub-title>
                     </v-list-tile-content>
+                    <v-list-tile-action v-if="s.user_added">
+                        <v-btn icon @click.native="deleteStudent(s)">
+                            <v-icon>delete</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
                     <v-list-tile-action>
                         <v-btn icon class="mx-0" @click.native="editStudent(s)">
                             <v-icon>edit</v-icon>
@@ -102,7 +107,8 @@
                 first_name: '',
                 last_name: '',
                 presented: true,
-                comment: ''
+                comment: '',
+                user_added: true
             },
             students: []
         }),
@@ -127,6 +133,11 @@
                 this.editedIndex = this.students.indexOf(student);
                 this.editedStudent = Object.assign({}, student);
                 this.dialog = true;
+            },
+            deleteStudent(student) {
+                if (!student.user_added) return;
+                const index = this.students.indexOf(student);
+                confirm('Are you sure you want to remove this student?') && this.students.splice(index, 1);
             },
             close() {
                 this.dialog = false;
