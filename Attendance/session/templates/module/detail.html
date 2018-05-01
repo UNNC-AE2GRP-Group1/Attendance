@@ -76,6 +76,11 @@
                 "sheet_download": "{% url 'session_download_attendance_sheet' s.pk %}"
             }, {% endfor %}
             ]
+        },
+        methods: {
+            navigate(url) {
+                window.location = url;
+            }
         }
     });
 </script>

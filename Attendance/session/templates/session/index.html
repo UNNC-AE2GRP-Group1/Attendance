@@ -31,7 +31,7 @@
     </v-dialog>
     <v-list two-line>
         <template v-for="(item, index) in items" v-if="display_modules[item.module_key]">
-            <v-list-tile @click="window.location=item.session_link" :key="item.title">
+            <v-list-tile @click="navigate(item.session_link)" :key="item.title">
                 <v-list-tile-content>
                     <v-list-tile-title><a :href="item.module_link">{{ item.module }}</a></v-list-tile-title>
                     <v-list-tile-sub-title class="text--primary">{{ item.time }}</v-list-tile-sub-title>
@@ -81,6 +81,11 @@
                 "sheet_download": "{% url 'session_download_attendance_sheet' s.pk %}" },
             {% endfor %}
             ]
+        },
+        methods: {
+            navigate(url) {
+                window.location = url;
+            }
         }
     });
 </script>
