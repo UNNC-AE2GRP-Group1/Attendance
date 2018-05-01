@@ -8,7 +8,7 @@
     {% include 'material/includes/material_css.html' %}
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link href="{% static 'app/styles/vuetify-v1.0.17.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'app/styles/site.css' %}" />
     {% block styles %}{% endblock %}
 </head>
@@ -47,10 +47,9 @@
 </ul>
 
 {% block content %}{% endblock %}
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
-<script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
+<script src="{% static 'app/scripts/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'app/scripts/vue.min.js' %}"></script>
+<script src="{% static 'app/scripts/vuetify-v1.0.17.min.js' %}"></script>
 {% include 'material/includes/material_js.html' %}
 <script>
     $(document).ready(function(){
