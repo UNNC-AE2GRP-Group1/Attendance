@@ -30,19 +30,19 @@
                     <v-container grid-list-md>
                         <v-layout wrap>
                             <v-flex xs12 sm6 md4 class="input-field">
-                                <input id="student_id" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.student_id">
+                                <input id="student_id" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.student_id" placeholder="">
                                 <label for="student_id">Student ID</label>
                             </v-flex>
                             <v-flex xs12 sm6 md4 class="input-field">
-                                <input id="first_name" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.first_name">
+                                <input id="first_name" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.first_name" placeholder="">
                                 <label for="first_name">First Name</label>
                             </v-flex>
                             <v-flex xs12 sm6 md4 class="input-field">
-                                <input id="last_name" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.last_name">
+                                <input id="last_name" type="text" class="validate" :disabled="!editedStudent.user_added" v-model="editedStudent.last_name" placeholder="">
                                 <label for="last_name">Last Name</label>
                             </v-flex>
                             <v-flex xs12 class="input-field">
-                                <textarea id="comment" class="materialize-textarea" v-model="editedStudent.comment"></textarea>
+                                <textarea id="comment" class="materialize-textarea" v-model="editedStudent.comment" placeholder=""></textarea>
                                 <label for="comment">Comment</label>
                             </v-flex>
                             <v-flex xs12>
