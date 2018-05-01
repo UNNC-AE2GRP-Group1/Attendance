@@ -18,8 +18,8 @@ def module_create(request):
     if request.method == 'POST':
         form = ModuleCreateForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('module_index')
+            m = form.save()
+            return redirect('module_detail', m.pk)
     else:
         form = ModuleCreateForm()
 
