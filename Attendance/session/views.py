@@ -176,7 +176,7 @@ def session_taking_attendance(request, session_pk):
             # not in module list, but in database - fetch them, if name conflicts, a comment is addd
             # not in database - create a record, but it can only be changed afterwards by admin
             # { sid: { student_id: , first_name: , last_name: , presented: , comment: } }
-            attendance = json.loads(request.body)
+            attendance = json.loads(request.body.decode('utf-8'))
             sid_dict = dict(Student.objects.filter(student_id__in=attendance.keys()).values_list('student_id', 'pk'))
 
             attendees = []
