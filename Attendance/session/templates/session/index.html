@@ -1,7 +1,7 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
-<div>
+<div id="session_list">
     <div class="row">
         <div class="col l3">
             <ul class="collection with-header">
@@ -9,7 +9,7 @@
                 {% for m in modules %}
                 <li class="collection-item">
                     <label>
-                        <input type="checkbox" checked="checked"/>
+                        <input type="checkbox" checked="checked" v-model="module_{{ m.pk }}"/>
                         <span>{{ m }}</span>
                     </label>
                 </li>
@@ -29,7 +29,7 @@
             </thead>
             <tbody>
             {% for s in sessions %}
-            <tr>
+            <tr v-if="module_{{ s.module.pk }}">
                 <td>
                     <span class="badge">{{ s.get_type_display }}</span>
                 </td>
@@ -53,4 +53,17 @@
         </table>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var session_list = new Vue({
+        el: '#session_list',
+        data: {
+            {% for m in modules %}
+            "module_{{ m.pk }}": true,
+            {% endfor %}
+        }
+    })
+</script>
 {% endblock %}
