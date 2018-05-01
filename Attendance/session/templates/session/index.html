@@ -66,10 +66,6 @@
                 pk_{{ m.pk }}: true,
                 {% endfor %}
             },
-            rowsPerPageItems: [16, 32, 64],
-            pagination: {
-              rowsPerPage: 4
-            },
             dialog: false,
             items: [
                 {% for s in sessions %} {

@@ -14,20 +14,22 @@
     <div class="row">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s4"><a href="#session-list">Sessions</a></li>
-                <li class="tab col s4"><a href="#student-list">Students</a></li>
-                <li class="tab col s4"><a href="#student-import">Import</a></li>
+                <li class="tab col s4"><a href="#session_list">Sessions</a></li>
+                <li class="tab col s4"><a href="#student_list">Students</a></li>
+                <li class="tab col s4"><a href="#student_import">Import</a></li>
             </ul>
         </div>
-        <div id="session-list" class="col s12">
-            {% include 'module/detail/session_list.html' %}
-            <div class="fixed-action-btn">
-                <a class="btn-floating btn-large red" href="{% url 'module_create_session' module.pk %}">
-                    <i class="large material-icons">add</i>
-                </a>
+        <div id="session_list" class="col s12">
+            <div id="session_list_wrapper">
+                {% include 'module/detail/session_list.html' %}
+                <div class="fixed-action-btn">
+                    <a class="btn-floating btn-large red" href="{% url 'module_create_session' module.pk %}">
+                        <i class="large material-icons">add</i>
+                    </a>
+                </div>
             </div>
         </div>
-        <div id="student-list" class="col s12">
+        <div id="student_list" class="col s12">
             <table class="table">
                 <thead>
                 <tr>
@@ -47,7 +49,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="student-import" class="col s12">
+        <div id="student_import" class="col s12">
             {% include 'module/detail/student_import.html' %}
         </div>
     </div>
@@ -62,4 +64,23 @@
     $('.tabs').tabs();
 </script>
 <script src="{% static 'module/scripts/student_import.js' %}"></script>
+<script>
+    var session_list = new Vue({
+        el: '#session_list_wrapper',
+        data: {
+            items: [
+            {% for s in module.session_set.all %} {
+                "module": "{{ s.module }}",
+                "time": "{{ s.time }}",
+                "duration": "{{ s.duration }}",
+                "place": "{{ s.place }}",
+                "type": "{{ s.get_type_display }}",
+                "attendance_rate": {% if s.attendance_rate %}{{ s.attendance_rate }}{% else %}null{% endif %},
+                "session_link": "{% url 'session_detail' s.pk %}",
+                "sheet_download": "{% url 'session_download_attendance_sheet' s.pk %}"
+            }, {% endfor %}
+            ]
+        }
+    });
+</script>
 {% endblock %}

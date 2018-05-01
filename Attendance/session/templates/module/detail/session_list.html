@@ -1,33 +1,19 @@
-<table>
-    <thead>
-    <tr>
-        <th scope="col">Type</th>
-        <th scope="col">Time</th>
-        <th scope="col">Duration</th>
-        <th scope="col">Location</th>
-        <th scope="col">Attendance Rate</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for s in module.session_set.all %}
-    <tr>
-        <td>
-            <span class="badge">{{ s.get_type_display }}</span>
-        </td>
-        <td><a href="{% url 'session_detail' s.pk %}">{{ s.time }}</a></td>
-        <td>{{ s.duration }}</td>
-        <td>{{ s.place }}</td>
-        <td>
-            {% if s.attendance_rate %}
-            <div class="progress">
-                <div class="determinate" style="width: {% widthratio s.attendance_rate 1 100 %}%"></div>
-            </div>
-            {% else %}
-            <a class="waves-effect waves-light btn-floating" href="{% url 'session_taking_attendance' s.pk %}"><i class="material-icons left">assignment_turned_in</i></a>
-            <a class="waves-effect waves-light btn-floating" href="{% url 'session_download_attendance_sheet' s.pk %}"><i class="material-icons left">attach_file</i></a>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% verbatim %}
+<v-list two-line>
+    <template v-for="(item, index) in items">
+        <v-list-tile @click="window.location=item.session_link" :key="item.title">
+            <v-list-tile-content>
+                <v-list-tile-title>{{ item.module }}</v-list-tile-title>
+                <v-list-tile-sub-title class="text--primary">{{ item.time }}</v-list-tile-sub-title>
+                <v-list-tile-sub-title>[{{ item.type }}] {{ item.place }}</v-list-tile-sub-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+                <v-list-tile-action-text>{{ item.duration }}</v-list-tile-action-text>
+                <span v-if="item.attendance_rate">{{ (item.attendance_rate*100).toFixed(1) + "%" }}</span>
+                <a title="Download Attendance Sheet" v-else :href="item.sheet_download" ><v-icon color="grey lighten-1">attach_file</v-icon></a>
+            </v-list-tile-action>
+        </v-list-tile>
+        <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
+    </template>
+</v-list>
+{% endverbatim %}
