@@ -116,8 +116,7 @@ var import_app = new Vue({
     },
     methods: {
         select_fields() {
-            if(!this.file) alert("You must select a file to proceed!");
-            else this.step = 2;
+            this.step = 2;
         },
         preview() {
             this.step = 3;
