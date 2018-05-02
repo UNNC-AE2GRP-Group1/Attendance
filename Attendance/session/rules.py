@@ -22,4 +22,6 @@ is_teaching_assistant = ManyRelation(
 
 @blanket_rule
 def is_senior_tutor(user):
+    if not hasattr(user, 'profile'):
+        return False
     return user.profile.primary_role == Profile.SENIOR_TUTOR
